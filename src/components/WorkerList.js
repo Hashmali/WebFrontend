@@ -40,15 +40,21 @@ function List(props){
   'Authorization' : toke,}
 };
   const [items,setItems]=useState([])
+  const [status,setStatus]=useState("")
+
   const fetchItems= async ()=>{
 
     const data=await fetch('http://127.0.0.1:8000/api/worker/',requestOptions).catch(error=>console.error(error));
+     setStatus(data.status)
     const items=await data.json();
-    console.log(items.item);
+    console.log(status);
     setItems(items);
     };
 
-    return(
+    if(status=="200"){
+      console.log("here2")
+
+      return(
       <div>
     <TableScrollbar  height="500px">
 
@@ -64,7 +70,10 @@ function List(props){
      </thead>
 
           <tbody>
-     {items.map((item,index)=>(
+     
+     {
+     
+     items.map((item,index)=>(
        <tr key={item.phone}>
          <td>{index}</td>
          <td>{item.first_name}</td>
@@ -77,13 +86,16 @@ function List(props){
 
    </Table>
    </TableScrollbar>
-
-
-     
-     
+       
      
       </div>
     );
+  }
+  else{
+    console.log("here")
+    return(<h1>You do not have permission to perform this action</h1>);
+  }
+
 }
 export default  List;
 
