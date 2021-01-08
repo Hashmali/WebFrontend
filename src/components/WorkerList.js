@@ -3,7 +3,6 @@ import Table from "react-bootstrap/Table";
 import TableScrollbar from 'react-table-scrollbar';
 
 const mystyle = {
-
 };
 
 
