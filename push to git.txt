@@ -4,3 +4,13 @@ git add .
 git remote add origin https://github.com/ahmad212o/hashmalie.git
 git commit -m "Some commit"
 git push -f origin backend
+###############################
+$git init //initialize local Git Repository
+$git add <file> //Add file(s) To Index
+$git status //Check Status of Working Tree
+$git commit //Commit Changes in index
+$git push //Push to remote Repository
+$git pull //Pull Latest From Remote Repository
+$git clone //Clone Repository into a new Directory
+
+
