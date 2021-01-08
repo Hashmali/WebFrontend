@@ -31,14 +31,15 @@ function List(props){
   useEffect(()=>{
     fetchItems();
   },[]);
+  var toke="Token " + props.tok+" "
+
   const requestOptions =
  {
   method: 'GET',
   headers: { 'Content-Type': 'application/json',
-  'Authorization' : 'Token ceb152feffce94ec5dd5a4bc872ae1e1cea2bcfd '}
+  'Authorization' : toke,}
 };
   const [items,setItems]=useState([])
-
   const fetchItems= async ()=>{
 
     const data=await fetch('http://127.0.0.1:8000/api/worker/',requestOptions).catch(error=>console.error(error));
