@@ -15,11 +15,14 @@ const mystyle = {
 
 
 function Avatar(props) {
-    
+  let source=props.avatarUrl  
+  if(!source){
+  source="/images/NoProjectImage.jpg"
+  }
   return (
     <img
     width="150" height="100"
-      src="https://www.comingsoon.net/wp-content/themes/comingsoon/images/cs_default_image.jpg"
+      src={source}
       />
   );
 }
