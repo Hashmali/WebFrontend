@@ -5,11 +5,10 @@ import About from "./components/About";
 import Workers from "./components/Workers"
 import Login from "./components/login"
 import Logout from "./components/logout"
-
 import PDF from "./components/pdf_test"
 import Schedule from "./components/schedule"
 import Finance from "./components/finance" 
-import Projects from "./components/projects"
+import Projects from "./components/Projects"
 export default function App() {
 
 const [token,setToken]=useState('');

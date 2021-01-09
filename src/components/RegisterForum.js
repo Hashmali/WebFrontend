@@ -1,4 +1,3 @@
-
 import React, { useState,useEffect } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -21,7 +20,7 @@ export default function RegisterForum(props) {
             'Authorization' : toke,
             },
   body: JSON.stringify({ phone:phone,password:password,password2:password2,
-                       is_admin:admin,first_name:firstName,second_name:lastName
+                       is_admin:admin,first_name:firstName,second_name:lastName,image:null
       })
   };
   const printData=()=>{

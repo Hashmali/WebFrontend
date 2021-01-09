@@ -1,8 +1,6 @@
 import React,{useState} from 'react';
 import {Button } from 'react-bootstrap';
 import List from "./WorkerList.js"
-import Movie from './Movie';
-import MovieList from './MovieList';
 import RegisterForum from "./RegisterForum"
 
 
@@ -18,10 +16,12 @@ function Workers(props) {
   return (
 <div>
 <Nav/>
+<div>
     <Button variant={clicked? "success" : "dark"}onClick={test2} style={styles.move}    >List Of Workers</Button>
     <Button variant={clicked2? "success" : "danger"} onClick={test3}>Add New Worker</Button>
     {clicked&& <List tok={props.token}/>}
     {clicked2&& <RegisterForum tok={props.token}/>}
+    </div>
     </div>
   );
 function generate()
@@ -115,4 +115,21 @@ const styles =({
   title: {
     
   }
+});
+
+const styles2 =({
+
+  move:{
+    marginLeft:500
+  }
+  ,
+  title: {
+    
+  },
+  body:{
+    backgroundColor:"lightb"
+    
+  }
+
+
 });
