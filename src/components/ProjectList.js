@@ -1,6 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import Table from "react-bootstrap/Table";
 import TableScrollbar from 'react-table-scrollbar';
+import File from "./ProjectFiles"
 function Avatar(props) {
   let source=props.avatarUrl  
 if(!source){
@@ -46,6 +47,8 @@ function List(props){
 
       return(
   <div>
+<File arr={items}/>
+
     <TableScrollbar  height="500px">
   <Table striped bordered hover variant="dark" >
      <thead>
