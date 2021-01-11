@@ -7,7 +7,12 @@ export default function CreateProject(props) {
   console.log("Token")
   var toke="Token " + props.tok+" "
   console.log(toke)
-
+  const divStyle = {
+    background: "#eee",
+    padding: "20px",
+    marginTop: "-80px"
+  };
+  
   const [id, setID] = useState("");
   const [contractorName, setContractorName] = useState("");
   const [contractorName2, setContractorName2] = useState("");
@@ -20,26 +25,11 @@ export default function CreateProject(props) {
   const [city, setCity] = useState("");
   const [street, setStreet] = useState("");
   const [projectCode, setProjectCode] = useState("");
-  const [projectNumber, setProjectNumber] = useState("");
   const [ownerName, setOwnerName] = useState("");
   const [ownerName2, setOwnerName2] = useState("");
   const [ownerPhone, setOwnerPhone] = useState("");
   const [ownerEmail, setOwnerEmail] = useState("");
   const [image, setImage] = useState("");
-  const divStyle = {
-    background: "#eee",
-    padding: "20px",
-    marginTop: "-80px"
-  };
-  
-  
-
-
-
-
-
-
-
 
   const requestOptions =
   {
@@ -47,7 +37,33 @@ export default function CreateProject(props) {
    headers: { 'Content-Type': 'application/json',
             'Authorization' : toke,
             },
-  
+  body: JSON.stringify(
+    { 
+      id:id,
+      image:null,
+      project_code:projectCode,
+      contractor_first_name:contractorName,
+      contractor_second_name:contractorName2,
+      contractor_phone_no:contractorPhone,
+      contractor_email:contractorEmail,
+      architect_first_name:architectName,
+      architect_second_name:architectName2,
+      architect_phone_no:contractorPhone,
+      architect_email:architectEmail,
+      city:city,
+      street:street,
+      owner_first_name:ownerName,
+      owner_second_name:ownerName2,
+      owner_phone_no:ownerPhone,
+      owner_email:ownerEmail,
+      image:null
+     
+    
+    
+    }
+      
+      
+      )
   };
   const printData=()=>{
 
@@ -56,7 +72,7 @@ export default function CreateProject(props) {
 
 
    const fetchItems= async ()=>{
-   const data=await fetch('http://127.0.0.1:8000/api/worker/register/',requestOptions);
+   const data=await fetch('http://127.0.0.1:8000/api/project/create/',requestOptions);
  
     };
 
