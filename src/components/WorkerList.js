@@ -60,7 +60,7 @@ function List(props){
       <div>
     <TableScrollbar  height="500px">
 
-<Table striped bordered hover variant="dark" style={mystyle}>
+<Table striped bordered hover variant="light" style={mystyle}>
      <thead>
        <tr>
          <th>#</th>

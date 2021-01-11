@@ -2,18 +2,7 @@ import React,{useState,useEffect} from 'react';
 import Table from "react-bootstrap/Table";
 import TableScrollbar from 'react-table-scrollbar';
 import File from "./ProjectFiles"
-function Avatar(props) {
-  let source=props.avatarUrl  
-if(!source){
-source="/images/NoProjectImage.jpg"
-}
-  return (
-    <img
-    width="150" height="100"
-      src={source}
-      />
-  );
-}
+import Avatar from "./Avatar.js"
 
 
 
@@ -47,7 +36,6 @@ function List(props){
 
       return(
   <div>
-<File arr={items}/>
 
     <TableScrollbar  height="500px">
   <Table striped bordered hover variant="dark" >
@@ -89,7 +77,7 @@ function List(props){
          <td>{item.owner_first_name+" "+item.owner_second_name}</td>
          <td>{item.owner_phone_no}</td>
          <td>{item.owner_email}</td>
-         <td><Avatar avatarUrl={items[1].file[0].file1}/></td>       
+         <td><Avatar avatarUrl={item.image}/></td>       
        </tr>
      ))}
       </tbody>
@@ -100,31 +88,16 @@ function List(props){
     <Table striped bordered hover variant="dark" >
      <thead>
        <tr>
-         <th>File ID</th>
-          <th>File Name</th>
-         <th>Image</th>
-         <th>Uploaded At</th>
-         <th>File Code</th>
+       <th>Project ID</th>
+       <th>File ID</th>
+       <th>File Name</th>
+        <th>Uploaded At</th>
+        <th>Image</th>
+
         </tr>
       </thead>
-      <tbody>
-{
- items.map((item,index)=>
- <p> 
- {item.file.map((sub)=>
-<tr>
-  <td>{sub.id}</td>
-  <td>{sub.project_code}</td>
-  <td>{sub.name}</td>
-  <td>{sub.uploaded_at}</td>
-  <td><Avatar avatarUrl={sub.file1}/>{}</td>
-</tr>
-  )}
-</p>
- 
- )
-}
-</tbody>
+      <File arr={items}/>
+
 </Table>
 </TableScrollbar>
 

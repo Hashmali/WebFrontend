@@ -3,6 +3,7 @@ import {Button } from 'react-bootstrap';
 import ProjectList from "./ProjectList.js"
 import RegisterForum from "./RegisterForum"
 import Nav from "./Nav"
+import Avatar from "./Avatar.js"
 
 function Projects(props) {
   const[count,setCount]=useState(0);
