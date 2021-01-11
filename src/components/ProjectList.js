@@ -26,19 +26,16 @@ function List(props){
     const data=await fetch('http://127.0.0.1:8000/api/project/',requestOptions).catch(error=>console.error(error));
      setStatus(data.status)
     const items=await data.json();
-    console.log(status);
     setItems(items);
 
   };
 
     if(status=="200"){
-      console.log("here2")
-
       return(
   <div>
 
-    <TableScrollbar  height="500px">
-  <Table striped bordered hover variant="dark" >
+  <TableScrollbar  height="500px" >
+  <Table striped bordered hover variant="light">
      <thead>
        <tr>
          <th>Project ID</th>
@@ -83,9 +80,9 @@ function List(props){
       </tbody>
    </Table>
    </TableScrollbar>
-<div id="Another table">
+
 <TableScrollbar  height="500px">
-    <Table striped bordered hover variant="dark" >
+    <Table striped bordered hover variant="light">
      <thead>
        <tr>
        <th>Project ID</th>
@@ -93,31 +90,17 @@ function List(props){
        <th>File Name</th>
         <th>Uploaded At</th>
         <th>Image</th>
-
-        </tr>
+       </tr>
       </thead>
       <File arr={items}/>
-
 </Table>
 </TableScrollbar>
 
 
 </div>
-
-
-
-
-
-</div>
-
-
-
-
-
       );
      }
   else{
-    console.log("here")
     return(<h1>You do not have permission to perform this action</h1>);
   }
 

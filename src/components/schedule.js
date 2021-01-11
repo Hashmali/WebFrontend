@@ -2,8 +2,6 @@ import React from 'react';
 import Nav from "./Nav"
 
 export default function schedule(props) {
-  console.log(props.token)
-
   return (
    <div>
           <Nav/>

@@ -1,17 +1,19 @@
 import React from 'react';
-import ReactPDF from '@react-pdf/renderer';
-import ReactDOM from 'react-dom';
-import { PDFViewer } from '@react-pdf/renderer';
-import { Page, Image,Text,Font, View, Document, StyleSheet } from '@react-pdf/renderer';
 import Nav from "./Nav"
 
 export default function Company(props) {
-  console.log(props.token)
-  
+  const styles={
+    background: "#1788bd",
+
+
+
+  }
+
+
     return (
    <div class="all">
      <Nav/>
-    <div class="jumbotron text-center">
+    <div class="jumbotron text-center" style={styles} >
      <h1>Hashmali</h1>
      <p>Insert Company Logo Here</p>
      <p>Insert Company Name Here</p>
