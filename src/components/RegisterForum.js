@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from "react";
-import Form from "react-bootstrap/Form";
+import { Col, Row, Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import "./Register.css"
 export default function RegisterForum(props) {
@@ -13,6 +13,15 @@ export default function RegisterForum(props) {
   const [admin, setAdmin] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const divStyle = {
+    background: "#eee",
+    padding: "20px",
+    marginTop: "-80px"
+  };
+  
+
+
+
   const requestOptions =
   {
    method: 'POST',
@@ -57,12 +66,14 @@ export default function RegisterForum(props) {
   
   return (
     <div className="Register">
-      <Form onSubmit={handleSubmit}>
-     
-     
-     
-        <Form.Group size="lg" controlId="phone">
-          <Form.Label>Phone</Form.Label>
+      <Form className="Register" onSubmit={handleSubmit} style={divStyle}>
+
+      <Form.Row>
+    <Col>
+
+    <Form.Group size="lg" controlId="phone">
+      
+          <Form.Label class="labels">Phone</Form.Label>
           <Form.Control
             autoFocus
             type="number"  
@@ -70,10 +81,11 @@ export default function RegisterForum(props) {
             onChange={(e) => setPhone(e.target.value)}
           />
         </Form.Group>
-       
-       
-        <Form.Group size="lg" controlId="password">
-          <Form.Label>Password</Form.Label>
+    </Col>
+    <Col>
+ 
+    <Form.Group size="lg" controlId="password">
+          <Form.Label  class="labels">Password</Form.Label>
           <Form.Control
             type="password"
             value={password}
@@ -81,26 +93,24 @@ export default function RegisterForum(props) {
           />
         </Form.Group>
 
-        <Form.Group size="lg" controlId="password">
-          <Form.Label>password2</Form.Label>
+
+    </Col>
+    <Col>
+
+    <Form.Group size="lg" controlId="password">
+          <Form.Label  class="labels">password2</Form.Label>
           <Form.Control
             type="password"
             value={password2}
             onChange={(e) => setPassword2(e.target.value)}
           />
-        </Form.Group>
-        
-        <Form.Group size="lg" controlId="password">
-          <Form.Label>admin</Form.Label>
-          <Form.Control
-            type="checkbox"
-            value={admin}
-            onClick={(e) => setAdmin(!admin)}
-          />
-        </Form.Group>
-
-        <Form.Group size="lg" controlId="password">
-          <Form.Label>firstName</Form.Label>
+        </Form.Group> 
+    </Col>
+     </Form.Row>
+     <Form.Row>
+     <Col>
+     <Form.Group size="lg" controlId="password">
+          <Form.Label  class="labels">firstName</Form.Label>
           <Form.Control
             type="text"
             value={firstName}
@@ -108,17 +118,33 @@ export default function RegisterForum(props) {
           />
         </Form.Group>
 
-        <Form.Group size="lg" controlId="password">
-          <Form.Label>lastName</Form.Label>
+    </Col>
+    <Col>
+    <Form.Group size="lg" controlId="password">
+          <Form.Label  class="labels">lastName</Form.Label>
           <Form.Control
             type="text"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
           />
+        </Form.Group> 
+    </Col>
+</Form.Row>       
+<Form.Row>       
+<Col>
+<Form.Group size="lg" controlId="password">
+          <Form.Label  class="labels">admin</Form.Label>
+          <Form.Control
+            type="checkbox"
+            value={admin}
+            onClick={(e) => setAdmin(!admin)}
+          />
         </Form.Group>
-
+</Col>
+</Form.Row>
+         
         <Button block size="lg" type="submit" disabled={!validateForm()}  onClick={fetchItems}>
-          Login
+          Add New Worker
         </Button>
       </Form>
     </div>

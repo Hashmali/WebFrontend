@@ -1,7 +1,7 @@
 import React,{useState} from 'react';
 import {Button } from 'react-bootstrap';
 import ProjectList from "./ProjectList.js"
-import RegisterForum from "./RegisterForum"
+import CreateProject from "./ProjectForum"
 import Nav from "./Nav"
 import Avatar from "./Avatar.js"
 
@@ -19,7 +19,7 @@ function Projects(props) {
     <Button variant={clicked? "success" : "dark"}onClick={test2} style={styles.move}>List Of Projects</Button>
     <Button variant={clicked2? "success" : "danger"} onClick={test3}>Create New Project</Button>
     {clicked&& <ProjectList tok={props.token}/>}
-    {clicked2&& <RegisterForum tok={props.token}/>}
+    {clicked2&& <CreateProject tok={props.token}/>}
     </div>
     </div>
   );

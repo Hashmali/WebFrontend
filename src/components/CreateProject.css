@@ -1,11 +1,11 @@
 @media all and (min-width: 300px) {
-    .Register {
+    .CreateProject {
         padding: 90px;
         background-color: rgb(23, 136, 189);
     
 
     }
-    .Register form {
+    .CreateProject form {
         margin: 0 auto;
         max-width: 700px;
   
