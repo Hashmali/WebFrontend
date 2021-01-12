@@ -4,11 +4,11 @@ import TableScrollbar from 'react-table-scrollbar';
 function Avatar(props) {
   let source=props.avatarUrl  
 if(!source){
-source="/images/NoProjectImage.jpg"
+source="/images/Network-Profile.png"
 }
   return (
     <img
-    width="150" height="100"
+    width="150" height="150"
       src={source}
       />
   );

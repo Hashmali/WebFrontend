@@ -12,7 +12,7 @@ export default function RegisterForum(props) {
   const [lastName, setLastName] = useState("");
   //const [image, setImage] = useState("");
   const divStyle = {
-    background: "#eee",
+    background: "white",
     padding: "20px",
     marginTop: "-80px"
   };
@@ -127,7 +127,8 @@ export default function RegisterForum(props) {
 
 </Form.Row>
          
-        <Button block size="lg" type="submit" disabled={!validateForm()}  onClick={fetchItems}>
+        <Button block size="lg" type="submit" style={{    background: "black",
+}} disabled={!validateForm()}  onClick={fetchItems}>
           Add New Worker
         </Button>
       </Form>

@@ -19,8 +19,8 @@ function Workers(props) {
     <div>
     <Nav/>
     <div>
-    <Button variant={clicked? "success" : "dark"}onClick={test2} style={styles.move}    >List Of Workers</Button>
-    <Button variant={clicked2? "success" : "danger"} onClick={test3}>Add New Worker</Button>
+    <Button variant={clicked? "dark" : "dark"}onClick={test2} style={styles.move}    >List Of Workers</Button>
+    <Button variant={clicked2? "dark" : "dark"} onClick={test3}>Add New Worker</Button>
     {clicked&& <List tok={props.token}/>}
     {clicked2&& <RegisterForum tok={props.token}/>}
     </div>

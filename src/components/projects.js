@@ -15,8 +15,8 @@ function Projects(props) {
 <div>
 <Nav/>
 <div>
-    <Button variant={clicked? "success" : "dark"}onClick={test2} style={styles.move}>List Of Projects</Button>
-    <Button variant={clicked2? "success" : "danger"} onClick={test3}>Create New Project</Button>
+    <Button variant={clicked? "dark" : "dark"}onClick={test2} style={styles.move}>List Of Projects</Button>
+    <Button variant={clicked2? "dark" : "dark"} onClick={test3}>Create New Project</Button>
     {clicked&& <ProjectList tok={props.token}/>}
     {clicked2&& <CreateProject tok={props.token}/>}
     </div>

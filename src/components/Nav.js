@@ -2,11 +2,21 @@ import React, { useState } from "react";
 import {Route,BrowserRouter as Router,Switch,Link,useHistory} from "react-router-dom"
 export default function Nav(props) {
 
+  const mystyle =({
+    fontFamily: "david",
+      fontSize:"20px",
+    marginTop:"10px"
+
+  });
+  
+
+
 return(
 
 
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">    
-  <a class="navbar-brand" href="/Home">hashmali</a>
+  <nav class="navbar navbar-expand-lg navbar-dark " style={{  background: "black",
+}}>    
+  <a class="navbar-brand" href="/Home" style={mystyle}>Hashmali</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button> 

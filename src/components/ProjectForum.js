@@ -8,7 +8,7 @@ export default function CreateProject(props) {
   var toke="Token " + props.tok+" "
   console.log(toke)
   const divStyle = {
-    background: "#eee",
+    background: "white",
     padding: "20px",
     marginTop: "-80px"
   };
@@ -285,7 +285,8 @@ export default function CreateProject(props) {
 </Form.Row>
 <Form.Group size="lg" >
 
-        <Button block size="lg" type="submit" disabled={!validateForm()}  onClick={fetchItems}>
+        <Button block size="lg" type="submit" disabled={!validateForm()}  onClick={fetchItems} style={{    background: "black",
+}}>
           Create a New Project
         </Button>
     </Form.Group>

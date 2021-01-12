@@ -1,12 +1,11 @@
 import React from 'react';
 import Nav from "./Nav"
+import Avatar from './Avatar'
+const source="/images/logo.png"
 
 export default function Company(props) {
   const styles={
-    background: "#1788bd",
-
-
-
+    background: "white",
   }
 
 
@@ -14,10 +13,8 @@ export default function Company(props) {
    <div class="all">
      <Nav/>
     <div class="jumbotron text-center" style={styles} >
-     <h1>Hashmali</h1>
-     <p>Insert Company Logo Here</p>
-     <p>Insert Company Name Here</p>
-     <p>{props.token}</p>
+     <Avatar avatarUrl={source}/>
+
 
 
   </div>
