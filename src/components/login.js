@@ -21,6 +21,8 @@ export default function Login(props) {
     if(data.token)
     {
       props.userLogin(data.token)
+      props.userId(data.id)
+
       console.log( props.userLogin) 
      history.push('/Home');
     }
