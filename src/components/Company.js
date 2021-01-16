@@ -49,8 +49,17 @@ export default function Company(props) {
         <Avatar avatarUrl={source}/>
        
      </div>
-
+     <div class="jumbotron text-center" style={styles} >
+        <img src={items.image} style={styles.pic}/>
+        <h6>{"The Company's Manager "+items.first_name+" "+ items.second_name } </h6>
+        <h6>{"Your Phone is:  "+items.phone} </h6>
+     </div>
+   
      
+
+
+
+
    <div class="container">
      <div class="row">
        <div class="col-sm-4">
@@ -75,12 +84,7 @@ export default function Company(props) {
        </div>
      </div>
    </div>
-   <div class="jumbotron text-center" style={styles} >
-        <img src={items.image} style={styles.pic}/>
-        <h6>{"Welcome "+items.first_name+" "+ items.second_name } </h6>
-        <h6>{"Your Phone is:  "+items.phone} </h6>
-     </div>
-   
+
 
 
 
