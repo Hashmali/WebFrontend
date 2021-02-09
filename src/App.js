@@ -8,7 +8,7 @@ import Logout from "./components/logout"
 import PDF from "./components/PdfCreate"
 import Schedule from "./components/schedule"
 import Finance from "./components/finance" 
-import Projects from "./components/Projects"
+import Projects from "./components/projects"
 export default function App() {
 
 const [token,setToken]=useState('');
