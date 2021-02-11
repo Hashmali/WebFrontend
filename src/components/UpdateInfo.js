@@ -1,9 +1,11 @@
 import React,{useState,useEffect} from 'react';
 import Avatar from './Avatar'
 import EdiText from 'react-editext'
+
 const source="/images/logo.png"
 
 export default function Info(props) {
+  
   const styles={
     background: "white",
     pic: {
@@ -13,6 +15,16 @@ export default function Info(props) {
       overflow: "hidden",
       borderWidth: 3,
     },
+    move:{
+      marginLeft:150
+      
+    },
+    movesName:{
+      marginLeft:100
+      
+    }
+
+
     }
   console.log(props.id)
   useEffect(()=>{
@@ -30,6 +42,26 @@ export default function Info(props) {
   const [status,setStatus]=useState("")
   const [value, setValue] = useState('What is real? How do you define real?')
   const[cover,SetCover]=useState();
+  const[preview,setPreview]=useState();
+  const[clicked,setClicked]=useState(false);
+
+
+ 
+  const imageHandler = (e) => {
+    console.log(e.target.files[0]);
+    let reader = new FileReader();
+    reader.onload = function(e) {
+      setPreview(e.target.result);
+    }
+    reader.readAsDataURL(e.target.files[0]);
+    setClicked(true)
+
+    SetCover(e.target.files[0])
+    console.log(cover)
+}
+ 
+
+
 
   const requestOptions =
  	{
@@ -81,6 +113,9 @@ console.log(obj)
     console.log(JSON.stringify(data))
 		const items=await data.json();
 		setItems(items);
+    SetCover(items.logo)
+    setPreview(items.logo)
+
     setStatus(data.status)
 		};
 
@@ -89,32 +124,27 @@ console.log(obj)
       console.log(JSON.stringify(data))
       };
   
-const newImage=()=>
+const newImage=async ()=>
 {
-console.log(cover)
-const data=fetch(url2,put_image()).catch(error=>console.error(error));
+ setClicked(false)
+alert("successfully updated logo!")
+const data=await fetch(url2,put_image()).catch(error=>console.error(error));
 console.log(JSON.stringify(data))
-
-
-
-
+const update= await fetchItems()
 
 }
 
 
-
-
-
-
-
-
-
-
-
     if(status=="200"){
-
+      
 
 return (
+
+
+
+  
+
+
   <div class="all">
   
    <div class="jumbotron text-center" style={styles} >
@@ -122,77 +152,68 @@ return (
    </div> 
    
    
-   <h2>Company's Name:
-   <EdiText  type="text" inputProps="company_name" value={items.company_name}  onSave={handleSave} />
-   </h2>
-    <Avatar avatarUrl={source}/>
-    <h2>Company's logo:
-    <Avatar avatarUrl={items.logo}/>
+   <h2>Company's Name:</h2>
+ <h2 style={styles.movesName}>
+   <EdiText  type="text" inputProps="company_name" value={items.company_name}   onSave={handleSave} />
+</h2>
+<div class="container" style={styles.move}>
+    <h2>Current Logo</h2>
+    <Avatar avatarUrl={preview}/>
+    <input type="file" onChange={imageHandler} accept="image/*"/>    
+    
+    {clicked && <button onClick={()=>newImage()} >submit</button>}
 
-    <input type="file" onChange={(e)=>SetCover(e.target.files[0])}/>    
-    <button onClick={()=>newImage()} >submit</button>
-    </h2>
+    </div>
+
+
 
  </div>
 
 <div class="container">
  <div class="row">
-   <div class="col-sm-4">
+   
+ <div class="col-sm-4">
      <h3>Company's Manager: </h3>
-     <h6> Name:
-     <EdiText  type="text" inputProps="manager.first_name" value={items.manager.first_name}  onSave={handleSave} />
-     </h6>
-        <h6>Last Name:
-        <EdiText  type="text" inputProps="manager.second_name" value={items.manager.second_name}  onSave={handleSave} />
-        </h6>
-        <h6>Phone:
-        <EdiText  type="text" inputProps="manager.phone" value={items.manager.phone}  onSave={handleSave} />
-        </h6>
-        <h6>Email:
-        <EdiText  type="text" inputProps="manager.email" value={items.manager.email}  onSave={handleSave} /></h6>
-        <h6>Address:
-        <EdiText  type="text" inputProps="manager.address" value={items.manager.address}  onSave={handleSave} /></h6>
-      </div>
+     <h6>Name:{items.manager.first_name}</h6>
+        <h6>Last Name:{items.manager.second_name}</h6>
+        <h6>Phone:{items.manager.phone}</h6>
+        <h6>Email:{items.manager.email}</h6>
+        <h6>Address:{items.manager.address}</h6>
+   </div>
 
    
    <div class="col-sm-4">
      <h3>Deputy Director:</h3>
-        <h6>Name:
-        <EdiText  type="text" inputProps="deputy_director.first_name" value={items.deputy_director.first_name}  onSave={handleSave} /></h6>
-        <h6>Last Name:
-        <EdiText  type="text" inputProps="deputy_director.second_name" value={items.deputy_director.second_name}  onSave={handleSave} /></h6>
-          <h6>Age:
-          <EdiText  type="text" inputProps="deputy_director.age" value={items.deputy_director.age}  onSave={handleSave} /></h6>
-
-        <h6>Phone:
-        <EdiText  type="text" inputProps="deputy_director.phone" value={items.deputy_director.phone}  onSave={handleSave} /></h6>
-        <h6>Email:
-        <EdiText  type="text" inputProps="deputy_director.email" value={items.deputy_director.email}  onSave={handleSave} /></h6>
-        <h6>Address:
-        <EdiText  type="text"  inputProps="deputy_director.address"  value={items.deputy_director.address}  onSave={handleSave} /></h6>
-     </div>
-   
+        <h6>Name:{items.deputy_director.first_name}</h6>
+        <h6>Last Name:{items.deputy_director.second_name}</h6>
+        <h6>Age:{items.deputy_director.age}</h6>
+        <h6>Phone:{items.deputy_director.phone}</h6>
+        <h6>Email:{items.deputy_director.email}</h6>
+        <h6>Address:{items.deputy_director.address}</h6>  
+   </div>
    <div class="col-sm-4">
      <h3>Vehicles:</h3>
      {    
-      //Need to find a way for this later!!
+      
         items.car.map((car,index)=>
         <div>
-        <h6>license number:
-        <EdiText  type="text" inputProps="license_no"  value={car.license_no}  onSave={handleSave} /></h6>
-        <h6>license due to:
-        <EdiText  type="text" inputProps="license_expiry_date"  value={car.license_expiry_date}  onSave={handleSave} /></h6>
-        <h6>Bituah due to:
-        <EdiText  type="text" inputProps="insurance_expiry_date" value={car.insurance_expiry_date}  onSave={handleSave} /></h6>
-        <h6>Bituah till age:[number from 20-70]
-        <EdiText  type="text" inputProps="insurance_age" value= {car.insurance_age}  onSave={handleSave} /></h6>
-        <h6>Photo:
-        <EdiText  type="text"inputProps="image" value= {car.image}  onSave={handleSave} /></h6>
-
+        <h6>license number:{car.license_no}</h6>
+        <h6>license due to:{car.license_expiry_date}</h6>
+        <h6>Bituah due to:{car.insurance_expiry_date}</h6>
+        <h6>Bituah till age:[number from 20-70] {car.insurance_age}</h6>
+        <h6>Photo:{car.image}</h6>
         </div>     
         )
      }
    </div>
+
+
+
+   
+
+
+
+
  </div>
 </div>
 </div>   

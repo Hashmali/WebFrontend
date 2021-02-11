@@ -66,8 +66,6 @@ return (
    
    
    <h2>Company's Name:{items.company_name}</h2>
-    <Avatar avatarUrl={source}/>
-    <h2>Company's logo:</h2>
     <Avatar avatarUrl={items.logo}/>
 
  </div>
@@ -92,8 +90,6 @@ return (
         <h6>Phone:{items.deputy_director.phone}</h6>
         <h6>Email:{items.deputy_director.email}</h6>
         <h6>Address:{items.deputy_director.address}</h6>  
-
-
    </div>
    
    <div class="col-sm-4">
