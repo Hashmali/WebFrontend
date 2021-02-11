@@ -67,7 +67,8 @@ return (
    
    <h2>Company's Name:{items.company_name}</h2>
     <Avatar avatarUrl={source}/>
-    <h2>Company's logo:{items.logo}</h2>
+    <h2>Company's logo:</h2>
+    <Avatar avatarUrl={items.logo}/>
 
  </div>
 
