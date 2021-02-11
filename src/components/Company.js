@@ -9,6 +9,25 @@ const source="/images/logo.png"
 
 
 export default function Company(props) {
+  const styles={
+    background: "white",
+    pic: {
+      width: 180,
+      height: 180,
+      borderRadius: 180 / 2,
+      overflow: "hidden",
+      borderWidth: 3,
+    },
+    move:{
+      marginLeft:600
+      
+    },  
+  
+  }
+
+
+
+
   const[clicked,setClicked]=useState(false);
 
   function isClicked(){
@@ -18,7 +37,7 @@ export default function Company(props) {
  return(
 <div>
   <Nav/>
-  <Button variant="dark"onClick={isClicked} >Update Data </Button>
+  <Button variant="dark"onClick={isClicked} style={styles.move}>Update Data </Button>
  {clicked&&<UpdateInfo id={props.id} token={props.token}/>}
   {!clicked&&<Info  id={props.id} token={props.token}/>}
   </div> 

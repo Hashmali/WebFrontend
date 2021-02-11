@@ -14,7 +14,12 @@ export default function Info(props) {
       overflow: "hidden",
       borderWidth: 3,
     },
-    }
+    move:{
+      marginLeft:150
+      
+    },  
+  
+  }
   console.log(props.id)
   useEffect(()=>{
 		fetchItems();
@@ -102,7 +107,9 @@ return (
         <h6>license due to:{car.license_expiry_date}</h6>
         <h6>Bituah due to:{car.insurance_expiry_date}</h6>
         <h6>Bituah till age:[number from 20-70] {car.insurance_age}</h6>
-        <h6>Photo:{car.image}</h6>
+        <h6>Photo:
+        <Avatar avatarUrl={car.image}/>
+          </h6>
         </div>     
         )
      }
