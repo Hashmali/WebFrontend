@@ -10,25 +10,37 @@ export default function RegisterForum(props) {
   const [admin, setAdmin] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  //const [image, setImage] = useState("");
+  const [image, setImage] = useState();
   const divStyle = {
     background: "white",
     padding: "20px",
     marginTop: "-80px"
   };
   
+  function postReq(){
+
+  const bodyData=new FormData();
+  bodyData.append('phone',phone);
+  bodyData.append('password',password);
+  bodyData.append('password2',password2);
+  bodyData.append('is_admin',admin);
+  bodyData.append('first_name',firstName);
+  bodyData.append('second_name',lastName);
+  bodyData.append('image',image,image.name);
   const requestOptions =
   {
+    
    method: 'POST',
-   headers: { 'Content-Type': 'application/json',
+   headers: { 
             'Authorization' : toke,
             },
-  body: JSON.stringify({ phone:phone,password:password,password2:password2,
-                       is_admin:admin,first_name:firstName,second_name:lastName,image:null
-      })
+  body: bodyData
   };
+return requestOptions;
+}
+
   const fetchItems= async ()=>{
-  await fetch('http://127.0.0.1:8000/api/worker/register/',requestOptions);
+  await fetch('http://127.0.0.1:8000/api/worker/register/',postReq());
      };
 
   function validateForm() {
@@ -119,8 +131,10 @@ export default function RegisterForum(props) {
           <Form.Label  class="labels">Upload A Photo</Form.Label>
           <Form.Control
             type="file"
-
+          onChange={(e)=>setImage(e.target.files[0])}
+            accept="image/*"
           />
+
         </Form.Group>
 </Col>
 

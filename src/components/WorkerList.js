@@ -35,12 +35,23 @@ function List(props){
      <thead>
        <tr>
          <th>#</th>
+         <th>type</th>
+         <th>photo</th>
          <th>Name</th>
          <th>LastName</th>
+         <th>Age</th>
+         <th>IDCard</th>
          <th>phone</th>
-         <th>photo</th>
+         <th>Email</th>
+         <th>App Password</th>
+         <th>Address</th>
+         <th>Pay Per Day</th>
+         <th>License ID</th>
+         <th>Israel License</th>
+         <th>Israel License Type</th>
+         <th>Israel License Expire</th>
        </tr>
-     </thead>
+    </thead>
 
           <tbody>
      
