@@ -18,15 +18,16 @@ export default function RegisterForum(props) {
   };
   
   function postReq(){
+    if(!image){console.log("No Image was provided")}
 
   const bodyData=new FormData();
   bodyData.append('phone',phone);
   bodyData.append('password',password);
   bodyData.append('password2',password2);
-  bodyData.append('is_admin',admin);
+  bodyData.append('is_staff',admin);
   bodyData.append('first_name',firstName);
   bodyData.append('second_name',lastName);
-  bodyData.append('image',image,image.name);
+
   const requestOptions =
   {
     
@@ -40,11 +41,33 @@ return requestOptions;
 }
 
   const fetchItems= async ()=>{
-  await fetch('http://127.0.0.1:8000/api/worker/register/',postReq());
-     };
+    if(password!=password2){
+      alert("Password fields didn't match.")
+    return
+    }
+
+
+    const data=await fetch('http://127.0.0.1:8000/api/worker/register/',postReq());
+  const req=await data.json();
+  alert(data.status)
+  if(data.status==201){
+    alert("Successfully added new worker!")
+  }
+  else{
+    alert(req.phone)
+
+
+  }
+  
+
+};
 
   function validateForm() {
-    return phone.length > 0 && password.length;
+    return phone.length > 0 && password.length>0&&
+    password2.length>0&&firstName.length>0 &&lastName.length>0;
+
+
+
   }
 
   function handleSubmit(event) {  

@@ -34,8 +34,8 @@ export default function Info(props) {
   
   },[]);
 	var toke="Token " + props.token+" "
-	var url='http://127.0.0.1:8000/api/info/1/'
-  var url2='http://127.0.0.1:8000/api/info/1/update/'
+	var url='http://127.0.0.1:8000/api/info/2/'
+  var url2='http://127.0.0.1:8000/api/info/2/update/'
 
 
   const [items,setItems]=useState([])
