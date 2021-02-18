@@ -58,7 +58,7 @@ function Row(props) {
         </TableCell>
         <TableCell align="left">{row.second_name}</TableCell>
         <TableCell align="left">{row.id}</TableCell>
-        <TableCell align="left"><Avatar avatarUrl={row.id_photo}/></TableCell>
+        <TableCell align="left"><Avatar avatarUrl={row.id_img}/></TableCell>
         
         <TableCell align="left">{row.phone}</TableCell>
         <TableCell align="left">{row.email}</TableCell>
@@ -189,100 +189,3 @@ export default function CollapsibleTable(props) {
 
 }
 
-
-
-
-
-
-
-/* 
-
-function List(props){
-  useEffect(()=>{
-    fetchItems();
-  },[]);
-  var toke="Token " + props.tok+" "
-
-  const requestOptions =
- {
-  method: 'GET',
-  headers: { 'Content-Type': 'application/json',
-  'Authorization' : toke,}
-};
-  const [items,setItems]=useState([])
-  const [status,setStatus]=useState("")
-
-  const fetchItems= async ()=>{
-
-    const data=await fetch('http://127.0.0.1:8000/api/worker/',requestOptions).catch(error=>console.error(error));
-     setStatus(data.status)
-    const items=await data.json();
-    setItems(items);
-    };
-    console.log(status)
-    if(status==200){
-
-      return(
-      <div>
-    <TableScrollbar  height="500px">
-
-<Table striped bordered hover variant="light" >
-     <thead>
-       <tr>
-         <th>isAdmin?</th>
-         <th>photo</th>
-         <th>Name</th>
-         <th>LastName</th>
-         <th>Age</th>
-         <th>IDCard</th>
-         <th>phone</th>
-         <th>Email</th>
-         <th>App Password</th>
-         <th>Address</th>
-         <th>Pay Per Day</th>
-         <th>Israel License</th>
-         <th>Israel License Type</th>
-         <th>Israel License Expire</th>
-       </tr>
-    </thead>
-
-          <tbody>
-     
-     {
-     
-     items.map((item,index)=>(
-       <tr key={item.phone}>
-         <td>{item.is_staff}</td>
-         <td><Avatar avatarUrl={item.image}/></td>
-         <td>{item.first_name}</td>
-         <td>{item.second_name}</td>
-         <td>{item.age}</td>
-         <td>{item.id_no}<br></br> <Avatar avatarUrl={item.id_img}/></td>
-         <td>{item.phone}</td>
-         <td>{item.email}</td>
-         <td>{item.password}</td>
-         <td>{item.address}</td>
-         <td>{item.pay_per_day}</td>
-         <td>{item.work_license_israel}</td>
-         <td>{item.work_license_type}</td>
-         <td>{item.work_license_expire}</td>
-
-       </tr>
-     ))}
-      </tbody>
-
-   </Table>
-   </TableScrollbar>
-       
-     
-      </div>
-    );
-  }
-  else{
-    return(<h1>You do not have permission to perform this action</h1>);
-  }
-
-}
-export default  List;
-
-*/

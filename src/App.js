@@ -3,10 +3,12 @@ import {Route,BrowserRouter as Router,Switch} from "react-router-dom"
 import Company from "./components/Company";
 import About from "./components/About";
 import Workers from "./components/Workers"
+import ViewWorker from "./components/workers/ViewWorker";
+
 import Login from "./components/login"
 import Logout from "./components/logout"
 import PDF from "./components/PdfCreate"
-import Schedule from "./components/schedule"
+import Schedule from "./components/Schedule"
 import Finance from "./components/finance" 
 import Projects from "./components/projects"
 export default function App() {
@@ -40,9 +42,9 @@ useEffect(() => {
   }
 
   return (
-    <Router>
+
+  <Router>
     <Switch>
-      <Route>
         <Route path="/" exact
         render={(props) => (
         <Login {...props} userLogin={userLogin} userId={userId} />
@@ -55,6 +57,16 @@ useEffect(() => {
          render={(props) => (
           <Workers {...props} token={token} id={id} />
            )} />      
+           <Route path="/workers/:id"
+          render={(props) => (
+          <ViewWorker {...props} token={token}/>
+           )} />
+          
+
+
+
+
+
         <Route path="/about"
          render={(props) => (
           <About {...props} token={token} id={id} />
@@ -79,8 +91,9 @@ useEffect(() => {
          render={(props) => (
           <Logout {...props} token={token} id={id} />
            )} />
-      </Route>
+
     </Switch>
+
     </Router>
   );
 }

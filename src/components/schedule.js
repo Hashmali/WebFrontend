@@ -1,7 +1,7 @@
 import React from 'react';
 import Nav from "./Nav"
 
-export default function schedule(props) {
+export default function Schedule(props) {
   return (
    <div>
           <Nav/>
