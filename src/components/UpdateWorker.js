@@ -26,19 +26,6 @@ const fetchItems= async ()=>{
   };
   console.log(status)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
   
   return (
     <div className="container">
@@ -74,7 +61,7 @@ const fetchItems= async ()=>{
                   </Link>
                   <Link
                     class="btn btn-outline-primary mr-2"
-                    to={`/users/edit/${worker.id}`}
+                    to={`/workers/edit/${worker.id}`}
                   >
                     Edit
                   </Link>

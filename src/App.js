@@ -4,6 +4,7 @@ import Company from "./components/Company";
 import About from "./components/About";
 import Workers from "./components/Workers"
 import ViewWorker from "./components/workers/ViewWorker";
+import EditWorker from "./components/workers/EditWorker";
 
 import Login from "./components/login"
 import Logout from "./components/logout"
@@ -45,7 +46,7 @@ useEffect(() => {
 
   <Router>
     <Switch>
-        <Route path="/" exact
+        <Route exact path="/" 
         render={(props) => (
         <Login {...props} userLogin={userLogin} userId={userId} />
          )} />
@@ -57,11 +58,16 @@ useEffect(() => {
          render={(props) => (
           <Workers {...props} token={token} id={id} />
            )} />      
-           <Route path="/workers/:id"
+           <Route exact path="/workers/:id"
           render={(props) => (
           <ViewWorker {...props} token={token}/>
            )} />
           
+          <Route exact path="/workers/edit/:id"
+          render={(props) => (
+          <EditWorker {...props} token={token}/>
+           )} />
+
 
 
 
