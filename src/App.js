@@ -3,6 +3,7 @@ import {Route,BrowserRouter as Router,Switch} from "react-router-dom"
 import Company from "./components/Company";
 import About from "./components/About";
 import Workers from "./components/Workers"
+import AddWorker from "./components/workers/AddWorker";
 import ViewWorker from "./components/workers/ViewWorker";
 import EditWorker from "./components/workers/EditWorker";
 import DeleteWorker from "./components/workers/DeleteWorker";
@@ -59,6 +60,14 @@ useEffect(() => {
          render={(props) => (
           <Workers {...props} token={token} id={id} />
            )} />      
+
+          <Route exact path="/workers/create"
+            render={(props) => (
+            <AddWorker {...props} token={token}/>
+           )} />
+
+
+
            <Route exact path="/workers/:id"
           render={(props) => (
           <ViewWorker {...props} token={token}/>
@@ -68,8 +77,6 @@ useEffect(() => {
           render={(props) => (
           <DeleteWorker {...props} token={token}/>
            )} />
-
-
 
           
           <Route exact path="/workers/edit/:id"

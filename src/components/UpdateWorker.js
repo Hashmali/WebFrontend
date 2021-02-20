@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Avatar from './Avatar'
-import { Modal,Button } from 'react-bootstrap';
 
 const List = (props) => {
   const [items,setItems]=useState([])
@@ -39,6 +38,7 @@ const fetchItems= async ()=>{
   return (
     <div className="container">
       <div className="py-4">
+      <Link class="btn btn-warning mr-" to={`/workers/create`}>ADD</Link>  
         <h1>List Of Workers:</h1>
         <table class="table border shadow">
           <thead class="thead-dark">

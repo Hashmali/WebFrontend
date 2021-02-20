@@ -52,7 +52,7 @@ const fetchItems= async ()=>{
       <li className="list-group-item">Age: {items.age}</li>
       <li className="list-group-item">Address: {items.address}</li>
       <li className="list-group-item">Pay Per Day: {items.pay_per_day}</li>
-      <li className="list-group-item">Driving License Image: {items.driving_license_img}</li>
+      <li className="list-group-item">Driving License Image:<Avatar avatarUrl={items.driving_license_img}/></li>
       <li className="list-group-item">Work License Image: {items.work_license_israel}</li>
       <li className="list-group-item">Work License Type: {items.work_license_type}</li>
       <li className="list-group-item">Work License Expire: {items.work_license_expire}</li>

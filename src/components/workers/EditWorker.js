@@ -97,9 +97,9 @@ const [worker, setWorker] = useState({
         newData.append('pay_per_day',worker.pay_per_day);
         newData.append('email',worker.email);
         newData.append('is_admin',worker.is_admin);
-        if(pic){newData.append('image',pic)}
-        if(drivePice){newData.append('driving_license_img',drivePice)}
-        if(idPic){newData.append('id_img',idPic)}
+        if(pic){newData.append('image',pic,pic.name)}
+        if(drivePice){newData.append('driving_license_img',drivePice,drivePice.name)}
+        if(idPic){newData.append('id_img',idPic,idPic.name)}
      
     
          const requestOptions2 =
@@ -287,7 +287,6 @@ const [worker, setWorker] = useState({
               className="form-control form-control-lg"
               placeholder="Upload worker driving license image"
               name="driving_license_img"
-              value={driving_license_img}
               onChange={e => onInputChange(e)}
               accept="image/*"
             />
@@ -298,7 +297,6 @@ const [worker, setWorker] = useState({
               className="form-control form-control-lg"
               placeholder="Upload worker work license israel"
               name="work_license_israel"
-              value={work_license_israel}
               onChange={e => onInputChange(e)}
             />
           </div>

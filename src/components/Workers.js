@@ -1,53 +1,100 @@
-import React,{useState} from 'react';
-import {Button } from 'react-bootstrap';
-import List from "./WorkerList.js"
-import RegisterForum from "./RegisterForum"
-import UpdateWorker from "./UpdateWorker"
-
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import Avatar from './Avatar'
 import Nav from "./Nav"
-function Workers(props) {
-  const[clicked,setClicked]=useState(false);
-  const[clicked2,setClicked2]=useState(false);
-  const[clicked3,setClicked3]=useState(false);
-  function test1()  {
-    setClicked(!clicked);
-    if(clicked2){setClicked2(!clicked2)}
-    if(clicked3){setClicked3(!clicked3)}
-  }
 
-  function test2()  {
-    setClicked2(!clicked2);
-    if(clicked){setClicked(!clicked)}
-    if(clicked3){setClicked3(!clicked3)}
-  }
+const List = (props) => {
+  const [items,setItems]=useState([])
+  const [status,setStatus]=useState("")
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   
-  function test3() {
-    setClicked3(!clicked3);
-    if(clicked){setClicked(!clicked)}
-    if(clicked2){setClicked2(!clicked2)}
+  useEffect(()=>{
+    fetchItems();
+  },[]);
+  var toke="Token " + props.token+" "  
+  const requestOptions =
+ {
+  method: 'GET',
+  headers: { 'Content-Type': 'application/json',
+  'Authorization' : toke,}
+};
 
-  }
+
+
+
+
+const fetchItems= async ()=>{
+  const data=await fetch('http://127.0.0.1:8000/api/worker/',requestOptions).catch(error=>console.error(error));
+   setStatus(data.status)
+  const items=await data.json();
+  setItems(items);
+  };
+
+
+ if(status!= 200){return(<h1>failed to get data!</h1>)}
+
   return (
-    <div>
+<div>
     <Nav/>
-    <div>
-    <Button variant={clicked? "dark" : "dark"}onClick={test1} style={styles.move}    >List Of Workers</Button>
-    <Button variant={clicked2? "dark" : "dark"} onClick={test2}>Add New Worker</Button>
-    <Button variant={clicked3? "dark" : "dark"} onClick={test3}>Update Worker</Button>
 
-    {clicked&& <List tok={props.token}/>}
-    {clicked2&& <RegisterForum tok={props.token}/>}
-    {clicked3&& <UpdateWorker tok={props.token}/>}
+    <div className="container">
 
+      <div className="py-4">
+      <Link class="btn btn-warning mr-" to={`/workers/create`}>ADD</Link>  
+        <h1>List Of Workers:</h1>
+        <table class="table border shadow">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Name</th>
+              <th scope="col">Last Name</th>
+              <th scope="col">ID</th>
+              <th scope="col">Phone</th>
+              <th scope="col">Email</th>
+              <th scope="col">Profile</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {items.map((worker, index) => (
+              <tr>
+                <th scope="row">{index + 1}</th>
+                <td>{worker.first_name}</td>
+                <td>{worker.second_name}</td>
+                <td>{worker.id_no}</td>
+                <td>{worker.phone}</td>
+                <td>{worker.email}</td>
+                <td><Avatar avatarUrl={worker.image}/></td>
+
+                <td>
+                  <Link class="btn btn-primary mr-2" to={`/workers/${worker.id}`}>
+                    View  
+                  </Link>
+                  <Link
+                    class="btn btn-outline-primary mr-2"
+                    to={`/workers/edit/${worker.id}`}
+                  >
+                    Edit
+                  </Link>
+                  <Link
+                    class="btn btn-danger"
+                    to={`/workers/delete/${worker.id}`}
+                  >
+                  Delete
+               
+                  </Link>
+                 
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
     </div>
   );
-}
-export default Workers;
-
-const styles =({
-  move:{
-    marginLeft:500
-  }
- 
-});
+};
+export default List;
