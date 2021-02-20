@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Avatar from './Avatar'
+import { Modal,Button } from 'react-bootstrap';
 
 const List = (props) => {
   const [items,setItems]=useState([])
   const [status,setStatus]=useState("")
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
+  
   useEffect(()=>{
     fetchItems();
   },[]);
   var toke="Token " + props.tok+" "  
-
   const requestOptions =
  {
   method: 'GET',
@@ -18,15 +22,20 @@ const List = (props) => {
   'Authorization' : toke,}
 };
 
+
+
+
+
 const fetchItems= async ()=>{
   const data=await fetch('http://127.0.0.1:8000/api/worker/',requestOptions).catch(error=>console.error(error));
    setStatus(data.status)
   const items=await data.json();
   setItems(items);
   };
-  console.log(status)
 
-  
+
+ if(status!= 200){return(<h1>failed to get data!</h1>)}
+
   return (
     <div className="container">
       <div className="py-4">
@@ -67,10 +76,12 @@ const fetchItems= async ()=>{
                   </Link>
                   <Link
                     class="btn btn-danger"
-//                    onClick={() => deleteUser(worker.id)}
+                    to={`/workers/delete/${worker.id}`}
                   >
-                    Delete
+                  Delete
+               
                   </Link>
+                 
                 </td>
               </tr>
             ))}

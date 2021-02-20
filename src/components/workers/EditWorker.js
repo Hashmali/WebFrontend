@@ -133,9 +133,15 @@ const [worker, setWorker] = useState({
   const onSubmit = async e => {
     e.preventDefault();
     const data=await fetch(url,patch_request()).catch(error=>console.error(error));
+    if(data.status!=200){
+      alert(data.status)
+    }
+    
     const update= await loadWorker()
-
-    //    history.push("/");
+    if(data.status==200){
+      alert("Succesffully updated worker!")
+     history.push("/workers_management");
+    }
   };
 
 
