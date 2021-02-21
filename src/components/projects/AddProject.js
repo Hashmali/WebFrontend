@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Link,useHistory, useParams } from "react-router-dom";
+import { Link,useHistory } from "react-router-dom";
 import Avatar from '../Avatar'
 
-const EditWorker = (props) => {
-
+const AddProject = (props) => {
 let history = useHistory();
-const { id } = useParams();
 const [status,setStatus]=useState("")
 const[previewImage,setPreviewImage]=useState();
 const[previewID,setPreviewID]=useState();
@@ -54,8 +52,6 @@ const [worker, setWorker] = useState({
             pay_per_day,email,image,is_admin
         } = worker;
   const onInputChange = e => {
-//  onChange={(e)=>setImage(e.target.files[0])}
-
     if(e.target.type=="file"){
     alert(e.target.name)
     setWorker({ ...worker, [e.target.name]: e.target.files[0] });
@@ -66,17 +62,9 @@ const [worker, setWorker] = useState({
 };
 
   var toke="Token " + props.token+" "
-  var url="http://127.0.0.1:8000/api/worker/" + id+"/edit/"  
+  var url="http://127.0.0.1:8000/api/project/create/"  
 
-
-    const requestOptions =
-    {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json',
-        'Authorization' : toke,}
-    };
-
-    function patch_request(){
+    function post_request(){
         const newData=new FormData();
         /* 
         first_name, second_name, password, phone, id_no,id_img,driving_license_img,
@@ -97,51 +85,37 @@ const [worker, setWorker] = useState({
         newData.append('pay_per_day',worker.pay_per_day);
         newData.append('email',worker.email);
         newData.append('is_admin',worker.is_admin);
-        if(pic){newData.append('image',pic,pic.name)}
-        if(drivePice){newData.append('driving_license_img',drivePice,drivePice.name)}
-        if(idPic){newData.append('id_img',idPic,idPic.name)}
-     
-    
-         const requestOptions2 =
+        if(pic){newData.append('image',pic)}
+        if(drivePice){newData.append('driving_license_img',drivePice)}
+        if(idPic){newData.append('id_img',idPic)}
+         
+         const requestOptions =
           {
-             method: 'PUT',
+             method: 'POST',
              headers: {'Authorization' : toke,},
              body: newData,
          };
-          return requestOptions2
+          return requestOptions
         }
     
   
   
-  useEffect(() => {
-    loadWorker();
-  }, []);
 
-  const loadWorker = async () => {
-    const data=await fetch(url,requestOptions).catch(error=>console.error(error));
-    setStatus(data.status)
-    const worker_data=await data.json();
-    setWorker(worker_data);
-    setPreviewImage(worker_data.image)
-    setPreviewID(worker_data.id_img)
-    setPreviewDrive(worker_data.driving_license_img)
-  };
-  console.log(status)
+ 
 
 
 
   const onSubmit = async e => {
     e.preventDefault();
-    const data=await fetch(url,patch_request()).catch(error=>console.error(error));
-    if(data.status!=200){
+    const data=await fetch(url,post_request()).catch(error=>console.error(error));
+    if(data.status!=201){
       alert(data.status)
-    }
-    
-    const update= await loadWorker()
-    if(data.status==200){
-      alert("Succesffully updated worker!")
+    }  
+    if(data.status==201){
+      alert("Succesffully created worker!")
      history.push("/workers_management");
     }
+
   };
 
 
@@ -151,10 +125,10 @@ const [worker, setWorker] = useState({
     <div className="container">
       <div className="w-75 mx-auto shadow p-5">
       <Link className="btn btn-dark" to="/workers_management">
-        Back to Workers
+        Back to Home
       </Link>
 
-        <h2 className="text-center mb-4">Edit Worker Details:</h2>
+        <h2 className="text-center mb-4">Fill in Worker Details:</h2>
         <form onSubmit={e => onSubmit(e)}>
           <div className="form-group">
             <input
@@ -297,6 +271,7 @@ const [worker, setWorker] = useState({
               className="form-control form-control-lg"
               placeholder="Upload worker work license israel"
               name="work_license_israel"
+              value={work_license_israel}
               onChange={e => onInputChange(e)}
             />
           </div>
@@ -310,11 +285,11 @@ const [worker, setWorker] = useState({
               onChange={e => onInputChange(e)}
             />
           </div>
-         <button className="btn btn-dark btn-block">Update Worker</button>
+         <button className="btn btn-dark btn-block">Create Worker</button>
         </form>
       </div>
     </div>
   );
 };
 
-export default EditWorker;
+export default AddProject;

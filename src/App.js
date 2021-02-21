@@ -13,7 +13,17 @@ import Logout from "./components/logout"
 import PDF from "./components/PdfCreate"
 import Schedule from "./components/Schedule"
 import Finance from "./components/finance" 
-import Projects from "./components/projects"
+
+import Projects from "./components/Projects"
+import AddProject from "./components/projects/AddProject";
+import ViewProject from "./components/projects/ViewProject";
+import EditProject from "./components/projects/EditProject";
+import DeleteProject from "./components/projects/DeleteProject";
+
+
+
+
+
 export default function App() {
 
 const [token,setToken]=useState('');
@@ -105,10 +115,35 @@ useEffect(() => {
          render={(props) => (
           <Finance {...props} token={token} id={id} />
            )} />
-        <Route path="/projects"
+        <Route exact path="/projects"
          render={(props) => (
           <Projects {...props} token={token} id={id} />
            )} />
+
+
+        <Route exact path="/projects/create"
+            render={(props) => (
+            <AddProject {...props} token={token}/>
+           )} />
+
+
+
+           <Route exact path="/projects/:id"
+          render={(props) => (
+          <ViewProject {...props} token={token}/>
+           )} />
+
+          <Route exact path="/projects/delete/:id"
+          render={(props) => (
+          <DeleteProject {...props} token={token}/>
+           )} />
+
+          
+          <Route exact path="/projects/edit/:id"
+          render={(props) => (
+          <EditProject {...props} token={token}/>
+           )} />
+
         <Route path="/logout"
          render={(props) => (
           <Logout {...props} token={token} id={id} />

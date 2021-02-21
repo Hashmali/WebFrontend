@@ -43,7 +43,6 @@ const fetchItems= async ()=>{
     <div className="container">
 
       <div className="py-4">
-      <Link class="btn btn-warning mr-" to={`/workers/create`}>ADD</Link>  
         <h1>List Of Workers:</h1>
         <table class="table border shadow">
           <thead class="thead-dark">
@@ -56,6 +55,8 @@ const fetchItems= async ()=>{
               <th scope="col">Email</th>
               <th scope="col">Profile</th>
               <th>Action</th>
+              <th scope="col"><Link class="btn btn-warning mr-" to={`/workers/create`}>ADD</Link></th>
+
             </tr>
           </thead>
           <tbody>
