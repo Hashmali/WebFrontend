@@ -3,92 +3,116 @@ import { Link,useHistory } from "react-router-dom";
 import Avatar from '../Avatar'
 
 const AddProject = (props) => {
-let history = useHistory();
-const [status,setStatus]=useState("")
-const[previewImage,setPreviewImage]=useState();
-const[previewID,setPreviewID]=useState();
-const[previewDrive,setPreviewDrive]=useState();
-const[pic,setPic]=useState();
-const[idPic,setIdPic]=useState();
-const[drivePice,setDrivePic]=useState();
-
  
-const imageHandler = (e,name) => {
+  let history = useHistory();
+  const [status,setStatus]=useState("")
+  const[previewImage,setPreviewImage]=useState();
+  const[previewID,setPreviewID]=useState();
+  const[previewDrive,setPreviewDrive]=useState();
+  const[pic,setPic]=useState();
+  const[idPic,setIdPic]=useState();
+  const[drivePice,setDrivePic]=useState();
+  
+ 
+ 
+  const imageHandler = (e,name) => {
     let reader = new FileReader();
     reader.onload = function(e) {
         if(name=="image"){setPreviewImage(e.target.result);}
-        if(name=="id_img"){setPreviewID(e.target.result);}
-        if(name=="driving_license_img"){setPreviewDrive(e.target.result);}
+   //     if(name=="id_img"){setPreviewID(e.target.result);}
+     //   if(name=="driving_license_img"){setPreviewDrive(e.target.result);}
     }
     reader.readAsDataURL(e.target.files[0]);
     if(name=="image"){setPic(e.target.files[0])}
-    if(name=="id_img"){setIdPic(e.target.files[0])}
-    if(name=="driving_license_img"){setDrivePic(e.target.files[0])}
+   // if(name=="id_img"){setIdPic(e.target.files[0])}
+    //if(name=="driving_license_img"){setDrivePic(e.target.files[0])}
       
   }
 
+  const [project, setProject] = useState({
+    project_code: "",
+    property_type: "",
+    address_link:"",
+    city: "",
+    street: "",
+    property_no: "",
+    owner_first_name: "",
+    owner_second_name: "",
+    owner_phone_no: "",
+    owner_email: "",
+    contractor_first_name: "",
+    contractor_second_name: "",
+    contractor_phone_no: "",
+    contractor_email: "",
+    architect_first_name: "",
+    architect_second_name: "",
+    architect_phone_no: "",
+    architect_email: "",
+    building_image: "",
+    progress:"",
+  });
 
-const [worker, setWorker] = useState({
-    first_name: "",
-    second_name: "",
-    password:"",
-    phone: "",
-    id_no: "",
-    id_img: "",
-    driving_license_img: "",
-    work_license_israel: "",
-    work_license_type: "",
-    work_license_expire: "",
-    age: "",
-    address: "",
-    pay_per_day: "",
-    email: "",
-    image: "",
-    is_admin: "",
+  const {  project_code, property_type, address_link, city, street,property_no,
+    owner_first_name,owner_second_name,owner_phone_no,owner_email,
+    contractor_first_name,contractor_second_name,contractor_phone_no,contractor_email,
+    architect_first_name,architect_second_name,architect_phone_no,architect_email,building_image,progress
+} = project;
 
-});
-  const {  first_name, second_name, password, phone, id_no,id_img,driving_license_img,
-            work_license_israel,work_license_type,work_license_expire,age,address,
-            pay_per_day,email,image,is_admin
-        } = worker;
-  const onInputChange = e => {
-    if(e.target.type=="file"){
-    alert(e.target.name)
-    setWorker({ ...worker, [e.target.name]: e.target.files[0] });
-    imageHandler(e,e.target.name)
-    }
-    setWorker({ ...worker, [e.target.name]: e.target.value });
+
+
+
+        
+const onInputChange = e => {
+  //  onChange={(e)=>setImage(e.target.files[0])}
   
-};
+      if(e.target.type=="file"){
+      alert(e.target.name)
+      setProject({ ...project, [e.target.name]: e.target.files[0] });
+      imageHandler(e,e.target.name)
+      }
+      setProject({ ...project, [e.target.name]: e.target.value });
+    
+  };
+  
+
+
+
 
   var toke="Token " + props.token+" "
   var url="http://127.0.0.1:8000/api/project/create/"  
 
     function post_request(){
-        const newData=new FormData();
-        /* 
-        first_name, second_name, password, phone, id_no,id_img,driving_license_img,
-        work_license_israel,work_license_type,work_license_expire,age,address,
-        pay_per_day,email,image,is_admin
-        */
-        newData.append('first_name',worker.first_name);
-        newData.append('second_name',worker.second_name);
-        newData.append('password',worker.password);
-        newData.append('password2',worker.password);
-        newData.append('phone',worker.phone);
-        newData.append('id_no',worker.id_no);
-        newData.append('work_license_israel',worker.work_license_israel);
-        newData.append('work_license_type',worker.work_license_type);
-        newData.append('work_license_expire',worker.work_license_expire);
-        newData.append('age',worker.age);
-        newData.append('address',worker.address);
-        newData.append('pay_per_day',worker.pay_per_day);
-        newData.append('email',worker.email);
-        newData.append('is_admin',worker.is_admin);
-        if(pic){newData.append('image',pic)}
-        if(drivePice){newData.append('driving_license_img',drivePice)}
-        if(idPic){newData.append('id_img',idPic)}
-         
+      const newData=new FormData();
+      /* 
+         project_code, property_type, address_link, city, street,property_no,
+          owner_first_name,owner_second_name,owner_phone_no,owner_email,
+          contractor_first_name,contractor_second_name,contractor_phone_no,contractor_email,
+          architect_first_name,architect_second_name,architect_phone_no,architect_email,building_image
+      */
+      newData.append('project_code',project.project_code);
+      newData.append('property_type',project.property_type);
+      newData.append('address_link',project.address_link);
+      newData.append('city',project.city);
+   
+      newData.append('owner_first_name',project.owner_first_name);
+      newData.append('owner_second_name',project.owner_second_name);
+      newData.append('owner_phone_no',project.owner_phone_no);
+      newData.append('owner_email',project.owner_email);
+   
+      newData.append('contractor_first_name',project.contractor_first_name);
+      newData.append('contractor_second_name',project.contractor_second_name);
+      newData.append('contractor_phone_no',project.contractor_phone_no);
+      newData.append('contractor_email',project.contractor_email);
+   
+      newData.append('architect_first_name',project.architect_first_name);
+      newData.append('architect_second_name',project.architect_second_name);
+      newData.append('architect_phone_no',project.architect_phone_no);
+      newData.append('architect_second_name',project.architect_email);
+      newData.append('progress',project.progress);
+
+      if(pic){newData.append('building_image',pic,pic.name)}
+   
+   
          const requestOptions =
           {
              method: 'POST',
@@ -112,8 +136,8 @@ const [worker, setWorker] = useState({
       alert(data.status)
     }  
     if(data.status==201){
-      alert("Succesffully created worker!")
-     history.push("/workers_management");
+      alert("Succesffully created project!")
+     history.push("/projects");
     }
 
   };
@@ -123,40 +147,35 @@ const [worker, setWorker] = useState({
 
   return (
     <div className="container">
-      <div className="w-75 mx-auto shadow p-5">
-      <Link className="btn btn-dark" to="/workers_management">
-        Back to Home
+      <div className="w-75 mx-auto shadow p-5" >
+
+      <Link className="btn btn-dark" to="/projects">
+        Back to Projects
       </Link>
 
-        <h2 className="text-center mb-4">Fill in Worker Details:</h2>
+        <h2 className="text-center mb-4">Create a new Project</h2>
         <form onSubmit={e => onSubmit(e)}>
+        <hr/>
+        <h4 className="text-center mb-4">Project</h4>
           <div className="form-group">
             <input
               type="text"
               className="form-control form-control-lg"
-              placeholder="Enter worker first name"
-              name="first_name"
-              value={first_name}
+              placeholder="Enter project code"
+              name="project_code"
+              value={project_code}
               onChange={e => onInputChange(e)}
             />
           </div>
           <div className="form-group">
+          <h4 className="text-center mb-4">Property</h4>
+
             <input
               type="text"
               className="form-control form-control-lg"
-              placeholder="Enter worker last name"
-              name="second_name"
-              value={second_name}
-              onChange={e => onInputChange(e)}
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="password"
-              className="form-control form-control-lg"
-              placeholder="Enter worker password"
-              name="password"
-              value={password}
+              placeholder="Enter property type"
+              name="property_type"
+              value={property_type}
               onChange={e => onInputChange(e)}
             />
           </div>
@@ -164,9 +183,9 @@ const [worker, setWorker] = useState({
             <input
               type="text"
               className="form-control form-control-lg"
-              placeholder="Enter worker phone number"
-              name="phone"
-              value={phone}
+              placeholder="Enter address"
+              name="address_link"
+              value={address_link}
               onChange={e => onInputChange(e)}
             />
           </div>
@@ -174,118 +193,231 @@ const [worker, setWorker] = useState({
             <input
               type="text"
               className="form-control form-control-lg"
-              placeholder="Enter worker email"
-              name="email"
-              value={email}
+              placeholder="Enter city name"
+              name="city"
+              value={city}
               onChange={e => onInputChange(e)}
             />
           </div>
+          <div className="form-group">
+            <input
+              type="text"
+              className="form-control form-control-lg"
+              placeholder="Enter street name"
+              name="street"
+              value={street}
+              onChange={e => onInputChange(e)}
+            />
+          </div>
+
+          <div className="form-group">
+            <input
+              type="text"
+              className="form-control form-control-lg"
+              placeholder="Enter property number"
+              name="property_no"
+              value={property_no}
+              onChange={e => onInputChange(e)}
+            />
+          </div>
+          <h4 className="text-center mb-4">Owner</h4>          
+         <div className="form-group">
+            <input
+              type="text"
+              className="form-control form-control-lg"
+              placeholder="Enter owner first name "
+              name="owner_first_name"
+              value={owner_first_name}
+              onChange={e => onInputChange(e)}
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="text"
+              className="form-control form-control-lg"
+              placeholder="Enter owner last name "
+              name="owner_second_name"
+              value={owner_second_name}
+              onChange={e => onInputChange(e)}
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="text"
+              className="form-control form-control-lg"
+              placeholder="Enter owner phone number"
+              name="owner_phone_no"
+              value={owner_phone_no}
+              onChange={e => onInputChange(e)}
+            />
+          </div>
+         
+                  
+     
+          <div className="form-group">
+            <input
+              type="text"
+              className="form-control form-control-lg"
+              placeholder="Enter owner email"
+              name="owner_email"
+              value={owner_email}
+              onChange={e => onInputChange(e)}
+            />
+          </div>
+
+
+          <h4 className="text-center mb-4">Contractor</h4>          
+
+          <div className="form-group">
+            <input
+              type="text"
+              className="form-control form-control-lg"
+              placeholder="Enter contractor first name "
+              name="contractor_first_name"
+              value={contractor_first_name}
+              onChange={e => onInputChange(e)}
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="text"
+              className="form-control form-control-lg"
+              placeholder="Enter contractor last name "
+              name="contractor_second_name"
+              value={contractor_second_name}
+              onChange={e => onInputChange(e)}
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="text"
+              className="form-control form-control-lg"
+              placeholder="Enter contractor phone number"
+              name="contractor_phone_no"
+              value={contractor_phone_no}
+              onChange={e => onInputChange(e)}
+            />
+          </div>
+         
+                  
+     
+          <div className="form-group">
+            <input
+              type="text"
+              className="form-control form-control-lg"
+              placeholder="Enter contractor email"
+              name="contractor_email"
+              value={contractor_email}
+              onChange={e => onInputChange(e)}
+            />
+          </div>
+
+
+
+        <h4 className="text-center mb-4">Architect</h4>          
+
+          <div className="form-group">
+            <input
+              type="text"
+              className="form-control form-control-lg"
+              placeholder="Enter architect first name "
+              name="architect_first_name"
+              value={architect_first_name}
+              onChange={e => onInputChange(e)}
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="text"
+              className="form-control form-control-lg"
+              placeholder="Enter architect last name "
+              name="architect_second_name"
+              value={architect_second_name}
+              onChange={e => onInputChange(e)}
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="text"
+              className="form-control form-control-lg"
+              placeholder="Enter architect phone number"
+              name="architect_phone_no"
+              value={architect_phone_no}
+              onChange={e => onInputChange(e)}
+            />
+          </div>
+         
+                  
+     
+          <div className="form-group">
+            <input
+              type="text"
+              className="form-control form-control-lg"
+              placeholder="Enter architect email"
+              name="architect_email"
+              value={architect_email}
+              onChange={e => onInputChange(e)}
+            />
+          </div>
+
+          <div className="form-group">
+            <input
+              type="number"
+              className="form-control form-control-lg"
+              placeholder="Update Project progress"
+              name="progress"
+              value={progress}
+              onChange={e => onInputChange(e)}
+            />
+          </div>
+
+
+
+
+
+
           <div className="form-group">
           <Avatar avatarUrl={previewImage}/>
-
             <input
               type="file"
-              name="image"              
-              onChange={e => onInputChange(e)}
-              accept="image/*"
-            />
-
-          </div>
-          <div className="form-group">
-            <input
-              type="text"
-              className="form-control form-control-lg"
-              placeholder="is admin?"
-              name="is_admin"
-              value={is_admin}
-              onChange={e => onInputChange(e)}
-            />
-          </div>
-
-          <div className="form-group">
-            <input
-              type="text"
-              className="form-control form-control-lg"
-              placeholder="Enter worker age"
-              name="age"
-              value={age}
-              onChange={e => onInputChange(e)}
-            />
-          </div>
-          
-          <div className="form-group">
-            <input
-              type="text"
-              className="form-control form-control-lg"
-              placeholder="Enter worker address"
-              name="address"
-              value={address}
-              onChange={e => onInputChange(e)}
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="text"
-              className="form-control form-control-lg"
-              placeholder="Enter worker pay per day"
-              name="pay_per_day"
-              value={pay_per_day}
-              onChange={e => onInputChange(e)}
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="text"
-              className="form-control form-control-lg"
-              placeholder="Enter worker id"
-              name="id_no"
-              value={id_no}
-              onChange={e => onInputChange(e)}
-            />
-          </div>
-          <div className="form-group">
-          <Avatar avatarUrl={previewID}/>
-            <input
-              type="file"
-              className="form-control form-control-lg"
-              placeholder="Upload worker image"
-              name="id_img"
+              name="building_image"              
               onChange={e => onInputChange(e)}
               accept="image/*"
             />
           </div>
-          <div className="form-group">   
-          <Avatar avatarUrl={previewDrive}/>
-            <input  
-              type="file"
-              className="form-control form-control-lg"
-              placeholder="Upload worker driving license image"
-              name="driving_license_img"
-              onChange={e => onInputChange(e)}
-              accept="image/*"
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="text"
-              className="form-control form-control-lg"
-              placeholder="Upload worker work license israel"
-              name="work_license_israel"
-              value={work_license_israel}
-              onChange={e => onInputChange(e)}
-            />
-          </div>
-          <div className="form-group">
-            <input
-              type="text"
-              className="form-control form-control-lg"
-              placeholder="Upload worker work license expire date"
-              name="work_license_expire"
-              value={work_license_expire}
-              onChange={e => onInputChange(e)}
-            />
-          </div>
-         <button className="btn btn-dark btn-block">Create Worker</button>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+         <button className="btn btn-dark btn-block">Create Project</button>
         </form>
       </div>
     </div>

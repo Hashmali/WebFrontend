@@ -18,12 +18,12 @@ const[drivePice,setDrivePic]=useState();
 const imageHandler = (e,name) => {
     let reader = new FileReader();
     reader.onload = function(e) {
-        if(name=="image"){setPreviewImage(e.target.result);}
+        if(name=="building_image"){setPreviewImage(e.target.result);}
    //     if(name=="id_img"){setPreviewID(e.target.result);}
      //   if(name=="driving_license_img"){setPreviewDrive(e.target.result);}
     }
     reader.readAsDataURL(e.target.files[0]);
-    if(name=="image"){setPic(e.target.files[0])}
+    if(name=="building_image"){setPic(e.target.files[0])}
    // if(name=="id_img"){setIdPic(e.target.files[0])}
     //if(name=="driving_license_img"){setDrivePic(e.target.files[0])}
       
@@ -49,12 +49,13 @@ const [project, setProject] = useState({
   architect_second_name: "",
   architect_phone_no: "",
   architect_email: "",
-  image: "",
+  building_image: "",
+  progress:"",
 });
   const {  project_code, property_type, address_link, city, street,property_no,
             owner_first_name,owner_second_name,owner_phone_no,owner_email,
             contractor_first_name,contractor_second_name,contractor_phone_no,contractor_email,
-            architect_first_name,architect_second_name,architect_phone_no,architect_email,image
+            architect_first_name,architect_second_name,architect_phone_no,architect_email,building_image,progress
         } = project;
 
         
@@ -87,7 +88,7 @@ const [project, setProject] = useState({
            project_code, property_type, address_link, city, street,property_no,
             owner_first_name,owner_second_name,owner_phone_no,owner_email,
             contractor_first_name,contractor_second_name,contractor_phone_no,contractor_email,
-            architect_first_name,architect_second_name,architect_phone_no,architect_email,image
+            architect_first_name,architect_second_name,architect_phone_no,architect_email,building_image
         */
         newData.append('project_code',project.project_code);
         newData.append('property_type',project.property_type);
@@ -108,8 +109,9 @@ const [project, setProject] = useState({
         newData.append('architect_second_name',project.architect_second_name);
         newData.append('architect_phone_no',project.architect_phone_no);
         newData.append('architect_second_name',project.architect_email);
+        newData.append('progress',project.progress);
 
-        if(pic){newData.append('image',pic,pic.name)}
+        if(pic){newData.append('building_image',pic,pic.name)}
      
     
          const requestOptions2 =
@@ -132,7 +134,7 @@ const [project, setProject] = useState({
     setStatus(data.status)
     const project_data=await data.json();
     setProject(project_data);
-    setPreviewImage(project_data.image)
+    setPreviewImage(project_data.building_image)
     //setPreviewID(project_data.id_img)
    // setPreviewDrive(project_data.driving_license_img)
   };
@@ -372,6 +374,18 @@ const [project, setProject] = useState({
             />
           </div>
 
+          <div className="form-group">
+            <input
+              type="number"
+              className="form-control form-control-lg"
+              placeholder="Update Project progress"
+              name="progress"
+              value={progress}
+              onChange={e => onInputChange(e)}
+            />
+          </div>
+
+
 
 
 
@@ -380,7 +394,7 @@ const [project, setProject] = useState({
           <Avatar avatarUrl={previewImage}/>
             <input
               type="file"
-              name="image"              
+              name="building_image"              
               onChange={e => onInputChange(e)}
               accept="image/*"
             />

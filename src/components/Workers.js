@@ -8,12 +8,13 @@ const List = (props) => {
   const [status,setStatus]=useState("")
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
-  
+  const handleShow = () => setShow(true);  
   useEffect(()=>{
     fetchItems();
   },[]);
+
+
+  
   var toke="Token " + props.token+" "  
   const requestOptions =
  {

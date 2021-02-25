@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import{ProgressBar} from "react-bootstrap"
 import Avatar from './Avatar'
 import Nav from "./Nav"
 
@@ -59,9 +60,9 @@ const fetchItems= async ()=>{
                 <th scope="row">{index + 1}</th>
                 <td>{project.project_code}</td>
                 <td>{project.property_type}</td>
-                <td><Avatar avatarUrl={project.image}/></td>
+                <td><Avatar avatarUrl={project.building_image}/></td>
                 <td>{project.address_link}</td>
-                <td>{project.progress}</td>               
+                <td><ProgressBar now={project.progress} label={`${project.progress}%`} /></td>    
                  <td>
                   <Link class="btn btn-primary mr-2" to={`/projects/${project.id}`}>
                     View  

@@ -104,7 +104,7 @@ const [worker, setWorker] = useState({
     
          const requestOptions2 =
           {
-             method: 'PUT',
+             method: 'PATCH',
              headers: {'Authorization' : toke,},
              body: newData,
          };

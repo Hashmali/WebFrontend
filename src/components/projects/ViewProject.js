@@ -115,4 +115,23 @@ const fetchItems= async ()=>{
 };
 
 export default Project;
+/*
+
+            project_code, property_type, address_link, city, street,property_no,
+            owner_first_name,owner_second_name,owner_phone_no,owner_email,
+            contractor_first_name,contractor_second_name,contractor_phone_no,contractor_email,
+            architect_first_name,architect_second_name,architect_phone_no,architect_email,image
+
+
+
+
+
+
+
+
+
+
+
+*/
+
 
