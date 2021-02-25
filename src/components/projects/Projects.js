@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import{ProgressBar} from "react-bootstrap"
-import Avatar from './Avatar'
-import Nav from "./Nav"
+import Avatar from '../Avatar'
+import Nav from "../Nav"
 
 const Projects = (props) => {
   const [items,setItems]=useState([])

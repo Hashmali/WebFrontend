@@ -1,8 +1,10 @@
 import React,{ useState,useEffect }  from "react";
 import {Route,BrowserRouter as Router,Switch} from "react-router-dom"
-import Company from "./components/Company";
+import CompanyDetails from "./components/company/CompanyDetails";
+import EditCompanyDetails from "./components/company/EditCompanyDetails";
+
 import About from "./components/About";
-import Workers from "./components/Workers"
+import Workers from "./components/workers/Workers"
 import AddWorker from "./components/workers/AddWorker";
 import ViewWorker from "./components/workers/ViewWorker";
 import EditWorker from "./components/workers/EditWorker";
@@ -14,7 +16,7 @@ import PDF from "./components/PdfCreate"
 import Schedule from "./components/Schedule"
 import Finance from "./components/finance" 
 
-import Projects from "./components/Projects"
+import Projects from "./components/projects/Projects"
 import AddProject from "./components/projects/AddProject";
 import ViewProject from "./components/projects/ViewProject";
 import EditProject from "./components/projects/EditProject";
@@ -62,10 +64,24 @@ useEffect(() => {
         render={(props) => (
         <Login {...props} userLogin={userLogin} userId={userId} />
          )} />
+
         <Route path="/Home"
          render={(props) => (
-          <Company {...props} token={token} id={id} />
-           )} />      
+          <CompanyDetails {...props} token={token} id={id} />
+           )} />    
+
+        <Route exact path="/info_edit"
+         render={(props) => (
+          <EditCompanyDetails {...props} token={token} id={id} />
+           )} />    
+
+
+
+
+
+
+
+
         <Route path="/workers_management"
          render={(props) => (
           <Workers {...props} token={token} id={id} />

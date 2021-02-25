@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react';
-import Avatar from './Avatar'
+import Avatar from '../Avatar'
 const source="/images/logo.png"
 
 
