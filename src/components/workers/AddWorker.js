@@ -62,7 +62,7 @@ const [worker, setWorker] = useState({
 };
 
   var toke="Token " + props.token+" "
-  var url="http://127.0.0.1:8000/api/worker/register/"  
+  var url="https://hashmali-backend.herokuapp.com/api/worker/register/"  
 
     function post_request(){
         const newData=new FormData();

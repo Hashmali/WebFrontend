@@ -19,7 +19,7 @@ export default function Logout(props) {
       'Authorization' : toke
       ,}
       };
-      fetch('http://127.0.0.1:8000/api/worker/logout/',requestOptions).catch(error=>console.error(error))
+      fetch('https://hashmali-backend.herokuapp.com/api/worker/logout/',requestOptions).catch(error=>console.error(error))
       check()
   }
  

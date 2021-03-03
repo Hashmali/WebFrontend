@@ -38,7 +38,7 @@ export default function Login(props) {
       body: JSON.stringify({ username: phone,password:password })
       };
       console.log(requestOptions.body)
-      fetch('http://127.0.0.1:8000/api/worker/login/',requestOptions)
+      fetch('https://hashmali-backend.herokuapp.com/api/worker/login/',requestOptions)
       .then(data=>data.json())
       .then(data=>{check(data)})
       .catch(error=>console.error(error))

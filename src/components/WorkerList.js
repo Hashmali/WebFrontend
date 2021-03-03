@@ -143,7 +143,7 @@ export default function CollapsibleTable(props) {
 
   const fetchItems= async ()=>{
 
-    const data=await fetch('http://127.0.0.1:8000/api/worker/',requestOptions).catch(error=>console.error(error));
+    const data=await fetch('https://hashmali-backend.herokuapp.com/api/worker/',requestOptions).catch(error=>console.error(error));
      setStatus(data.status)
     const items=await data.json();
     setItems(items);

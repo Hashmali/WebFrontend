@@ -72,7 +72,7 @@ export default function CreateProject(props) {
 
 
    const fetchItems= async ()=>{
-   const data=await fetch('http://127.0.0.1:8000/api/project/create/',requestOptions);
+   const data=await fetch('https://hashmali-backend.herokuapp.com/api/project/create/',requestOptions);
  
     };
 

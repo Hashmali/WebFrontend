@@ -47,7 +47,7 @@ return requestOptions;
     }
 
 
-    const data=await fetch('http://127.0.0.1:8000/api/worker/register/',postReq());
+    const data=await fetch('https://hashmali-backend.herokuapp.com/api/worker/register/',postReq());
   const req=await data.json();
   alert(data.status)
   if(data.status==201){

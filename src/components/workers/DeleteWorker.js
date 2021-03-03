@@ -16,7 +16,7 @@ const Worker = (props) => {
      },[]);
 
     var toke="Token " + props.token+" "  
-    var url="http://127.0.0.1:8000/api/worker/" + id+"/edit/"  
+    var url="https://hashmali-backend.herokuapp.com/api/worker/" + id+"/edit/"  
 
      const requestOptions =
  {
