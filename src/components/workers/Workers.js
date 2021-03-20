@@ -2,8 +2,18 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Avatar from '../Avatar'
 import Nav from "../Nav"
+import Loader from "react-loader-spinner";
+
+
+
+
+
+
+
 
 const List = (props) => {
+
+
   const [items,setItems]=useState([])
   const [status,setStatus]=useState("")
   const [show, setShow] = useState(false);
@@ -25,17 +35,51 @@ const List = (props) => {
 
 
 
-
-
 const fetchItems= async ()=>{
   const data=await fetch('https://hashmali-backend.herokuapp.com/api/worker/',requestOptions).catch(error=>console.error(error));
    setStatus(data.status)
   const items=await data.json();
   setItems(items);
   };
+ if(status!= 200){
+
+  
+   
+  
+  
+  return(
+    <div>
+    <Nav/>
+<div 
+        style={
+          {display:"flex"
+          ,flexDirection:"row"
+          ,alignItems:"center",
+          justifyContent:"center"
+          ,marginTop:"100px"
+          }}>
+        <Loader 
+        type="Puff"
+        color="#343a40"
+        height={150}
+        width={150}
+        timeout={3000} //3 secs
+      />
+      </div>
+      </div>
+);
 
 
- if(status!= 200){return(<h1>failed to get data!</h1>)}
+
+
+
+
+
+
+
+
+
+}
 
   return (
 <div>

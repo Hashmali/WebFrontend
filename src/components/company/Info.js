@@ -1,5 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import Avatar from '../Avatar'
+import Loader from "react-loader-spinner";
 const source="/images/logo.png"
 
 
@@ -28,8 +29,8 @@ export default function Info(props) {
   
   },[]);
 	var toke="Token " + props.token+" "
-	var url='https://hashmali-backend.herokuapp.com/api/info/3/'
-  var url2='https://hashmali-backend.herokuapp.com/api/info/3/update/'
+	var url='https://hashmali-backend.herokuapp.com/api/info/1/'
+  var url2='https://hashmali-backend.herokuapp.com/api/info/1/update/'
 
 	const requestOptions =
  	{
@@ -124,31 +125,22 @@ return (
 
     else{
       return (
-        <div class="all">
-         <div class="jumbotron text-center" style={styles} >
-          <Avatar avatarUrl={source}/>
-     
-       </div>
-     
-     <div class="container">
-       <div class="row">
-         <div class="col-sm-4">
-           <h3>Company Manager </h3>
-         </div>
-     
-         
-         <div class="col-sm-4">
-           <h3>Deputy Director</h3>
-         </div>
-     
-     
-         
-         <div class="col-sm-4">
-           <h3>Vehicles</h3>
-         </div>
-       </div>
-     </div>
-     </div>   
+        <div 
+        style={
+          {display:"flex"
+          ,flexDirection:"row"
+          ,alignItems:"center",
+          justifyContent:"center"
+          ,marginTop:"100px"
+          }}>
+        <Loader 
+        type="Puff"
+        color="#343a40"
+        height={150}
+        width={150}
+        timeout={3000} //3 secs
+      />
+      </div>
          );
   
 }

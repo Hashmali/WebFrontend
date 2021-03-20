@@ -27,6 +27,7 @@
     "react-filter-tables": "^1.2.0",
     "react-filterable-table": "^0.3.434",
     "react-inline-editing": "^1.0.10",
+    "react-loader-spinner": "^4.0.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.1",
     "react-table-scrollbar": "^0.1.9",

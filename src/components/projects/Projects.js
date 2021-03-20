@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import{ProgressBar} from "react-bootstrap"
 import Avatar from '../Avatar'
 import Nav from "../Nav"
+import Loader from "react-loader-spinner";
 
 const Projects = (props) => {
   const [items,setItems]=useState([])
@@ -32,7 +33,34 @@ const fetchItems= async ()=>{
   };
 
 
- if(status!= 200){return(<h1>failed to get data!</h1>)}
+ if(status!= 200)
+ {
+   
+  return(
+    <div>
+    <Nav/>
+<div 
+        style={
+          {display:"flex"
+          ,flexDirection:"row"
+          ,alignItems:"center",
+          justifyContent:"center"
+          ,marginTop:"100px"
+          }}>
+        <Loader 
+        type="Puff"
+        color="#343a40"
+        height={150}
+        width={150}
+        timeout={3000} //3 secs
+      />
+      </div>
+      </div>
+);
+
+
+
+}
 
   return (
 <div>
