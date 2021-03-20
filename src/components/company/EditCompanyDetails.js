@@ -1,91 +1,80 @@
 import { ListItemSecondaryAction } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
-import { Link,useHistory} from "react-router-dom";
-import Avatar from '../Avatar'
+import { Link, useHistory } from "react-router-dom";
+import Avatar from "../Avatar";
 
 const EditCompanyDetails = (props) => {
+  let history = useHistory();
+  const [status, setStatus] = useState("");
+  const [selectedManager, setSelectedManager] = useState("");
+  const [selectedDirector, setSelectedDirector] = useState("");
 
-let history = useHistory();
-const [status,setStatus]=useState("")
-const[selectedManager,setSelectedManager]=useState("")
-const[selectedDirector,setSelectedDirector]=useState("")
+  const [previewImage, setPreviewImage] = useState();
+  const [pic, setPic] = useState();
 
-const[previewImage,setPreviewImage]=useState();
-const[pic,setPic]=useState();
- 
-const imageHandler = (e,name) => {
+  const imageHandler = (e, name) => {
     let reader = new FileReader();
-    reader.onload = function(e) {
-        if(name=="logo"){setPreviewImage(e.target.result);}
-    }
+    reader.onload = function (e) {
+      if (name == "logo") {
+        setPreviewImage(e.target.result);
+      }
+    };
     reader.readAsDataURL(e.target.files[0]);
-    if(name=="logo"){setPic(e.target.files[0])}    
+    if (name == "logo") {
+      setPic(e.target.files[0]);
+    }
+  };
+
+  const [info, setInfo] = useState({
+    company_name: "",
+    logo: "",
+    manager: "",
+    deputy_director: "",
+  });
+
+  const { company_name, logo, manager, deputy_director } = info;
+
+  const [workers, setWorkers] = useState([]);
+
+  const onInputChange = (e) => {
+    //  onChange={(e)=>setImage(e.target.files[0])}
+
+    if (e.target.type == "file") {
+      alert(e.target.name);
+      setInfo({ ...info, [e.target.name]: e.target.files[0] });
+      imageHandler(e, e.target.name);
+    }
+    setInfo({ ...info, [e.target.name]: e.target.value });
+  };
+
+  var toke = "Token " + props.token + " ";
+  var url = "https://hashmali-backend.herokuapp.com/api/info/2/update/";
+  var url2 = "https://hashmali-backend.herokuapp.com/api/worker/";
+  var url3 = "https://hashmali-backend.herokuapp.com/api/info/2/";
+
+  const requestOptions = {
+    method: "GET",
+    headers: { "Content-Type": "application/json", Authorization: toke },
+  };
+
+  function patch_request() {
+    const newData = new FormData();
+    /*company_name, logo, manager, deputy_director*/
+    newData.append("company_name", info.company_name);
+    newData.append("manager", info.manager);
+    newData.append("deputy_director", info.deputy_director);
+    if (pic) {
+      newData.append("logo", pic, pic.name);
+    }
+
+    const requestOptions2 = {
+      method: "PATCH",
+      headers: { Authorization: toke },
+      body: newData,
+    };
+    return requestOptions2;
   }
 
-
-const [info, setInfo] = useState({
-  company_name: "",
-  logo: "",
-  manager:"",
-  deputy_director: "",
-});
-
-const { company_name, logo, manager, deputy_director} = info;
-
-const [workers, setWorkers] = useState([]);
-
-
-
-
-
-
-
-
-  const onInputChange = e => {
-//  onChange={(e)=>setImage(e.target.files[0])}
-
-    if(e.target.type=="file"){
-    alert(e.target.name)
-    setInfo({ ...info, [e.target.name]: e.target.files[0] });
-    imageHandler(e,e.target.name)
-    }
-    setInfo({ ...info, [e.target.name]: e.target.value });  
-};
-
-
-
-  var toke="Token " + props.token+" "
-  var url='https://hashmali-backend.herokuapp.com/api/info/2/update/'
-  var url2='https://hashmali-backend.herokuapp.com/api/worker/'
-  var url3='https://hashmali-backend.herokuapp.com/api/info/2/'
-
-
-    const requestOptions =
-    {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json',
-        'Authorization' : toke,}
-    };
-
-    function patch_request(){
-        const newData=new FormData();
-        /*company_name, logo, manager, deputy_director*/
-        newData.append('company_name',info.company_name);
-        newData.append('manager',info.manager);
-        newData.append('deputy_director',info.deputy_director);
-        if(pic){newData.append('logo',pic,pic.name)}
-
-         const requestOptions2 =
-          {
-             method: 'PATCH',
-             headers: {'Authorization' : toke,},
-             body: newData,
-         };
-          return requestOptions2
-        }
-    
-  
-  
   useEffect(() => {
     loadDetails();
     loadWorkers();
@@ -93,81 +82,77 @@ const [workers, setWorkers] = useState([]);
   }, []);
 
   const loadDetails = async () => {
-    const data=await fetch(url,requestOptions).catch(error=>console.error(error));
-    setStatus(data.status)
-    const company_data=await data.json();
+    const data = await fetch(url, requestOptions).catch((error) =>
+      console.error(error)
+    );
+    setStatus(data.status);
+    const company_data = await data.json();
     setInfo(company_data);
-    setPreviewImage(company_data.logo)
+    setPreviewImage(company_data.logo);
   };
-  console.log(status)
+  console.log(status);
 
   const loadWorkers = async () => {
-    const data=await fetch(url2,requestOptions).catch(error=>console.error(error));
-    setStatus(data.status)
-    const workers_data=await data.json();
+    const data = await fetch(url2, requestOptions).catch((error) =>
+      console.error(error)
+    );
+    setStatus(data.status);
+    const workers_data = await data.json();
     setWorkers(workers_data);
   };
-  console.log(status)
+  console.log(status);
 
   const getSelected = async () => {
-    const data=await fetch(url3,requestOptions).catch(error=>console.error(error));
-    setStatus(data.status)
-    const selected_data=await data.json();
-    setSelectedManager(selected_data.manager.first_name+" "+selected_data.manager.second_name)
-    setSelectedDirector(selected_data.deputy_director.first_name+" "+selected_data.deputy_director.second_name)
-    }
+    const data = await fetch(url3, requestOptions).catch((error) =>
+      console.error(error)
+    );
+    setStatus(data.status);
+    const selected_data = await data.json();
+    setSelectedManager(
+      selected_data.manager.first_name + " " + selected_data.manager.second_name
+    );
+    setSelectedDirector(
+      selected_data.deputy_director.first_name +
+        " " +
+        selected_data.deputy_director.second_name
+    );
+  };
 
-
-
-
-
-
-
-
-  const onSubmit = async e => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    const data=await fetch(url,patch_request()).catch(error=>console.error(error));
-    if(data.status!=200){
-      alert(data.status)
+    const data = await fetch(url, patch_request()).catch((error) =>
+      console.error(error)
+    );
+    if (data.status != 200) {
+      alert(data.status);
     }
 
-  
-
-
-
-
-    const update= await loadDetails()
-    if(data.status==200){
-      alert("Succesffully updated Company's Details!")
-     history.push("/Home");
+    const update = await loadDetails();
+    if (data.status == 200) {
+      alert("Succesffully updated Company's Details!");
+      history.push("/Home");
     }
   };
 
-
-
-  function handleSelect(e){
-    let {name, value} = e.target;
-    console.log(name)
-    console.log(value)
-    setInfo({ ...info, [name]: parseInt(value) });  
-    console.log(info)
+  function handleSelect(e) {
+    let { name, value } = e.target;
+    console.log(name);
+    console.log(value);
+    setInfo({ ...info, [name]: parseInt(value) });
+    console.log(info);
   }
-
-
-
 
   return (
     <div className="container">
-      <div className="w-75 mx-auto shadow p-5" >
-
-      <Link className="btn btn-dark" to="/Home">
-        Back to Home
-      </Link>
+      <div className="w-75 mx-auto shadow p-5">
+        <Link className="btn btn-dark" to="/Home">
+          Back to Home
+        </Link>
 
         <h2 className="text-center mb-4">Edit Company Details:</h2>
-        <form onSubmit={e => onSubmit(e)}>
-        <hr/>
-        <h4 className="text-center mb-4">Companys Name:</h4>
+        <form onSubmit={(e) => onSubmit(e)}>
+          <hr />
+          <h4 className="text-center mb-4">Companys Name:</h4>
           <div className="form-group">
             <input
               type="text"
@@ -175,52 +160,57 @@ const [workers, setWorkers] = useState([]);
               placeholder="Enter company's name"
               name="company_name"
               value={company_name}
-              onChange={e => onInputChange(e)}
+              onChange={(e) => onInputChange(e)}
             />
           </div>
           <div className="form-group">
-          <h4 className="text-center mb-4">Company's Logo</h4>
-     
-            <div className="form-group">
-          <Avatar avatarUrl={previewImage}/>
-            <input
-              type="file"
-              name="logo"              
-              onChange={e => onInputChange(e)}
-              accept="image/*"
-            />
-          </div>
+            <h4 className="text-center mb-4">Company's Logo</h4>
 
+            <div className="form-group">
+              <Avatar avatarUrl={previewImage} />
+              <input
+                type="file"
+                name="logo"
+                onChange={(e) => onInputChange(e)}
+                accept="image/*"
+              />
+            </div>
           </div>
-          <h4 className="text-center mb-4">Manager</h4>          
-         <div>
-         <select class="form-select"
-            aria-label="Default select example"
-            name={"manager"}
-            onChange={handleSelect}
-        >
+          <h4 className="text-center mb-4">Manager</h4>
+          <div>
+            <select
+              class="form-select"
+              aria-label="Default select example"
+              name={"manager"}
+              onChange={handleSelect}
+            >
               <option selected>{selectedManager}</option>
               {workers.map((worker) => (
-              <option value={worker.id}>{worker.first_name+" "+worker.second_name}</option>
-                ))}
-          </select>
+                <option value={worker.id}>
+                  {worker.first_name + " " + worker.second_name}
+                </option>
+              ))}
+            </select>
           </div>
 
-          <h4 className="text-center mb-4">Deputy Director:</h4>          
+          <h4 className="text-center mb-4">Deputy Director:</h4>
           <div className="form-group">
-          <select class="form-select"
-            aria-label="Default select example"
-            name={"deputy_director"}
-            onChange={handleSelect}
-        >
+            <select
+              class="form-select"
+              aria-label="Default select example"
+              name={"deputy_director"}
+              onChange={handleSelect}
+            >
               <option selected>{selectedDirector}</option>
               {workers.map((worker) => (
-              <option value={worker.id}>{worker.first_name+" "+worker.second_name}</option>
-                ))}
-          </select>
+                <option value={worker.id}>
+                  {worker.first_name + " " + worker.second_name}
+                </option>
+              ))}
+            </select>
           </div>
 
-        <button className="btn btn-dark btn-block">Update Details</button>
+          <button className="btn btn-dark btn-block">Update Details</button>
         </form>
       </div>
     </div>
@@ -228,33 +218,6 @@ const [workers, setWorkers] = useState([]);
 };
 
 export default EditCompanyDetails;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /*import React,{useState,useEffect} from 'react';
 import Avatar from '../Avatar'
@@ -525,4 +488,3 @@ return (
 
 
 */
-  

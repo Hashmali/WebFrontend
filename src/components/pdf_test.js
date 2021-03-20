@@ -1,29 +1,36 @@
-import React from 'react';
-import ReactPDF from '@react-pdf/renderer';
-import ReactDOM from 'react-dom';
-import { PDFViewer } from '@react-pdf/renderer';
-import { Page, Image,Text,Font, View, Document, StyleSheet } from '@react-pdf/renderer';
+import React from "react";
+import ReactPDF from "@react-pdf/renderer";
+import ReactDOM from "react-dom";
+import { PDFViewer } from "@react-pdf/renderer";
+import {
+  Page,
+  Image,
+  Text,
+  Font,
+  View,
+  Document,
+  StyleSheet,
+} from "@react-pdf/renderer";
 
 export default function pdf_test(props) {
-  console.log(props.token)
+  console.log(props.token);
 
-  
-    return (<PDFViewer>
+  return (
+    <PDFViewer>
       <Quixote />
-    </PDFViewer>)
-  
-  
+    </PDFViewer>
+  );
 }
 
 const Quixote = () => (
   <Document className="size-">
-    <Page size ='A4'style={styles.body}>
+    <Page size="A4" style={styles.body}>
       <Text style={styles.header} fixed>
         ~ Created with react-pdf ~
       </Text>
       <Text style={styles.title}>Don Quijote de la Mancha</Text>
       <Text style={styles.author}>Miguel de Cervantes</Text>
-    
+
       <Text style={styles.subtitle}>
         Capítulo I: Que trata de la condición y ejercicio del famoso hidalgo D.
         Quijote de la Mancha
@@ -102,7 +109,7 @@ const Quixote = () => (
         Capítulo II: Que trata de la primera salida que de su tierra hizo el
         ingenioso Don Quijote
       </Text>
-     
+
       <Text style={styles.text}>
         Hechas, pues, estas prevenciones, no quiso aguardar más tiempo a poner
         en efeto su pensamiento, apretándole a ello la falta que él pensaba que
@@ -182,16 +189,18 @@ const Quixote = () => (
         encaminaba. Diose priesa a caminar, y llegó a ella a tiempo que
         anochecía.
       </Text>
-      <Text style={styles.pageNumber} render={({ pageNumber, totalPages }) => (
-        `${pageNumber} / ${totalPages}`
-      )} fixed />
+      <Text
+        style={styles.pageNumber}
+        render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`}
+        fixed
+      />
     </Page>
   </Document>
 );
 
 Font.register({
-  family: 'Oswald',
-  src: 'https://fonts.gstatic.com/s/oswald/v13/Y_TKV6o8WovbUd3m_X9aAA.ttf'
+  family: "Oswald",
+  src: "https://fonts.gstatic.com/s/oswald/v13/Y_TKV6o8WovbUd3m_X9aAA.ttf",
 });
 
 const styles = StyleSheet.create({
@@ -199,29 +208,27 @@ const styles = StyleSheet.create({
     paddingTop: 35,
     paddingBottom: 65,
     paddingHorizontal: 35,
-    
-    
   },
   title: {
     fontSize: 24,
-    textAlign: 'center',
-    fontFamily: 'Oswald'
+    textAlign: "center",
+    fontFamily: "Oswald",
   },
   author: {
     fontSize: 12,
-    textAlign: 'center',
+    textAlign: "center",
     marginBottom: 40,
   },
   subtitle: {
     fontSize: 18,
     margin: 12,
-    fontFamily: 'Oswald'
+    fontFamily: "Oswald",
   },
   text: {
     margin: 12,
     fontSize: 14,
-    textAlign: 'justify',
-    fontFamily: 'Times-Roman'
+    textAlign: "justify",
+    fontFamily: "Times-Roman",
   },
   image: {
     marginVertical: 15,
@@ -230,16 +237,16 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 12,
     marginBottom: 20,
-    textAlign: 'center',
-    color: 'grey',
+    textAlign: "center",
+    color: "grey",
   },
   pageNumber: {
-    position: 'absolute',
+    position: "absolute",
     fontSize: 12,
     bottom: 30,
     left: 0,
     right: 0,
-    textAlign: 'center',
-    color: 'grey',
+    textAlign: "center",
+    color: "grey",
   },
 });

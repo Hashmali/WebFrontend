@@ -1,44 +1,43 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Avatar from './Avatar'
+import Avatar from "./Avatar";
 
 const List = (props) => {
-  const [items,setItems]=useState([])
-  const [status,setStatus]=useState("")
+  const [items, setItems] = useState([]);
+  const [status, setStatus] = useState("");
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  
-  useEffect(()=>{
+  useEffect(() => {
     fetchItems();
-  },[]);
-  var toke="Token " + props.tok+" "  
-  const requestOptions =
- {
-  method: 'GET',
-  headers: { 'Content-Type': 'application/json',
-  'Authorization' : toke,}
-};
-
-
-
-
-
-const fetchItems= async ()=>{
-  const data=await fetch('https://hashmali-backend.herokuapp.com/api/worker/',requestOptions).catch(error=>console.error(error));
-   setStatus(data.status)
-  const items=await data.json();
-  setItems(items);
+  }, []);
+  var toke = "Token " + props.tok + " ";
+  const requestOptions = {
+    method: "GET",
+    headers: { "Content-Type": "application/json", Authorization: toke },
   };
 
+  const fetchItems = async () => {
+    const data = await fetch(
+      "https://hashmali-backend.herokuapp.com/api/worker/",
+      requestOptions
+    ).catch((error) => console.error(error));
+    setStatus(data.status);
+    const items = await data.json();
+    setItems(items);
+  };
 
- if(status!= 200){return(<h1>failed to get data!</h1>)}
+  if (status != 200) {
+    return <h1>failed to get data!</h1>;
+  }
 
   return (
     <div className="container">
       <div className="py-4">
-      <Link class="btn btn-warning mr-" to={`/workers/create`}>ADD</Link>  
+        <Link class="btn btn-warning mr-" to={`/workers/create`}>
+          ADD
+        </Link>
         <h1>List Of Workers:</h1>
         <table class="table border shadow">
           <thead class="thead-dark">
@@ -62,11 +61,16 @@ const fetchItems= async ()=>{
                 <td>{worker.id_no}</td>
                 <td>{worker.phone}</td>
                 <td>{worker.email}</td>
-                <td><Avatar avatarUrl={worker.image}/></td>
+                <td>
+                  <Avatar avatarUrl={worker.image} />
+                </td>
 
                 <td>
-                  <Link class="btn btn-primary mr-2" to={`/workers/${worker.id}`}>
-                    View  
+                  <Link
+                    class="btn btn-primary mr-2"
+                    to={`/workers/${worker.id}`}
+                  >
+                    View
                   </Link>
                   <Link
                     class="btn btn-outline-primary mr-2"
@@ -78,10 +82,8 @@ const fetchItems= async ()=>{
                     class="btn btn-danger"
                     to={`/workers/delete/${worker.id}`}
                   >
-                  Delete
-               
+                    Delete
                   </Link>
-                 
                 </td>
               </tr>
             ))}

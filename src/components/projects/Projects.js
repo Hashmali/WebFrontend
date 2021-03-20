@@ -1,153 +1,128 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import{ProgressBar} from "react-bootstrap"
-import Avatar from '../Avatar'
-import Nav from "../Nav"
+import { ProgressBar } from "react-bootstrap";
+import Avatar from "../Avatar";
+import Nav from "../Nav";
 import Loader from "react-loader-spinner";
 
 const Projects = (props) => {
-  const [items,setItems]=useState([])
-  const [status,setStatus]=useState("")
+  const [items, setItems] = useState([]);
+  const [status, setStatus] = useState("");
 
-  
-  useEffect(()=>{
+  useEffect(() => {
     fetchItems();
-  },[]);
-  var toke="Token " + props.token+" "  
-  const requestOptions =
- {
-  method: 'GET',
-  headers: { 'Content-Type': 'application/json',
-  'Authorization' : toke,}
-};
-
-
-
-
-
-const fetchItems= async ()=>{
-  const data=await fetch('https://hashmali-backend.herokuapp.com/api/project/',requestOptions).catch(error=>console.error(error));
-  setStatus(data.status)
-  const items=await data.json();
-  setItems(items);
+  }, []);
+  var toke = "Token " + props.token + " ";
+  const requestOptions = {
+    method: "GET",
+    headers: { "Content-Type": "application/json", Authorization: toke },
   };
 
+  const fetchItems = async () => {
+    const data = await fetch(
+      "https://hashmali-backend.herokuapp.com/api/project/",
+      requestOptions
+    ).catch((error) => console.error(error));
+    setStatus(data.status);
+    const items = await data.json();
+    setItems(items);
+  };
 
- if(status!= 200)
- {
-   
-  return(
-    <div>
-    <Nav/>
-<div 
-        style={
-          {display:"flex"
-          ,flexDirection:"row"
-          ,alignItems:"center",
-          justifyContent:"center"
-          ,marginTop:"100px"
-          }}>
-        <Loader 
-        type="Puff"
-        color="#343a40"
-        height={150}
-        width={150}
-        timeout={3000} //3 secs
-      />
+  if (status != 200) {
+    return (
+      <div>
+        <Nav />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+            marginTop: "100px",
+          }}
+        >
+          <Loader
+            type="Puff"
+            color="#343a40"
+            height={150}
+            width={150}
+            timeout={3000} //3 secs
+          />
+        </div>
       </div>
-      </div>
-);
-
-
-
-}
+    );
+  }
 
   return (
-<div>
-    <Nav/>
+    <div>
+      <Nav />
 
-    <div className="container">
-      <div className="py-4">
-        <h1>List Of Projects:</h1>
-        <table class="table border shadow">
-          <thead class="thead-dark">
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Project Code</th>
-              <th scope="col">Building Type</th>
-              <th scope="col">Building Photo</th>
-              <th scope="col">Address</th>
-              <th scope="col">Progress (%)</th>
-              <th>Action</th>
-              <th scope="col"><Link class="btn btn-warning mr-" to={`/projects/create`}>ADD</Link></th>
-            </tr>
-          </thead>
-          <tbody>
-            {items.map((project, index) => (
+      <div className="container">
+        <div className="py-4">
+          <h1>List Of Projects:</h1>
+          <table class="table border shadow">
+            <thead class="thead-dark">
               <tr>
-                <th scope="row">{index + 1}</th>
-                <td>{project.project_code}</td>
-                <td>{project.property_type}</td>
-                <td><Avatar avatarUrl={project.building_image}/></td>
-                <td>{project.address_link}</td>
-                <td><ProgressBar now={project.progress} label={`${project.progress}%`} /></td>    
-                 <td>
-                  <Link class="btn btn-primary mr-2" to={`/projects/${project.id}`}>
-                    View  
+                <th scope="col">#</th>
+                <th scope="col">Project Code</th>
+                <th scope="col">Building Type</th>
+                <th scope="col">Building Photo</th>
+                <th scope="col">Address</th>
+                <th scope="col">Progress (%)</th>
+                <th>Action</th>
+                <th scope="col">
+                  <Link class="btn btn-warning mr-" to={`/projects/create`}>
+                    ADD
                   </Link>
-                  <Link
-                    class="btn btn-outline-primary mr-2"
-                    to={`/projects/edit/${project.id}`}
-                  >
-                    Edit
-                  </Link>
-                  <Link
-                    class="btn btn-danger"
-                    to={`/projects/delete/${project.id}`}
-                  >
-                  Delete
-                  </Link>
-                </td>
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {items.map((project, index) => (
+                <tr>
+                  <th scope="row">{index + 1}</th>
+                  <td>{project.project_code}</td>
+                  <td>{project.property_type}</td>
+                  <td>
+                    <Avatar avatarUrl={project.building_image} />
+                  </td>
+                  <td>{project.address_link}</td>
+                  <td>
+                    <ProgressBar
+                      now={project.progress}
+                      label={`${project.progress}%`}
+                    />
+                  </td>
+                  <td>
+                    <Link
+                      class="btn btn-primary mr-2"
+                      to={`/projects/${project.id}`}
+                    >
+                      View
+                    </Link>
+                    <Link
+                      class="btn btn-outline-primary mr-2"
+                      to={`/projects/edit/${project.id}`}
+                    >
+                      Edit
+                    </Link>
+                    <Link
+                      class="btn btn-danger"
+                      to={`/projects/delete/${project.id}`}
+                    >
+                      Delete
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
     </div>
   );
 };
-export default Projects
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+export default Projects;
 
 /*
 import React,{useState} from 'react';
