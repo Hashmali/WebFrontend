@@ -8,21 +8,20 @@ const List = (props) => {
   const [items, setItems] = useState([]);
   const [status, setStatus] = useState("");
   const [show, setShow] = useState(false);
-  const [tokens, setTokens] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  useEffect(() => {
-    const unsubscribe = fetchItems();
-    return unsubscribe;
-  }, []);
 
   var toke = "Token " + props.token + " ";
-  setTokens(toke);
   const requestOptions = {
     method: "GET",
-    headers: { "Content-Type": "application/json", Authorization: tokens },
+    headers: { "Content-Type": "application/json", Authorization: toke },
   };
+
+  useEffect(() => {
+    if (props.token) {
+      fetchItems();
+    }
+  }, [props.token]);
 
   const fetchItems = async () => {
     console.log(toke);

@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
+import Loader from "../Loader";
 import Avatar from "../Avatar";
 
 const Worker = (props) => {
   const [items, setItems] = useState([]);
   const [status, setStatus] = useState("");
+  const [loader, setLoader] = useState(false);
   const { id } = useParams();
 
   //console.log(toke)
-
-  useEffect(() => {
-    fetchItems();
-  }, []);
 
   var toke = "Token " + props.token + " ";
   var url =
@@ -22,16 +20,26 @@ const Worker = (props) => {
     headers: { "Content-Type": "application/json", Authorization: toke },
   };
 
+  useEffect(() => {
+    if (props.token) {
+      fetchItems();
+    }
+  }, [props.token]);
+
   const fetchItems = async () => {
+    setLoader(true);
     const data = await fetch(url, requestOptions).catch((error) =>
       console.error(error)
     );
     setStatus(data.status);
+    setLoader(false);
+
     const items = await data.json();
     setItems(items);
   };
-  console.log(status);
-
+  if (loader) {
+    return <Loader />;
+  }
   return (
     <div className="container py-4">
       <Link className="btn btn-dark" to="/workers_management">

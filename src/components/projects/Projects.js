@@ -9,14 +9,17 @@ const Projects = (props) => {
   const [items, setItems] = useState([]);
   const [status, setStatus] = useState("");
 
-  useEffect(() => {
-    fetchItems();
-  }, []);
   var toke = "Token " + props.token + " ";
   const requestOptions = {
     method: "GET",
     headers: { "Content-Type": "application/json", Authorization: toke },
   };
+
+  useEffect(() => {
+    if (props.token) {
+      fetchItems();
+    }
+  }, [props.token]);
 
   const fetchItems = async () => {
     const data = await fetch(

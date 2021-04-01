@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
+import Loader from "../Loader";
 import Avatar from "../Avatar";
 
 const Worker = (props) => {
   const [items, setItems] = useState([]);
   const [status, setStatus] = useState("");
+  const [loader, setLoader] = useState(false);
   const { id } = useParams();
   let history = useHistory();
-
-  useEffect(() => {
-    fetchItems();
-  }, []);
 
   var toke = "Token " + props.token + " ";
   var url =
@@ -26,6 +24,12 @@ const Worker = (props) => {
     headers: { Authorization: toke },
   };
 
+  useEffect(() => {
+    if (props.token) {
+      fetchItems();
+    }
+  }, [props.token]);
+
   const deleteWorker = async (id) => {
     const data = await fetch(url, requestOptions2).catch((error) =>
       console.error(error)
@@ -37,15 +41,20 @@ const Worker = (props) => {
   };
 
   const fetchItems = async () => {
+    setLoader(true);
     const data = await fetch(url, requestOptions).catch((error) =>
       console.error(error)
     );
     setStatus(data.status);
+
     const items = await data.json();
+    setLoader(false);
+
     setItems(items);
   };
-  console.log(status);
-
+  if (loader) {
+    return <Loader />;
+  }
   return (
     <div className="container py-4">
       <h1 className="display-5">

@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
+import Loader from "../Loader";
 import Avatar from "../Avatar";
 
 const Project = (props) => {
   const [items, setItems] = useState([]);
   const [status, setStatus] = useState("");
+  const [loader, setLoader] = useState(false);
   const { id } = useParams();
 
   //console.log(toke)
 
-  useEffect(() => {
-    fetchItems();
-  }, []);
   var toke = "Token " + props.token + " ";
   var url =
     "https://hashmali-backend.herokuapp.com/api/project/" + id + "/manage/";
@@ -21,15 +20,28 @@ const Project = (props) => {
     headers: { "Content-Type": "application/json", Authorization: toke },
   };
 
+  useEffect(() => {
+    if (props.token) {
+      fetchItems();
+    }
+  }, [props.token]);
+
   const fetchItems = async () => {
+    setLoader(true);
     const data = await fetch(url, requestOptions).catch((error) =>
       console.error(error)
     );
     setStatus(data.status);
+    setLoader(false);
+
     const items = await data.json();
     setItems(items);
   };
   console.log(status);
+
+  if (loader) {
+    return <Loader />;
+  }
 
   return (
     <div className="container py-4">

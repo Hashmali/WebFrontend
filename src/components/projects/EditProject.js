@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
+import Loader from "../Loader";
 import Avatar from "../Avatar";
 
 const EditProject = (props) => {
@@ -12,6 +13,7 @@ const EditProject = (props) => {
   const [pic, setPic] = useState();
   const [idPic, setIdPic] = useState();
   const [drivePice, setDrivePic] = useState();
+  const [loader, setLoader] = useState(false);
 
   const imageHandler = (e, name) => {
     let reader = new FileReader();
@@ -137,14 +139,20 @@ const EditProject = (props) => {
   }
 
   useEffect(() => {
-    loadProject();
-  }, []);
+    if (props.token) {
+      loadProject();
+    }
+  }, [props.token]);
 
   const loadProject = async () => {
+    setLoader(true);
+
     const data = await fetch(url, requestOptions).catch((error) =>
       console.error(error)
     );
     setStatus(data.status);
+    setLoader(false);
+
     const project_data = await data.json();
     setProject(project_data);
     setPreviewImage(project_data.building_image);
@@ -155,12 +163,15 @@ const EditProject = (props) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    setLoader(true);
+
     const data = await fetch(url, patch_request()).catch((error) =>
       console.error(error)
     );
     if (data.status != 200) {
       alert(data.status);
     }
+    setLoader(false);
 
     const update = await loadProject();
     if (data.status == 200) {
@@ -168,7 +179,9 @@ const EditProject = (props) => {
       history.push("/projects");
     }
   };
-
+  if (loader) {
+    return <Loader />;
+  }
   return (
     <div className="container">
       <div className="w-75 mx-auto shadow p-5">
