@@ -1,6 +1,7 @@
 import { ListItemSecondaryAction } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
+import Loader from "../Loader";
 import Avatar from "../Avatar";
 
 const EditCompanyDetails = (props) => {
@@ -8,10 +9,9 @@ const EditCompanyDetails = (props) => {
   const [status, setStatus] = useState("");
   const [selectedManager, setSelectedManager] = useState("");
   const [selectedDirector, setSelectedDirector] = useState("");
-
   const [previewImage, setPreviewImage] = useState();
   const [pic, setPic] = useState();
-
+  const [loader, setLoader] = useState(false);
   const imageHandler = (e, name) => {
     let reader = new FileReader();
     reader.onload = function (e) {
@@ -48,9 +48,9 @@ const EditCompanyDetails = (props) => {
   };
 
   var toke = "Token " + props.token + " ";
-  var url = "https://hashmali-backend.herokuapp.com/api/info/2/update/";
+  var url = "https://hashmali-backend.herokuapp.com/api/info/1/update/";
   var url2 = "https://hashmali-backend.herokuapp.com/api/worker/";
-  var url3 = "https://hashmali-backend.herokuapp.com/api/info/2/";
+  var url3 = "https://hashmali-backend.herokuapp.com/api/info/1/";
 
   const requestOptions = {
     method: "GET",
@@ -76,16 +76,21 @@ const EditCompanyDetails = (props) => {
   }
 
   useEffect(() => {
-    loadDetails();
-    loadWorkers();
-    getSelected();
-  }, []);
+    if (props.token) {
+      loadDetails();
+      loadWorkers();
+      getSelected();
+    }
+  }, [props.token]);
 
   const loadDetails = async () => {
+    setLoader(true);
     const data = await fetch(url, requestOptions).catch((error) =>
       console.error(error)
     );
     setStatus(data.status);
+    setLoader(false);
+
     const company_data = await data.json();
     setInfo(company_data);
     setPreviewImage(company_data.logo);
@@ -120,16 +125,21 @@ const EditCompanyDetails = (props) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    setLoader(true);
+
     const data = await fetch(url, patch_request()).catch((error) =>
       console.error(error)
     );
     if (data.status != 200) {
+      setLoader(false);
       alert(data.status);
     }
 
     const update = await loadDetails();
     if (data.status == 200) {
       alert("Succesffully updated Company's Details!");
+      setLoader(false);
+
       history.push("/Home");
     }
   };
@@ -140,6 +150,10 @@ const EditCompanyDetails = (props) => {
     console.log(value);
     setInfo({ ...info, [name]: parseInt(value) });
     console.log(info);
+  }
+
+  if (loader) {
+    return <Loader />;
   }
 
   return (

@@ -8,10 +8,15 @@ export default function LoaderSpinner() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        marginTop: "100px",
       }}
     >
-      <Loader type="Puff" color="#343a40" height={150} width={150} />
+      <Loader
+        type="Puff"
+        color="#343a40"
+        height={150}
+        width={150}
+        timeout={2000} //3 secs
+      />
     </div>
   );
 }
