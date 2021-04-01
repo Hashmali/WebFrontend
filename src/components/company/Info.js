@@ -19,11 +19,8 @@ export default function Info(props) {
     },
   };
   /*******************************************************************************************************/
-
-  console.log(props.id);
   useEffect(() => {
     fetchItems();
-    //    fetchCars();
   }, []);
   var toke = "Token " + props.token + " ";
   var url = "https://hashmali-backend.herokuapp.com/api/info/1/";

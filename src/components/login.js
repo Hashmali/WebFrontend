@@ -36,6 +36,12 @@ export default function Login(props) {
   }
 
   function sendRequest() {
+    var regex = /^0(5[^7]|[2-4]|[8-9]|7[0-9])[0-9]{7}$/;
+    if (!regex.test(phone)) {
+      alert("please enter a valid phone number");
+      return;
+    }
+
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },

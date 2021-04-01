@@ -8,19 +8,25 @@ const List = (props) => {
   const [items, setItems] = useState([]);
   const [status, setStatus] = useState("");
   const [show, setShow] = useState(false);
+  const [tokens, setTokens] = useState(false);
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   useEffect(() => {
-    fetchItems();
+    const unsubscribe = fetchItems();
+    return unsubscribe;
   }, []);
 
   var toke = "Token " + props.token + " ";
+  setTokens(toke);
   const requestOptions = {
     method: "GET",
-    headers: { "Content-Type": "application/json", Authorization: toke },
+    headers: { "Content-Type": "application/json", Authorization: tokens },
   };
 
   const fetchItems = async () => {
+    console.log(toke);
+
     const data = await fetch(
       "https://hashmali-backend.herokuapp.com/api/worker/",
       requestOptions

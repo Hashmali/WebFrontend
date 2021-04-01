@@ -29,10 +29,3 @@ export default function CompanyDetails(props) {
     </div>
   );
 }
-
-/*
-    
- {clicked&&<UpdateInfo id={props.id} token={props.token}/>}
-
-
-*/
