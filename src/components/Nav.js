@@ -47,6 +47,17 @@ export default function Nav(props) {
             </Link>
           </li>
           <li class="nav-item">
+            <Link to="/projects" class="nav-link">
+              Projects
+            </Link>
+          </li>
+          <li class="nav-item">
+            <Link to="/annotate" class="nav-link">
+              Create Price Quote(in development )
+            </Link>
+          </li>
+
+          <li class="nav-item">
             <Link to="/schedule" class="nav-link">
               Schedule
             </Link>
@@ -56,16 +67,7 @@ export default function Nav(props) {
               Finance
             </Link>
           </li>
-          <li class="nav-item">
-            <Link to="/projects" class="nav-link">
-              Projects
-            </Link>
-          </li>
-          <li class="nav-item">
-            <Link to="/about" class="nav-link">
-              about
-            </Link>
-          </li>
+
           <li class="nav-item">
             <Link to="/logout" class="nav-link">
               logout
