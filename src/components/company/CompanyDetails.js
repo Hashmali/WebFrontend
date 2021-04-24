@@ -20,7 +20,7 @@ export default function CompanyDetails(props) {
   };
   return (
     <div>
-      <Nav activeItem="Company" />
+      <Nav activeItem="My Company" />
       <Link class="btn btn-dark mr-3" style={styles.move} to={`/info_edit/`}>
         Update Info
       </Link>

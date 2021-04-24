@@ -3,9 +3,12 @@ import { Menu, Segment } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
 export default class MenuExampleInvertedSegment extends Component {
-  state = { activeItem: this.props.activeItem };
-
+  state = {
+    activeItem: this.props.activeItem ? this.props.activeItem : "My Company",
+  };
   render() {
+    console.log(this.state.activeItem);
+
     return (
       <Segment inverted>
         <Menu inverted secondary>
