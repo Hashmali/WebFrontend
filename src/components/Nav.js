@@ -1,4 +1,65 @@
-import React, { useState } from "react";
+import React, { Component } from "react";
+import { Menu, Segment } from "semantic-ui-react";
+import { Link } from "react-router-dom";
+
+export default class MenuExampleInvertedSegment extends Component {
+  state = { activeItem: this.props.activeItem };
+
+  render() {
+    return (
+      <Segment inverted>
+        <Menu inverted secondary>
+          <Menu.Item
+            name="My Company"
+            active={this.state.activeItem === "My Company"}
+            as={Link}
+            to="/Home"
+          />
+          <Menu.Item
+            name="Workers Management"
+            active={this.state.activeItem === "Workers Management"}
+            as={Link}
+            to="/workers_management"
+          />
+          <Menu.Item
+            name="Projects"
+            active={this.state.activeItem === "Projects"}
+            as={Link}
+            to="/projects"
+          />
+          <Menu.Item
+            name="Create Price Quote(in development)"
+            active={
+              this.state.activeItem === "Create Price Quote(in development)"
+            }
+            as={Link}
+            to="/annotate"
+          />
+          <Menu.Item
+            name="Schedule"
+            active={this.state.activeItem === "Schedule"}
+            as={Link}
+            to="/schedule"
+          />
+          <Menu.Item
+            name="Finance"
+            active={this.state.activeItem === "Finance"}
+            as={Link}
+            to="/finance"
+          />
+          <Menu.Item
+            name="Logout"
+            active={this.state.activeItem === "Logout"}
+            as={Link}
+            to="/logout"
+          />
+        </Menu>
+      </Segment>
+    );
+  }
+}
+
+/*import React, { useState } from "react";
 import {
   Route,
   BrowserRouter as Router,
@@ -78,3 +139,4 @@ export default function Nav(props) {
     </nav>
   );
 }
+*/

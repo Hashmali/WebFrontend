@@ -32,7 +32,7 @@ export default function Logout(props) {
 
   return (
     <div>
-      <Nav />
+      <Nav activeItem="Logout" />
       <Button variant="danger" onClick={GetRequest} style={{ marginLeft: 500 }}>
         Confirm Log Out
       </Button>

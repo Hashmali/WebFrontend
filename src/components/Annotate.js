@@ -46,7 +46,7 @@ export default function Annotate(props) {
   console.log(props.token);
   return (
     <div>
-      <Nav />
+      <Nav activeItem="Create Price Quote(in development)" />
       <input onChange={handleFileSelected} type="file" />
 
       <>

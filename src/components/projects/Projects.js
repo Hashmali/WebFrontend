@@ -34,7 +34,7 @@ const Projects = (props) => {
   if (status != 200) {
     return (
       <div>
-        <Nav />
+        <Nav activeItem="Projects" />
         <div
           style={{
             display: "flex",
