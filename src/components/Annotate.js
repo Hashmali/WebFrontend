@@ -35,6 +35,10 @@ export default function Annotate(props) {
     console.log(docUrl);
   };
 
+  const handleFileSelected = (e) => {
+    var file = e.target.files[0];
+  };
+
   useEffect(() => {
     modifyPdf();
   }, []);
@@ -43,6 +47,8 @@ export default function Annotate(props) {
   return (
     <div>
       <Nav />
+      <input onChange={handleFileSelected} type="file" />
+
       <>
         {
           <IframeResizer

@@ -1,22 +1,10 @@
-import Loader from "react-loader-spinner";
 import React from "react";
+import { Loader, Grid } from "semantic-ui-react";
 
-export default function LoaderSpinner() {
-  return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Loader
-        type="Puff"
-        color="#343a40"
-        height={150}
-        width={150}
-        timeout={2000} //3 secs
-      />
-    </div>
-  );
-}
+const LoaderExampleInlineCentered = () => (
+  <Loader size="huge" active inline="centered">
+    Loading...
+  </Loader>
+);
+
+export default LoaderExampleInlineCentered;
