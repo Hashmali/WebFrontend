@@ -175,7 +175,7 @@ const EditProject = (props) => {
 
     const update = await loadProject();
     if (data.status == 200) {
-      alert("Succesffully updated project!");
+      alert("Successfully updated project!");
       history.push("/projects");
     }
   };

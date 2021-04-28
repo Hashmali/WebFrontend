@@ -139,7 +139,7 @@ const AddProject = (props) => {
       alert(data.status);
     }
     if (data.status == 201) {
-      alert("Succesffully created project!");
+      alert("Successfully created project!");
       history.push("/projects");
     }
   };
