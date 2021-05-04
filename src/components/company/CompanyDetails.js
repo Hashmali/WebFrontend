@@ -3,6 +3,8 @@ import Nav from "../Nav";
 import Info from "./Info";
 import { Link } from "react-router-dom";
 import Avatar from "../Avatar";
+import { Button } from "semantic-ui-react";
+
 const source = "/images/logo.png";
 export default function CompanyDetails(props) {
   const styles = {
@@ -21,10 +23,6 @@ export default function CompanyDetails(props) {
   return (
     <div>
       <Nav activeItem="My Company" />
-      <Link class="btn btn-dark mr-3" style={styles.move} to={`/info_edit/`}>
-        Update Info
-      </Link>
-
       <Info id={props.id} token={props.token} />
     </div>
   );

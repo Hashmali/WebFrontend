@@ -1,25 +1,52 @@
-/*Libraries*/
 import React, { useState, useEffect } from "react";
-import Avatar from "../Avatar";
+import AppBar from "@material-ui/core/AppBar";
+import { Button } from "semantic-ui-react";
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import CardMedia from "@material-ui/core/CardMedia";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Grid from "@material-ui/core/Grid";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import { Link } from "react-router-dom";
 import Loader from "../Loader";
-const source = "/images/logo.png";
-/*******************************************************************************************************/
-export default function Info(props) {
-  const styles = {
-    background: "white",
-    pic: {
-      width: 180,
-      height: 180,
-      borderRadius: 180 / 2,
-      overflow: "hidden",
-      borderWidth: 3,
-    },
-    move: {
-      marginLeft: 150,
-    },
-  };
-  /*******************************************************************************************************/
+import PhoneAndroidSharpIcon from "@material-ui/icons/PhoneAndroidSharp";
+import EmailSharpIcon from "@material-ui/icons/EmailSharp";
+import BusinessSharpIcon from "@material-ui/icons/BusinessSharp";
+import AssignmentIndSharpIcon from "@material-ui/icons/AssignmentIndSharp";
+import Avatar from "../Avatar";
+const useStyles = makeStyles((theme) => ({
+  icon: {
+    marginRight: theme.spacing(2),
+  },
+  heroContent: {
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(1, 0, 6),
+  },
+  heroButtons: {
+    marginTop: theme.spacing(2),
+  },
+  cardGrid: {
+    paddingTop: theme.spacing(8),
+    paddingBottom: theme.spacing(8),
+  },
+  card: {
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+  },
+  cardMedia: {
+    paddingTop: "56.25%", // 16:9
+  },
+  cardContent: {
+    flexGrow: 1,
+  },
+}));
 
+export default function Info(props) {
   var toke = "Token " + props.token + " ";
   var url = "https://hashmali-backend.herokuapp.com/api/info/1/";
   var url2 = "https://hashmali-backend.herokuapp.com/api/info/1/update/";
@@ -30,14 +57,17 @@ export default function Info(props) {
 
   const [items, setItems] = useState([]);
   const [status, setStatus] = useState("");
+  const [loader, setLoader] = useState(false);
 
   const fetchItems = async () => {
+    setLoader(true);
     const data = await fetch(url, requestOptions).catch((error) =>
       console.error(error)
     );
     console.log(JSON.stringify(data));
     const items = await data.json();
     setItems(items);
+    setLoader(false);
     setStatus(data.status);
   };
 
@@ -47,59 +77,145 @@ export default function Info(props) {
     }
   }, [props.token]);
 
+  const classes = useStyles();
+
+  if (loader) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
+          marginTop: "100px",
+        }}
+      >
+        <Loader></Loader>
+      </div>
+    );
+  }
   if (status == "200") {
     return (
-      <div>
-        <div class="all">
-          <div class="jumbotron text-center" style={styles}>
-            <div class="testing" style={styles.testing}></div>
-
-            <h2>Company's Name:{items.company_name}</h2>
-            <Avatar avatarUrl={items.logo} />
+      <React.Fragment>
+        <CssBaseline />
+        <AppBar position="relative"></AppBar>
+        <main>
+          {/* Hero unit */}
+          <div className={classes.heroContent}>
+            <Container maxWidth="sm">
+              <Typography
+                component="h1"
+                variant="h2"
+                align="center"
+                color="textPrimary"
+                gutterBottom
+              >
+                <Avatar avatarUrl={items.logo} />
+              </Typography>
+              <Typography
+                component="h1"
+                variant="h2"
+                align="center"
+                color="textPrimary"
+                gutterBottom
+              >
+                {items.company_name}
+              </Typography>
+              <Typography
+                variant="h5"
+                align="center"
+                color="textSecondary"
+                paragraph
+              >
+                The {items.company_name} is a company that specialize in
+                electrical and industrial work, which includes the preparation
+                of electrical and communication infrastructure.
+              </Typography>
+              <div className={classes.heroButtons}>
+                <Grid container spacing={2} justify="center">
+                  <Grid item>
+                    <Link to={`/info_edit/`}>
+                      <Button icon="edit" variant="contained" color="black" />
+                    </Link>
+                  </Grid>
+                </Grid>
+              </div>
+            </Container>
           </div>
+          <Container className={classes.cardGrid} maxWidth="md">
+            {/* End hero unit */}
+            <Grid container justify="center">
+              <Grid xs={12} sm={6} md={4}>
+                <Card className={classes.card}>
+                  <CardMedia
+                    className={classes.cardMedia}
+                    image={items.manager.image}
+                    title="Image title"
+                  />
+                  <CardContent className={classes.cardContent}>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      Company's Manager
+                    </Typography>
+                    <Typography variant="h6" color="black">
+                      <AssignmentIndSharpIcon />
+                      {items.manager.first_name +
+                        " " +
+                        items.manager.second_name}
+                    </Typography>
+                    <Typography variant="h6" color="black">
+                      <PhoneAndroidSharpIcon />
+                      {items.manager.phone}
+                    </Typography>
 
-          <div class="container">
-            <div class="row">
-              <div class="col-sm-4">
-                <h3>Company's Manager: </h3>
-                <h6>Name:{items.manager.first_name}</h6>
-                <h6>Last Name:{items.manager.second_name}</h6>
-                <h6>Phone:{items.manager.phone}</h6>
-                <h6>Email:{items.manager.email}</h6>
-                <h6>Address:{items.manager.address}</h6>
-              </div>
+                    <Typography variant="h6" color="black">
+                      <EmailSharpIcon />
+                      {items.manager.email}
+                    </Typography>
+                    <Typography variant="h6" color="black">
+                      <BusinessSharpIcon />
+                      {items.manager.address}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
 
-              <div class="col-sm-4">
-                <h3>Deputy Director:</h3>
-                <h6>Name:{items.deputy_director.first_name}</h6>
-                <h6>Last Name:{items.deputy_director.second_name}</h6>
-                <h6>Age:{items.deputy_director.age}</h6>
-                <h6>Phone:{items.deputy_director.phone}</h6>
-                <h6>Email:{items.deputy_director.email}</h6>
-                <h6>Address:{items.deputy_director.address}</h6>
-              </div>
+              <Grid xs={12} sm={6} md={4}>
+                <Card className={classes.card} style={{ marginLeft: "30px" }}>
+                  <CardMedia
+                    className={classes.cardMedia}
+                    image={items.deputy_director.image}
+                    title="Image title"
+                  />
+                  <CardContent className={classes.cardContent}>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      Deputy Director
+                    </Typography>
+                    <Typography variant="h6" color="black">
+                      <AssignmentIndSharpIcon />
+                      {items.deputy_director.first_name +
+                        " " +
+                        items.deputy_director.second_name}
+                    </Typography>
+                    <Typography variant="h6" color="black">
+                      <PhoneAndroidSharpIcon />
+                      {items.deputy_director.phone}
+                    </Typography>
 
-              <div class="col-sm-4">
-                <h3>Vehicles:</h3>
-                {items.car.map((car, index) => (
-                  <div>
-                    <h6>license number:{car.license_no}</h6>
-                    <h6>license due to:{car.license_expiry_date}</h6>
-                    <h6>Bituah due to:{car.insurance_expiry_date}</h6>
-                    <h6>
-                      Bituah till age:[number from 20-70] {car.insurance_age}
-                    </h6>
-                    <h6>
-                      Photo:
-                      <Avatar avatarUrl={car.image} />
-                    </h6>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+                    <Typography variant="h6" color="black">
+                      <EmailSharpIcon />
+                      {items.deputy_director.email}
+                    </Typography>
+                    <Typography variant="h6" color="black">
+                      <BusinessSharpIcon />
+                      {items.deputy_director.address}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            </Grid>
+          </Container>
+        </main>
+      </React.Fragment>
     );
   } else {
     return (
