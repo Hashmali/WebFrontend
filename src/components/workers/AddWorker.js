@@ -1,16 +1,147 @@
 import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import Avatar from "../Avatar";
+import { Label } from "semantic-ui-react";
+import { Grid } from "semantic-ui-react";
+import Loader from "../Loader";
 
 const AddWorker = (props) => {
   let history = useHistory();
   const [status, setStatus] = useState("");
+  const [loader, setLoader] = useState(false);
+
   const [previewImage, setPreviewImage] = useState();
   const [previewID, setPreviewID] = useState();
   const [previewDrive, setPreviewDrive] = useState();
   const [pic, setPic] = useState();
   const [idPic, setIdPic] = useState();
-  const [drivePice, setDrivePic] = useState();
+  const [drivePic, setDrivePic] = useState();
+
+  const [picUrl, setPicUrl] = useState();
+  const [idPicUrl, setIdPicUrl] = useState();
+  const [drivePicUrl, setDrivePicUrl] = useState();
+
+  useEffect(() => {
+    if (picUrl) {
+      submitImag1();
+    }
+    if (idPicUrl) {
+      submitImag2();
+    }
+    if (drivePicUrl) {
+      submitImag3();
+    }
+  }, [picUrl, idPicUrl, drivePicUrl]);
+
+  const submitImag1 = () => {
+    const newData = new FormData();
+    newData.append("image", picUrl);
+    const requestOptions2 = {
+      method: "PATCH",
+      headers: { Authorization: toke },
+      body: newData,
+    };
+    setLoader(true);
+    fetch(url, requestOptions2)
+      .then((res) => res.json())
+      .then((image) => {
+        setPicUrl(image.url);
+      })
+      .catch((error) => alert("error while updating..."));
+    setLoader(false);
+  };
+
+  const submitImag2 = () => {
+    const newData = new FormData();
+    newData.append("id_img", idPicUrl);
+    const requestOptions2 = {
+      method: "PATCH",
+      headers: { Authorization: toke },
+      body: newData,
+    };
+    setLoader(true);
+    fetch(url, requestOptions2)
+      .then((res) => res.json())
+      .then((image) => {
+        setIdPicUrl(image.url);
+      })
+      .catch((error) => alert("error while updating..."));
+    setLoader(false);
+  };
+  const submitImag3 = () => {
+    const newData = new FormData();
+    newData.append("driving_license_img", drivePicUrl);
+    const requestOptions2 = {
+      method: "PATCH",
+      headers: { Authorization: toke },
+      body: newData,
+    };
+    setLoader(true);
+    fetch(url, requestOptions2)
+      .then((res) => res.json())
+      .then((image) => {
+        setDrivePicUrl(image.url);
+      })
+      .catch((error) => alert("error while updating..."));
+    setLoader(false);
+  };
+
+  const handleImageUpload1 = () => {
+    console.log(pic);
+    const data = new FormData();
+    data.append("file", pic);
+    data.append("upload_preset", "hashmaliProject");
+    data.append("cloud_name", "dj42j4pqu");
+    setLoader(true);
+    fetch(url2, {
+      method: "POST",
+      body: data,
+    })
+      .then((res) => res.json())
+      .then((image) => {
+        setPicUrl(image.url);
+      })
+      .catch((error) => alert("error while uploading..."));
+    setLoader(false);
+  };
+
+  const handleImageUpload2 = () => {
+    console.log(pic);
+    const data = new FormData();
+    data.append("file", pic);
+    data.append("upload_preset", "hashmaliProject");
+    data.append("cloud_name", "dj42j4pqu");
+    setLoader(true);
+    fetch(url2, {
+      method: "POST",
+      body: data,
+    })
+      .then((res) => res.json())
+      .then((image) => {
+        setIdPicUrl(image.url);
+      })
+      .catch((error) => alert("error while uploading..."));
+    setLoader(false);
+  };
+
+  const handleImageUpload3 = () => {
+    console.log(pic);
+    const data = new FormData();
+    data.append("file", pic);
+    data.append("upload_preset", "hashmaliProject");
+    data.append("cloud_name", "dj42j4pqu");
+    setLoader(true);
+    fetch(url2, {
+      method: "POST",
+      body: data,
+    })
+      .then((res) => res.json())
+      .then((image) => {
+        setDrivePicUrl(image.url);
+      })
+      .catch((error) => alert("error while uploading..."));
+    setLoader(false);
+  };
 
   const imageHandler = (e, name) => {
     let reader = new FileReader();
@@ -84,6 +215,7 @@ const AddWorker = (props) => {
 
   var toke = "Token " + props.token + " ";
   var url = "https://hashmali-backend.herokuapp.com/api/worker/register/";
+  var url2 = "https://api.cloudinary.com/v1_1/dj42j4pqu/image/upload";
 
   function post_request() {
     const newData = new FormData();
@@ -107,13 +239,20 @@ const AddWorker = (props) => {
     newData.append("email", worker.email);
     newData.append("is_admin", worker.is_admin);
     if (pic) {
-      newData.append("image", pic);
-    }
-    if (drivePice) {
-      newData.append("driving_license_img", drivePice);
+      handleImageUpload1();
+      console.log(picUrl);
+      newData.append("image", picUrl);
     }
     if (idPic) {
-      newData.append("id_img", idPic);
+      handleImageUpload2();
+      console.log(idPicUrl);
+      newData.append("id_img", idPicUrl);
+    }
+    if (drivePic) {
+      handleImageUpload3();
+      console.log(drivePicUrl);
+
+      newData.append("driving_license_img", drivePicUrl);
     }
 
     const requestOptions = {
@@ -133,10 +272,24 @@ const AddWorker = (props) => {
       alert(data.status);
     }
     if (data.status == 201) {
-      alert("Succesffully created worker!");
+      alert("Successfully created worker!");
       history.push("/workers_management");
     }
   };
+
+  if (loader) {
+    return (
+      <Grid
+        textAlign="center"
+        style={{ height: "100vh" }}
+        verticalAlign="middle"
+      >
+        <Grid.Column style={{ maxWidth: 450 }}>
+          <Loader />
+        </Grid.Column>
+      </Grid>
+    );
+  }
 
   return (
     <div className="container">
@@ -148,6 +301,9 @@ const AddWorker = (props) => {
         <h2 className="text-center mb-4">Fill in Worker Details:</h2>
         <form onSubmit={(e) => onSubmit(e)}>
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Worker First Name
+            </Label>
             <input
               type="text"
               className="form-control form-control-lg"
@@ -158,6 +314,9 @@ const AddWorker = (props) => {
             />
           </div>
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Worker Last Name
+            </Label>
             <input
               type="text"
               className="form-control form-control-lg"
@@ -168,6 +327,9 @@ const AddWorker = (props) => {
             />
           </div>
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Password
+            </Label>
             <input
               type="password"
               className="form-control form-control-lg"
@@ -178,6 +340,10 @@ const AddWorker = (props) => {
             />
           </div>
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Phone Number
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -188,6 +354,10 @@ const AddWorker = (props) => {
             />
           </div>
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Email
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -197,8 +367,12 @@ const AddWorker = (props) => {
               onChange={(e) => onInputChange(e)}
             />
           </div>
+
           <div className="form-group">
             <Avatar avatarUrl={previewImage} />
+            <Label color="black" as="a" basic>
+              Upload a photo
+            </Label>
 
             <input
               type="file"
@@ -208,17 +382,27 @@ const AddWorker = (props) => {
             />
           </div>
           <div className="form-group">
-            <input
-              type="text"
+            <Label color="black" as="a" basic>
+              Is an admin?
+            </Label>
+            <select
               className="form-control form-control-lg"
-              placeholder="is admin?"
               name="is_admin"
               value={is_admin}
               onChange={(e) => onInputChange(e)}
-            />
+            >
+              <option selected value="false">
+                No
+              </option>
+              <option value="true">Yes</option>
+            </select>
           </div>
 
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              age
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -230,6 +414,10 @@ const AddWorker = (props) => {
           </div>
 
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              address
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -240,6 +428,10 @@ const AddWorker = (props) => {
             />
           </div>
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Pay per day
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -249,7 +441,12 @@ const AddWorker = (props) => {
               onChange={(e) => onInputChange(e)}
             />
           </div>
+
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Id
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -261,6 +458,10 @@ const AddWorker = (props) => {
           </div>
           <div className="form-group">
             <Avatar avatarUrl={previewID} />
+            <Label color="black" as="a" basic>
+              Upload Id image
+            </Label>
+
             <input
               type="file"
               className="form-control form-control-lg"
@@ -272,6 +473,9 @@ const AddWorker = (props) => {
           </div>
           <div className="form-group">
             <Avatar avatarUrl={previewDrive} />
+            <Label color="black" as="a" basic>
+              Upload driving license image
+            </Label>
             <input
               type="file"
               className="form-control form-control-lg"
@@ -282,16 +486,24 @@ const AddWorker = (props) => {
             />
           </div>
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Israel Work license
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
-              placeholder="Upload worker work license israel"
+              placeholder="worker work license israel"
               name="work_license_israel"
               value={work_license_israel}
               onChange={(e) => onInputChange(e)}
             />
           </div>
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Israel Work license due date
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"

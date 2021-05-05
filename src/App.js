@@ -4,7 +4,6 @@ import CompanyDetails from "./components/company/CompanyDetails";
 import EditCompanyDetails from "./components/company/EditCompanyDetails";
 
 import Annotate from "./components/Annotate";
-import About from "./components/About";
 import Workers from "./components/workers/Workers";
 import AddWorker from "./components/workers/AddWorker";
 import ViewWorker from "./components/workers/ViewWorker";
@@ -106,10 +105,6 @@ export default function App() {
           render={(props) => <EditWorker {...props} token={token} />}
         />
 
-        <Route
-          path="/about"
-          render={(props) => <About {...props} token={token} id={id} />}
-        />
         <Route
           path="/PDF"
           render={(props) => <PDF {...props} token={token} id={id} />}

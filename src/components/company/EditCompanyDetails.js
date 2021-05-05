@@ -1,11 +1,8 @@
-import { ListItemSecondaryAction } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import Loader from "../Loader";
 import Avatar from "../Avatar";
-import { Alert } from "bootstrap";
 import { Grid } from "semantic-ui-react";
-import { SingleBedSharp } from "@material-ui/icons";
 const EditCompanyDetails = (props) => {
   let history = useHistory();
   const [status, setStatus] = useState("");

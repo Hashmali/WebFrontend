@@ -62,7 +62,9 @@ function ModalExampleBasic(props) {
         {loader ? (
           <Loader />
         ) : (
-          <p>You are about to leave website,are you sure?</p>
+          <p style={{ marginLeft: "150px" }}>
+            You are about to leave website,are you sure?{" "}
+          </p>
         )}
       </Modal.Content>
       <Modal.Actions>

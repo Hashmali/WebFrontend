@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import Loader from "./Loader";
 import Icon from "./images/icon_profile.png";
 import { useHistory } from "react-router-dom";
-import "./login.css";
 import {
   Button,
   Form,

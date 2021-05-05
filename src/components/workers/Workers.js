@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Avatar from "../Avatar";
 import Nav from "../Nav";
-import Loader from "react-loader-spinner";
+import Loader from "../Loader";
 
 const List = (props) => {
   const [items, setItems] = useState([]);
@@ -93,6 +93,7 @@ const List = (props) => {
                   <td>{worker.id_no}</td>
                   <td>{worker.phone}</td>
                   <td>{worker.email}</td>
+
                   <td>
                     <Avatar avatarUrl={worker.image} />
                   </td>
