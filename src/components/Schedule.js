@@ -81,9 +81,9 @@ export default function Schedule(props) {
   };
   useEffect(() => {
     fetchReports();
-    createReport();
-    updateReport();
-    deleteExpense();
+    // createReport();
+    //updateReport();
+    //deleteExpense();
   }, []);
 
   console.log("data is " + data);
