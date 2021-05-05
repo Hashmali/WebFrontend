@@ -4,7 +4,7 @@ import Nav from "./Nav";
 export default function finance(props) {
   return (
     <div>
-      <Nav activeItem="Finance" />
+      <Nav activeItem="Finance" token={props.token} />
       <h1> i am the finance</h1>
       <h1>{props.token}</h1>
     </div>

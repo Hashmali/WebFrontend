@@ -37,7 +37,7 @@ const List = (props) => {
   if (status != 200) {
     return (
       <div>
-        <Nav activeItem="Workers Management" />
+        <Nav activeItem="Workers Management" token={props.token} />
         <div
           style={{
             display: "flex",

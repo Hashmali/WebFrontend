@@ -34,7 +34,7 @@ const Projects = (props) => {
   if (status != 200) {
     return (
       <div>
-        <Nav activeItem="Projects" />
+        <Nav activeItem="Projects" token={props.token} />
         <div
           style={{
             display: "flex",

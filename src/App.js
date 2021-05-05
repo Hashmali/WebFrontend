@@ -12,7 +12,7 @@ import EditWorker from "./components/workers/EditWorker";
 import DeleteWorker from "./components/workers/DeleteWorker";
 
 import Login from "./components/login";
-import Logout from "./components/logout";
+import Logout from "./components/LogoutModal";
 import PDF from "./components/PdfCreate";
 import Schedule from "./components/Schedule";
 import Finance from "./components/finance";

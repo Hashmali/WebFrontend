@@ -22,7 +22,7 @@ export default function CompanyDetails(props) {
   };
   return (
     <div>
-      <Nav activeItem="My Company" />
+      <Nav activeItem="My Company" token={props.token} />
       <Info id={props.id} token={props.token} />
     </div>
   );

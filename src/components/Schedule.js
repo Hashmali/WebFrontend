@@ -20,7 +20,7 @@ export default function Schedule(props) {
 
   return (
     <div>
-      <Nav activeItem="Schedule" />
+      <Nav activeItem="Schedule" token={props.token} />
       <h1> i am the schedule</h1>
       <h1>{props.token}</h1>
       <FilterTable
