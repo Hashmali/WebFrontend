@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Avatar from "../Avatar";
 import Nav from "../Nav";
+import { Button } from "semantic-ui-react";
+
 import Loader from "../Loader";
 
 const List = (props) => {
@@ -78,8 +80,8 @@ const List = (props) => {
                 <th scope="col">Profile</th>
                 <th>Action</th>
                 <th scope="col">
-                  <Link class="btn btn-warning mr-" to={`/workers/create`}>
-                    ADD
+                  <Link to={`/workers/create`}>
+                    <Button icon="add" color="yellow" />
                   </Link>
                 </th>
               </tr>
@@ -99,23 +101,14 @@ const List = (props) => {
                   </td>
 
                   <td>
-                    <Link
-                      class="btn btn-primary mr-2"
-                      to={`/workers/${worker.id}`}
-                    >
-                      View
+                    <Link to={`/workers/${worker.id}`}>
+                      <Button icon="eye" color="teal" />
                     </Link>
-                    <Link
-                      class="btn btn-outline-primary mr-2"
-                      to={`/workers/edit/${worker.id}`}
-                    >
-                      Edit
+                    <Link to={`/workers/edit/${worker.id}`}>
+                      <Button icon="edit" color="blue" />
                     </Link>
-                    <Link
-                      class="btn btn-danger"
-                      to={`/workers/delete/${worker.id}`}
-                    >
-                      Delete
+                    <Link to={`/workers/delete/${worker.id}`}>
+                      <Button icon="delete" color="red" />
                     </Link>
                   </td>
                 </tr>

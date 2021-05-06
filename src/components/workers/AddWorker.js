@@ -4,6 +4,7 @@ import Avatar from "../Avatar";
 import { Label } from "semantic-ui-react";
 import { Grid } from "semantic-ui-react";
 import Loader from "../Loader";
+import ImageFilterFrames from "material-ui/svg-icons/image/filter-frames";
 
 const AddWorker = (props) => {
   let history = useHistory();
@@ -20,72 +21,6 @@ const AddWorker = (props) => {
   const [picUrl, setPicUrl] = useState();
   const [idPicUrl, setIdPicUrl] = useState();
   const [drivePicUrl, setDrivePicUrl] = useState();
-
-  useEffect(() => {
-    if (picUrl) {
-      submitImag1();
-    }
-    if (idPicUrl) {
-      submitImag2();
-    }
-    if (drivePicUrl) {
-      submitImag3();
-    }
-  }, [picUrl, idPicUrl, drivePicUrl]);
-
-  const submitImag1 = () => {
-    const newData = new FormData();
-    newData.append("image", picUrl);
-    const requestOptions2 = {
-      method: "PATCH",
-      headers: { Authorization: toke },
-      body: newData,
-    };
-    setLoader(true);
-    fetch(url, requestOptions2)
-      .then((res) => res.json())
-      .then((image) => {
-        setPicUrl(image.url);
-      })
-      .catch((error) => alert("error while updating..."));
-    setLoader(false);
-  };
-
-  const submitImag2 = () => {
-    const newData = new FormData();
-    newData.append("id_img", idPicUrl);
-    const requestOptions2 = {
-      method: "PATCH",
-      headers: { Authorization: toke },
-      body: newData,
-    };
-    setLoader(true);
-    fetch(url, requestOptions2)
-      .then((res) => res.json())
-      .then((image) => {
-        setIdPicUrl(image.url);
-      })
-      .catch((error) => alert("error while updating..."));
-    setLoader(false);
-  };
-  const submitImag3 = () => {
-    const newData = new FormData();
-    newData.append("driving_license_img", drivePicUrl);
-    const requestOptions2 = {
-      method: "PATCH",
-      headers: { Authorization: toke },
-      body: newData,
-    };
-    setLoader(true);
-    fetch(url, requestOptions2)
-      .then((res) => res.json())
-      .then((image) => {
-        setDrivePicUrl(image.url);
-      })
-      .catch((error) => alert("error while updating..."));
-    setLoader(false);
-  };
-
   const handleImageUpload1 = () => {
     console.log(pic);
     const data = new FormData();
@@ -205,6 +140,8 @@ const AddWorker = (props) => {
     is_admin,
   } = worker;
   const onInputChange = (e) => {
+    console.log(e.target.value);
+
     if (e.target.type == "file") {
       alert(e.target.name);
       setWorker({ ...worker, [e.target.name]: e.target.files[0] });
@@ -251,7 +188,6 @@ const AddWorker = (props) => {
     if (drivePic) {
       handleImageUpload3();
       console.log(drivePicUrl);
-
       newData.append("driving_license_img", drivePicUrl);
     }
 
@@ -265,18 +201,54 @@ const AddWorker = (props) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    //Checking if password and phone are empty
+    if (!first_name || !second_name) {
+      alert("please provide worker name and last name...");
+      return;
+    }
+
+    //Checking if password and phone are empty
+    if (!password || !phone) {
+      alert("please provide phone number and password...");
+      return;
+    }
+
+    //Israeli phone number
+    var regex = /^0(5[^7]|[2-4]|[8-9]|7[0-9])[0-9]{7}$/;
+    //Checking if phone number is valid
+    if (!regex.test(phone)) {
+      alert("please enter a valid phone number...");
+      return;
+    }
+
+    if (!is_admin) {
+      alert("please  set user type...");
+      return;
+    }
+
+    //Checking if password and phone are empty
+    if (!image || !id_img || !driving_license_img) {
+      alert("please upload worker profile pic,id and license...");
+      return;
+    }
+    if (id_no.length > 10) {
+      alert("ID has more than 10 digits.");
+      return;
+    }
+
     const data = await fetch(url, post_request()).catch((error) =>
       console.error(error)
     );
-    if (data.status != 201) {
-      alert(data.status);
-    }
-    if (data.status == 201) {
-      alert("Successfully created worker!");
-      history.push("/workers_management");
+    if (data.status) {
+      if (data.status != 201) {
+        alert(data.status);
+      }
+      if (data.status == 201) {
+        alert("Successfully created worker!");
+        history.push("/workers_management");
+      }
     }
   };
-
   if (loader) {
     return (
       <Grid
@@ -391,9 +363,8 @@ const AddWorker = (props) => {
               value={is_admin}
               onChange={(e) => onInputChange(e)}
             >
-              <option selected value="false">
-                No
-              </option>
+              <option>Choosing</option>
+              <option value="false">No</option>
               <option value="true">Yes</option>
             </select>
           </div>

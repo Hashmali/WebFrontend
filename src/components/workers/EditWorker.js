@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
+import { Label } from "semantic-ui-react";
+import { Grid } from "semantic-ui-react";
 import Loader from "../Loader";
 import Avatar from "../Avatar";
-
 const EditWorker = (props) => {
   let history = useHistory();
   const { id } = useParams();
@@ -12,8 +13,122 @@ const EditWorker = (props) => {
   const [previewDrive, setPreviewDrive] = useState();
   const [pic, setPic] = useState();
   const [idPic, setIdPic] = useState();
-  const [drivePice, setDrivePic] = useState();
+  const [drivePic, setDrivePic] = useState();
   const [loader, setLoader] = useState(false);
+  const [picUrl, setPicUrl] = useState("");
+  const [idPicUrl, setIdPicUrl] = useState();
+  const [drivePicUrl, setDrivePicUrl] = useState();
+
+  const submitDriveImage = () => {
+    const newData = new FormData();
+    newData.append("driving_license_img", drivePicUrl);
+    const requestOptions2 = {
+      method: "PATCH",
+      headers: { Authorization: toke },
+      body: newData,
+    };
+    setLoader(true);
+    fetch(url, requestOptions2)
+      .then((res) => res.json())
+      .then((image) => {
+        setDrivePicUrl(image.url);
+      })
+      .catch((error) => alert("error while updating..."));
+    setLoader(false);
+  };
+
+  const submitIDImage = () => {
+    const newData = new FormData();
+    newData.append("id_img", idPicUrl);
+    const requestOptions2 = {
+      method: "PATCH",
+      headers: { Authorization: toke },
+      body: newData,
+    };
+    setLoader(true);
+    fetch(url, requestOptions2)
+      .then((res) => res.json())
+      .then((image) => {
+        setPicUrl(image.url);
+      })
+      .catch((error) => alert("error while updating..."));
+    setLoader(false);
+  };
+
+  const submitImage = () => {
+    const newData = new FormData();
+    newData.append("image", picUrl);
+    const requestOptions2 = {
+      method: "PATCH",
+      headers: { Authorization: toke },
+      body: newData,
+    };
+    setLoader(true);
+    fetch(url, requestOptions2)
+      .then((res) => res.json())
+      .then((image) => {
+        setPicUrl(image.url);
+      })
+      .catch((error) => alert("error while updating..."));
+    setLoader(false);
+  };
+  const handleDriveImageUpload = () => {
+    console.log(pic);
+    const data = new FormData();
+    data.append("file", drivePic);
+    data.append("upload_preset", "hashmaliProject");
+    data.append("cloud_name", "dj42j4pqu");
+    setLoader(true);
+    fetch(url2, {
+      method: "POST",
+      body: data,
+    })
+      .then((res) => res.json())
+      .then((image) => {
+        setDrivePicUrl(image.url);
+      })
+      .catch((error) => alert("error while uploading..."));
+    setLoader(false);
+  };
+
+  const handleImageUpload = () => {
+    console.log(pic);
+    const data = new FormData();
+    data.append("file", pic);
+    data.append("upload_preset", "hashmaliProject");
+    data.append("cloud_name", "dj42j4pqu");
+    setLoader(true);
+    fetch(url2, {
+      method: "POST",
+      body: data,
+    })
+      .then((res) => res.json())
+      .then((image) => {
+        setPicUrl(image.url);
+      })
+      .catch((error) => alert("error while uploading..."));
+    setLoader(false);
+  };
+
+  const handleIdImageUpload = () => {
+    console.log(pic);
+    const data = new FormData();
+    data.append("file", idPic);
+    data.append("upload_preset", "hashmaliProject");
+    data.append("cloud_name", "dj42j4pqu");
+    setLoader(true);
+    fetch(url2, {
+      method: "POST",
+      body: data,
+    })
+      .then((res) => res.json())
+      .then((image) => {
+        setIdPicUrl(image.url);
+      })
+      .catch((error) => alert("error while uploading..."));
+    setLoader(false);
+  };
+
   const imageHandler = (e, name) => {
     let reader = new FileReader();
     reader.onload = function (e) {
@@ -89,6 +204,7 @@ const EditWorker = (props) => {
   var toke = "Token " + props.token + " ";
   var url =
     "https://hashmali-backend.herokuapp.com/api/worker/" + id + "/edit/";
+  var url2 = "https://api.cloudinary.com/v1_1/dj42j4pqu/image/upload";
 
   const requestOptions = {
     method: "GET",
@@ -117,13 +233,13 @@ const EditWorker = (props) => {
     newData.append("email", worker.email);
     newData.append("is_admin", worker.is_admin);
     if (pic) {
-      newData.append("image", pic, pic.name);
-    }
-    if (drivePice) {
-      newData.append("driving_license_img", drivePice, drivePice.name);
+      handleImageUpload();
     }
     if (idPic) {
-      newData.append("id_img", idPic, idPic.name);
+      handleIdImageUpload();
+    }
+    if (drivePic) {
+      handleDriveImageUpload();
     }
 
     const requestOptions2 = {
@@ -139,6 +255,27 @@ const EditWorker = (props) => {
       loadWorker();
     }
   }, [props.token]);
+
+  useEffect(() => {
+    if (picUrl) {
+      submitImage();
+      loadWorker();
+    }
+  }, [picUrl]);
+
+  useEffect(() => {
+    if (idPicUrl) {
+      submitIDImage();
+      loadWorker();
+    }
+  }, [idPicUrl]);
+
+  useEffect(() => {
+    if (drivePicUrl) {
+      submitDriveImage();
+      loadWorker();
+    }
+  }, [drivePicUrl]);
 
   const loadWorker = async () => {
     setLoader(true);
@@ -158,6 +295,36 @@ const EditWorker = (props) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    //Checking if password and phone are empty
+
+    //Israeli phone number
+    var regex = /^0(5[^7]|[2-4]|[8-9]|7[0-9])[0-9]{7}$/;
+    //Checking if phone number is valid
+    if (!regex.test(phone)) {
+      alert("please enter a valid phone number...");
+      return;
+    }
+
+    if (!is_admin) {
+      alert("please  set user type...");
+      return;
+    }
+    if (!email) {
+      alert("please  enter email...");
+      return;
+    }
+    if (!age) {
+      alert("please  enter worker age...");
+      return;
+    }
+
+    if (id_no) {
+      if (id_no.length > 10) {
+        alert("ID has more than 10 digits.");
+        return;
+      }
+    }
+
     setLoader(true);
     const data = await fetch(url, patch_request()).catch((error) =>
       console.error(error)
@@ -169,7 +336,7 @@ const EditWorker = (props) => {
 
     const update = await loadWorker();
     if (data.status == 200) {
-      alert("Succesffully updated worker!");
+      alert("Successfully updated worker!");
       history.push("/workers_management");
     }
   };
@@ -186,6 +353,10 @@ const EditWorker = (props) => {
         <h2 className="text-center mb-4">Edit Worker Details:</h2>
         <form onSubmit={(e) => onSubmit(e)}>
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Worker First Name
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -196,6 +367,10 @@ const EditWorker = (props) => {
             />
           </div>
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Worker Last Name
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -206,6 +381,10 @@ const EditWorker = (props) => {
             />
           </div>
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Password
+            </Label>
+
             <input
               type="password"
               className="form-control form-control-lg"
@@ -216,6 +395,10 @@ const EditWorker = (props) => {
             />
           </div>
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Phone Number
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -226,6 +409,10 @@ const EditWorker = (props) => {
             />
           </div>
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Email
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -237,6 +424,9 @@ const EditWorker = (props) => {
           </div>
           <div className="form-group">
             <Avatar avatarUrl={previewImage} />
+            <Label color="black" as="a" basic>
+              Upload a photo
+            </Label>
 
             <input
               type="file"
@@ -246,17 +436,26 @@ const EditWorker = (props) => {
             />
           </div>
           <div className="form-group">
-            <input
-              type="text"
+            <Label color="black" as="a" basic>
+              Is an admin?
+            </Label>
+            <select
               className="form-control form-control-lg"
-              placeholder="is admin?"
               name="is_admin"
               value={is_admin}
               onChange={(e) => onInputChange(e)}
-            />
+            >
+              <option>Choosing</option>
+              <option value="false">No</option>
+              <option value="true">Yes</option>
+            </select>
           </div>
 
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              age
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -268,6 +467,10 @@ const EditWorker = (props) => {
           </div>
 
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              address
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -278,6 +481,10 @@ const EditWorker = (props) => {
             />
           </div>
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Pay per day
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -288,6 +495,10 @@ const EditWorker = (props) => {
             />
           </div>
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Id
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -298,6 +509,10 @@ const EditWorker = (props) => {
             />
           </div>
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Upload Id image
+            </Label>
+
             <Avatar avatarUrl={previewID} />
             <input
               type="file"
@@ -310,6 +525,10 @@ const EditWorker = (props) => {
           </div>
           <div className="form-group">
             <Avatar avatarUrl={previewDrive} />
+            <Label color="black" as="a" basic>
+              Upload driving license image
+            </Label>
+
             <input
               type="file"
               className="form-control form-control-lg"
@@ -320,6 +539,10 @@ const EditWorker = (props) => {
             />
           </div>
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Israel Work license
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -329,6 +552,10 @@ const EditWorker = (props) => {
             />
           </div>
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Israel Work license due date
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
