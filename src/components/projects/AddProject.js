@@ -1,28 +1,48 @@
 import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import Avatar from "../Avatar";
+import { Label } from "semantic-ui-react";
+import { Grid } from "semantic-ui-react";
+import Loader from "../Loader";
 
 const AddProject = (props) => {
   let history = useHistory();
   const [status, setStatus] = useState("");
   const [previewImage, setPreviewImage] = useState();
-  const [previewID, setPreviewID] = useState();
-  const [previewDrive, setPreviewDrive] = useState();
   const [pic, setPic] = useState();
-  const [idPic, setIdPic] = useState();
-  const [drivePice, setDrivePic] = useState();
+  const [picUrl, setPicUrl] = useState();
+  const [loader, setLoader] = useState(false);
+
+  const handleImageUpload = () => {
+    console.log(pic);
+    const data = new FormData();
+    data.append("file", pic);
+    data.append("upload_preset", "hashmaliProject");
+    data.append("cloud_name", "dj42j4pqu");
+    setLoader(true);
+    fetch(url2, {
+      method: "POST",
+      body: data,
+    })
+      .then((res) => res.json())
+      .then((image) => {
+        setPicUrl(image.url);
+      })
+      .catch((error) => alert("error while uploading..."));
+    setLoader(false);
+  };
 
   const imageHandler = (e, name) => {
     let reader = new FileReader();
     reader.onload = function (e) {
-      if (name == "image") {
+      if (name == "building_image") {
         setPreviewImage(e.target.result);
       }
       //     if(name=="id_img"){setPreviewID(e.target.result);}
       //   if(name=="driving_license_img"){setPreviewDrive(e.target.result);}
     };
     reader.readAsDataURL(e.target.files[0]);
-    if (name == "image") {
+    if (name == "building_image") {
       setPic(e.target.files[0]);
     }
     // if(name=="id_img"){setIdPic(e.target.files[0])}
@@ -88,6 +108,7 @@ const AddProject = (props) => {
 
   var toke = "Token " + props.token + " ";
   var url = "https://hashmali-backend.herokuapp.com/api/project/create/";
+  var url2 = "https://api.cloudinary.com/v1_1/dj42j4pqu/image/upload";
 
   function post_request() {
     const newData = new FormData();
@@ -117,9 +138,10 @@ const AddProject = (props) => {
     newData.append("architect_phone_no", project.architect_phone_no);
     newData.append("architect_second_name", project.architect_email);
     newData.append("progress", project.progress);
-
     if (pic) {
-      newData.append("building_image", pic, pic.name);
+      handleImageUpload();
+      console.log(picUrl);
+      newData.append("building_image", picUrl);
     }
 
     const requestOptions = {
@@ -139,7 +161,7 @@ const AddProject = (props) => {
       alert(data.status);
     }
     if (data.status == 201) {
-      alert("Succesffully created project!");
+      alert("Successfully created project!");
       history.push("/projects");
     }
   };
@@ -156,6 +178,10 @@ const AddProject = (props) => {
           <hr />
           <h4 className="text-center mb-4">Project</h4>
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Project Code
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -167,6 +193,9 @@ const AddProject = (props) => {
           </div>
           <div className="form-group">
             <h4 className="text-center mb-4">Property</h4>
+            <Label color="black" as="a" basic>
+              Property Type
+            </Label>
 
             <input
               type="text"
@@ -178,6 +207,24 @@ const AddProject = (props) => {
             />
           </div>
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Property Number
+            </Label>
+            <input
+              type="text"
+              className="form-control form-control-lg"
+              placeholder="Enter property number"
+              name="property_no"
+              value={property_no}
+              onChange={(e) => onInputChange(e)}
+            />
+          </div>
+
+          <div className="form-group">
+            <Label color="black" as="a" basic>
+              Address
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -188,6 +235,10 @@ const AddProject = (props) => {
             />
           </div>
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              City
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -198,6 +249,10 @@ const AddProject = (props) => {
             />
           </div>
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Street
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -208,18 +263,12 @@ const AddProject = (props) => {
             />
           </div>
 
-          <div className="form-group">
-            <input
-              type="text"
-              className="form-control form-control-lg"
-              placeholder="Enter property number"
-              name="property_no"
-              value={property_no}
-              onChange={(e) => onInputChange(e)}
-            />
-          </div>
           <h4 className="text-center mb-4">Owner</h4>
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Owner Name
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -230,6 +279,10 @@ const AddProject = (props) => {
             />
           </div>
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Owner Last Name
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -240,6 +293,10 @@ const AddProject = (props) => {
             />
           </div>
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Owner Phone Number
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -251,6 +308,10 @@ const AddProject = (props) => {
           </div>
 
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Owner Email
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -264,6 +325,10 @@ const AddProject = (props) => {
           <h4 className="text-center mb-4">Contractor</h4>
 
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Contractor Name
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -274,6 +339,10 @@ const AddProject = (props) => {
             />
           </div>
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Contractor Last Name
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -284,6 +353,10 @@ const AddProject = (props) => {
             />
           </div>
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Contractor Phone
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -295,6 +368,10 @@ const AddProject = (props) => {
           </div>
 
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Contractor Email
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -308,6 +385,10 @@ const AddProject = (props) => {
           <h4 className="text-center mb-4">Architect</h4>
 
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Architect Name
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -318,6 +399,10 @@ const AddProject = (props) => {
             />
           </div>
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Architect Last Name
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -328,6 +413,10 @@ const AddProject = (props) => {
             />
           </div>
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Architect Phone
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -339,6 +428,10 @@ const AddProject = (props) => {
           </div>
 
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Architect Email
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -350,6 +443,10 @@ const AddProject = (props) => {
           </div>
 
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Project Progress?
+            </Label>
+
             <input
               type="number"
               className="form-control form-control-lg"
@@ -362,6 +459,10 @@ const AddProject = (props) => {
 
           <div className="form-group">
             <Avatar avatarUrl={previewImage} />
+            <Label color="black" as="a" basic>
+              Upload project Image
+            </Label>
+
             <input
               type="file"
               name="building_image"

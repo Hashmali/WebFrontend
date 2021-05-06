@@ -122,26 +122,6 @@ const Project = (props) => {
           </li>
         </ul>
       </div>
-
-      <ul className="list-group w-50" style={{ marginTop: "15px" }}>
-        <div style={{ display: "flex", flexDirection: "row" }}>
-          <li className="list-group-item">
-            <Avatar avatarUrl={items.image} />
-          </li>
-          <li className="list-group-item" style={{ marginLeft: "10px" }}>
-            <Avatar avatarUrl={items.image} />
-          </li>
-          <li className="list-group-item" style={{ marginLeft: "10px" }}>
-            <Avatar avatarUrl={items.image} />
-          </li>
-          <li className="list-group-item" style={{ marginLeft: "10px" }}>
-            <Avatar avatarUrl={items.image} />
-          </li>
-          <li className="list-group-item" style={{ marginLeft: "10px" }}>
-            <Avatar avatarUrl={items.image} />
-          </li>
-        </div>
-      </ul>
     </div>
   );
 };

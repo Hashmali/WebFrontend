@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
+import { Label } from "semantic-ui-react";
+import { Grid } from "semantic-ui-react";
 import Loader from "../Loader";
 import Avatar from "../Avatar";
 
@@ -8,12 +10,46 @@ const EditProject = (props) => {
   const { id } = useParams();
   const [status, setStatus] = useState("");
   const [previewImage, setPreviewImage] = useState();
-  const [previewID, setPreviewID] = useState();
-  const [previewDrive, setPreviewDrive] = useState();
   const [pic, setPic] = useState();
-  const [idPic, setIdPic] = useState();
-  const [drivePice, setDrivePic] = useState();
+  const [picUrl, setPicUrl] = useState("");
   const [loader, setLoader] = useState(false);
+
+  const submitImage = () => {
+    const newData = new FormData();
+    newData.append("building_image", picUrl);
+    const requestOptions2 = {
+      method: "PATCH",
+      headers: { Authorization: toke },
+      body: newData,
+    };
+    setLoader(true);
+    fetch(url, requestOptions2)
+      .then((res) => res.json())
+      .then((image) => {
+        setPicUrl(image.url);
+      })
+      .catch((error) => alert("error while updating..."));
+    setLoader(false);
+  };
+
+  const handleImageUpload = () => {
+    console.log(pic);
+    const data = new FormData();
+    data.append("file", pic);
+    data.append("upload_preset", "hashmaliProject");
+    data.append("cloud_name", "dj42j4pqu");
+    setLoader(true);
+    fetch(url2, {
+      method: "POST",
+      body: data,
+    })
+      .then((res) => res.json())
+      .then((image) => {
+        setPicUrl(image.url);
+      })
+      .catch((error) => alert("error while uploading..."));
+    setLoader(false);
+  };
 
   const imageHandler = (e, name) => {
     let reader = new FileReader();
@@ -21,15 +57,11 @@ const EditProject = (props) => {
       if (name == "building_image") {
         setPreviewImage(e.target.result);
       }
-      //     if(name=="id_img"){setPreviewID(e.target.result);}
-      //   if(name=="driving_license_img"){setPreviewDrive(e.target.result);}
     };
     reader.readAsDataURL(e.target.files[0]);
     if (name == "building_image") {
       setPic(e.target.files[0]);
     }
-    // if(name=="id_img"){setIdPic(e.target.files[0])}
-    //if(name=="driving_license_img"){setDrivePic(e.target.files[0])}
   };
 
   const [project, setProject] = useState({
@@ -91,6 +123,7 @@ const EditProject = (props) => {
   var toke = "Token " + props.token + " ";
   var url =
     "https://hashmali-backend.herokuapp.com/api/project/" + id + "/manage/";
+  var url2 = "https://api.cloudinary.com/v1_1/dj42j4pqu/image/upload";
 
   const requestOptions = {
     method: "GET",
@@ -127,7 +160,7 @@ const EditProject = (props) => {
     newData.append("progress", project.progress);
 
     if (pic) {
-      newData.append("building_image", pic, pic.name);
+      handleImageUpload();
     }
 
     const requestOptions2 = {
@@ -143,6 +176,13 @@ const EditProject = (props) => {
       loadProject();
     }
   }, [props.token]);
+
+  useEffect(() => {
+    if (picUrl) {
+      submitImage();
+      loadProject();
+    }
+  }, [picUrl]);
 
   const loadProject = async () => {
     setLoader(true);
@@ -175,7 +215,7 @@ const EditProject = (props) => {
 
     const update = await loadProject();
     if (data.status == 200) {
-      alert("Succesffully updated project!");
+      alert("Successfully updated project!");
       history.push("/projects");
     }
   };
@@ -194,6 +234,10 @@ const EditProject = (props) => {
           <hr />
           <h4 className="text-center mb-4">Project</h4>
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Project Code
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -205,6 +249,9 @@ const EditProject = (props) => {
           </div>
           <div className="form-group">
             <h4 className="text-center mb-4">Property</h4>
+            <Label color="black" as="a" basic>
+              Property Type
+            </Label>
 
             <input
               type="text"
@@ -216,6 +263,25 @@ const EditProject = (props) => {
             />
           </div>
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Property Number
+            </Label>
+
+            <input
+              type="text"
+              className="form-control form-control-lg"
+              placeholder="Enter property number"
+              name="property_no"
+              value={property_no}
+              onChange={(e) => onInputChange(e)}
+            />
+          </div>
+
+          <div className="form-group">
+            <Label color="black" as="a" basic>
+              Address
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -226,6 +292,10 @@ const EditProject = (props) => {
             />
           </div>
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              City
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -236,6 +306,10 @@ const EditProject = (props) => {
             />
           </div>
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Street
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -246,18 +320,11 @@ const EditProject = (props) => {
             />
           </div>
 
-          <div className="form-group">
-            <input
-              type="text"
-              className="form-control form-control-lg"
-              placeholder="Enter property number"
-              name="property_no"
-              value={property_no}
-              onChange={(e) => onInputChange(e)}
-            />
-          </div>
           <h4 className="text-center mb-4">Owner</h4>
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Owner Name
+            </Label>
             <input
               type="text"
               className="form-control form-control-lg"
@@ -268,6 +335,10 @@ const EditProject = (props) => {
             />
           </div>
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Owner Last Name
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -278,6 +349,9 @@ const EditProject = (props) => {
             />
           </div>
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Owner Phone Number
+            </Label>
             <input
               type="text"
               className="form-control form-control-lg"
@@ -289,6 +363,10 @@ const EditProject = (props) => {
           </div>
 
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Owner Email
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -302,6 +380,10 @@ const EditProject = (props) => {
           <h4 className="text-center mb-4">Contractor</h4>
 
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Contractor Name
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -312,6 +394,10 @@ const EditProject = (props) => {
             />
           </div>
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Contractor Last Name
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -322,6 +408,10 @@ const EditProject = (props) => {
             />
           </div>
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Contractor Phone
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -333,6 +423,10 @@ const EditProject = (props) => {
           </div>
 
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Contractor Email
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -346,6 +440,10 @@ const EditProject = (props) => {
           <h4 className="text-center mb-4">Architect</h4>
 
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Architect Name
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -356,6 +454,10 @@ const EditProject = (props) => {
             />
           </div>
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Architect Last Name
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -366,6 +468,10 @@ const EditProject = (props) => {
             />
           </div>
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Architect Phone
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -377,6 +483,10 @@ const EditProject = (props) => {
           </div>
 
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Architect Email
+            </Label>
+
             <input
               type="text"
               className="form-control form-control-lg"
@@ -388,6 +498,10 @@ const EditProject = (props) => {
           </div>
 
           <div className="form-group">
+            <Label color="black" as="a" basic>
+              Project Progress?
+            </Label>
+
             <input
               type="number"
               className="form-control form-control-lg"
@@ -400,6 +514,10 @@ const EditProject = (props) => {
 
           <div className="form-group">
             <Avatar avatarUrl={previewImage} />
+            <Label color="black" as="a" basic>
+              Upload project Image
+            </Label>
+
             <input
               type="file"
               name="building_image"

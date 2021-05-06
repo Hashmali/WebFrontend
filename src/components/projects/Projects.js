@@ -3,7 +3,9 @@ import { Link } from "react-router-dom";
 import { ProgressBar } from "react-bootstrap";
 import Avatar from "../Avatar";
 import Nav from "../Nav";
-import Loader from "react-loader-spinner";
+import { Button } from "semantic-ui-react";
+
+import Loader from "../Loader";
 
 const Projects = (props) => {
   const [items, setItems] = useState([]);
@@ -74,8 +76,8 @@ const Projects = (props) => {
                 <th scope="col">Progress (%)</th>
                 <th>Action</th>
                 <th scope="col">
-                  <Link class="btn btn-warning mr-" to={`/projects/create`}>
-                    ADD
+                  <Link to={`/projects/create`}>
+                    <Button icon="add" color="yellow" />
                   </Link>
                 </th>
               </tr>
@@ -97,23 +99,14 @@ const Projects = (props) => {
                     />
                   </td>
                   <td>
-                    <Link
-                      class="btn btn-primary mr-2"
-                      to={`/projects/${project.id}`}
-                    >
-                      View
+                    <Link to={`/projects/${project.id}`}>
+                      <Button icon="eye" color="teal" />
                     </Link>
-                    <Link
-                      class="btn btn-outline-primary mr-2"
-                      to={`/projects/edit/${project.id}`}
-                    >
-                      Edit
+                    <Link to={`/projects/edit/${project.id}`}>
+                      <Button icon="edit" color="blue" />
                     </Link>
-                    <Link
-                      class="btn btn-danger"
-                      to={`/projects/delete/${project.id}`}
-                    >
-                      Delete
+                    <Link to={`/projects/delete/${project.id}`}>
+                      <Button icon="delete" color="red" />
                     </Link>
                   </td>
                 </tr>
