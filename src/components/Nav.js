@@ -42,10 +42,10 @@ export default function MenuExampleInvertedSegment(props) {
           to="/annotate"
         />
         <Menu.Item
-          name="Schedule"
-          active={activeItem === "Schedule"}
+          name="Reports"
+          active={activeItem === "Reports"}
           as={Link}
-          to="/schedule"
+          to="/reports"
         />
         <Menu.Item
           name="Finance"
