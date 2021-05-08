@@ -120,25 +120,25 @@ export default function App() {
         <Route
           exact
           path="/reports/create"
-          render={(props) => <AddReport {...props} token={token} />}
+          render={(props) => <AddReport {...props} token={token} id={id} />}
         />
 
         <Route
           exact
           path="/reports/:id"
-          render={(props) => <ViewReport {...props} token={token} />}
+          render={(props) => <ViewReport {...props} token={token} id={id} />}
         />
 
         <Route
           exact
           path="/reports/delete/:id"
-          render={(props) => <DeleteReport {...props} token={token} />}
+          render={(props) => <DeleteReport {...props} token={token} id={id} />}
         />
 
         <Route
           exact
           path="/reports/edit/:id"
-          render={(props) => <EditReport {...props} token={token} />}
+          render={(props) => <EditReport {...props} token={token} id={id} />}
         />
 
         <Route

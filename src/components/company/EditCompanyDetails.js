@@ -263,7 +263,7 @@ const EditCompanyDetails = (props) => {
           <h4 className="text-center mb-4">Manager</h4>
           <div>
             <select
-              class="form-select"
+              className="form-control form-control-lg"
               aria-label="Default select example"
               name={"manager"}
               onChange={handleSelect}
@@ -280,7 +280,7 @@ const EditCompanyDetails = (props) => {
           <h4 className="text-center mb-4">Deputy Director:</h4>
           <div className="form-group">
             <select
-              class="form-select"
+              className="form-control form-control-lg"
               aria-label="Default select example"
               name={"deputy_director"}
               onChange={handleSelect}

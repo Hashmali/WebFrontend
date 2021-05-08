@@ -5,11 +5,21 @@ import { Label } from "semantic-ui-react";
 import { Grid } from "semantic-ui-react";
 import Loader from "../Loader";
 import ImageFilterFrames from "material-ui/svg-icons/image/filter-frames";
+import DatePicker from "react-date-picker";
+import { TimePicker } from "antd";
+import "antd/dist/antd.css";
+
+import moment from "moment";
 
 const AddReport = (props) => {
   let history = useHistory();
   const [status, setStatus] = useState("");
   const [loader, setLoader] = useState(false);
+  const [selectedProject, setSelectedProject] = useState("");
+  const [projects, setProjects] = useState([]);
+  const [startDate, setStartDate] = useState(new Date());
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
 
   const [previewImage, setPreviewImage] = useState();
   const [pic, setPic] = useState();
@@ -49,9 +59,7 @@ const AddReport = (props) => {
 
   const [report, setReport] = useState({
     title: "",
-    worker: "",
     description: "",
-    date: "",
     start_hour: "",
     ending_hour: "",
     project: "",
@@ -59,9 +67,7 @@ const AddReport = (props) => {
   });
   const {
     title,
-    worker,
     description,
-    date,
     start_hour,
     ending_hour,
     project,
@@ -78,17 +84,25 @@ const AddReport = (props) => {
     setReport({ ...report, [e.target.name]: e.target.value });
   };
 
+  function handleSelect(e) {
+    let { name, value } = e.target;
+    console.log(name);
+    console.log(value);
+    setReport({ ...report, [name]: parseInt(value) });
+    console.log(report);
+  }
+
   var toke = "Token " + props.token + " ";
+  var workerID = props.id;
   var url = "https://hashmali-backend.herokuapp.com/api/report/create/";
   var url2 = "https://api.cloudinary.com/v1_1/dj42j4pqu/image/upload";
+  var url3 = "https://hashmali-backend.herokuapp.com/api/project/";
 
   function post_request() {
     const newData = new FormData();
     /* 
     title,
-    worker,
     description,
-    date,
     start_hour,
     ending_hour,
     project,
@@ -96,11 +110,26 @@ const AddReport = (props) => {
 
         */
     newData.append("title", report.title);
-    newData.append("worker", report.worker);
+    newData.append("worker", workerID);
     newData.append("description", report.description);
-    newData.append("date", report.date);
-    newData.append("start_hour", report.start_hour);
-    newData.append("ending_hour", report.ending_hour);
+    console.log(startDate);
+
+    let djangoFormatDate =
+      startDate.getFullYear() +
+      "-" +
+      (startDate.getMonth() + 1) +
+      "-" +
+      startDate.getDate();
+
+    console.log(djangoFormatDate);
+    newData.append("date", djangoFormatDate);
+
+    let djangoFormatStartTime =
+      startTime.hour() + ":" + startTime.minute() + ":" + startTime.seconds();
+    newData.append("start_hour", djangoFormatStartTime);
+    let djangoFormatEndTime =
+      endTime.hour() + ":" + endTime.minute() + ":" + endTime.seconds();
+    newData.append("ending_hour", djangoFormatEndTime);
     newData.append("project", report.project);
     newData.append("image", report.image);
     if (pic) {
@@ -116,24 +145,48 @@ const AddReport = (props) => {
     };
     return requestOptions;
   }
+  const requestOptions2 = {
+    method: "GET",
+    headers: { "Content-Type": "application/json", Authorization: toke },
+  };
 
   const onSubmit = async (e) => {
     e.preventDefault();
+
     //Checking if password and phone are empty
     if (!title) {
       alert("please provide report title...");
       return;
     }
-
     //Checking if password and phone are empty
     if (!description) {
       alert("please provide report details...");
+      return;
+    }
+    if (!startDate) {
+      alert("please provide date...");
+      return;
+    }
+    if (!startTime) {
+      alert("please provide start time...");
+      return;
+    }
+    if (!endTime) {
+      alert("please provide finish time...");
+      return;
+    }
+    if (startTime && endTime && endTime.isBefore(startTime)) {
+      alert("finish hour can't be greater than start time...");
       return;
     }
 
     //Checking if password and phone are empty
     if (!image) {
       alert("please upload image...");
+      return;
+    }
+    if (!project) {
+      alert("please choose a project...");
       return;
     }
 
@@ -150,6 +203,23 @@ const AddReport = (props) => {
       }
     }
   };
+
+  const loadProjects = async () => {
+    const data = await fetch(url3, requestOptions2).catch((error) =>
+      console.error(error)
+    );
+
+    setStatus(data.status);
+    const projects_data = await data.json();
+    setProjects(projects_data);
+  };
+
+  useEffect(() => {
+    if (props.token) {
+      loadProjects();
+    }
+  }, [props.token]);
+
   if (loader) {
     return (
       <Grid
@@ -180,25 +250,13 @@ const AddReport = (props) => {
             <input
               type="text"
               className="form-control form-control-lg"
-              placeholder="Enter worker first name"
+              placeholder="Enter report title"
               name="title"
               value={title}
               onChange={(e) => onInputChange(e)}
             />
           </div>
-          <div className="form-group">
-            <Label color="black" as="a" basic>
-              Worker
-            </Label>
-            <input
-              type="text"
-              className="form-control form-control-lg"
-              placeholder="Enter worker last name"
-              name="worker"
-              value={worker}
-              onChange={(e) => onInputChange(e)}
-            />
-          </div>
+
           <div className="form-group">
             <Label color="black" as="a" basic>
               Description
@@ -206,7 +264,7 @@ const AddReport = (props) => {
             <input
               type="text"
               className="form-control form-control-lg"
-              placeholder="Enter worker password"
+              placeholder="Enter report content"
               name="description"
               value={description}
               onChange={(e) => onInputChange(e)}
@@ -217,57 +275,56 @@ const AddReport = (props) => {
               Date
             </Label>
 
-            <input
-              type="text"
+            <DatePicker
               className="form-control form-control-lg"
-              placeholder="Enter worker phone number"
-              name="date"
-              value={date}
-              onChange={(e) => onInputChange(e)}
+              value={startDate}
+              onChange={(date) => setStartDate(date)}
+
+              // onChange={(date) => setStartDate(date)}
             />
           </div>
           <div className="form-group">
             <Label color="black" as="a" basic>
               Start Hour
             </Label>
-            <input
-              type="text"
-              className="form-control form-control-lg"
-              placeholder="Enter worker email"
-              name="start_hour"
-              value={start_hour}
-              onChange={(e) => onInputChange(e)}
-            />
+            <div className="form-group">
+              <TimePicker
+                className="form-control form-control-lg"
+                defaultOpenValue={moment("00:00:00", "HH:mm:ss")}
+                onChange={(value) => setStartTime(value)}
+              />
+            </div>
           </div>
-
           <div className="form-group">
             <Label color="black" as="a" basic>
               Finish Hour
             </Label>
-            <input
-              type="text"
-              className="form-control form-control-lg"
-              placeholder="Enter worker email"
-              name="ending_hour"
-              value={ending_hour}
-              onChange={(e) => onInputChange(e)}
-            />
+            <div className="form-group">
+              <TimePicker
+                className="form-control form-control-lg"
+                defaultOpenValue={moment("00:00:00", "HH:mm:ss")}
+                onChange={(value) => setEndTime(value)}
+              />
+            </div>
           </div>
 
-          <div className="form-group">
-            <Label color="black" as="a" basic>
-              Project
-            </Label>
-
-            <input
-              type="text"
+          <h4 className="text-center mb-4">Project</h4>
+          <div>
+            <select
+              class="form-select"
               className="form-control form-control-lg"
-              placeholder="Enter worker address"
-              name="project"
-              value={project}
-              onChange={(e) => onInputChange(e)}
-            />
+              name={"project"}
+              onChange={handleSelect}
+            >
+              <option>please choose a project:</option>
+              {projects
+                ? projects.map((project) => (
+                    <option value={project.id}>{project.project_code}</option>
+                  ))
+                : ""}
+            </select>
           </div>
+          <h4 className="text-center mb-4">Photo</h4>
 
           <div className="form-group">
             <Avatar avatarUrl={previewImage} />
@@ -283,7 +340,7 @@ const AddReport = (props) => {
             />
           </div>
 
-          <button className="btn btn-dark btn-block">Create Worker</button>
+          <button className="btn btn-dark btn-block">Create Report</button>
         </form>
       </div>
     </div>
