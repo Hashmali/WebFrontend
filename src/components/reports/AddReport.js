@@ -15,7 +15,6 @@ const AddReport = (props) => {
   let history = useHistory();
   const [status, setStatus] = useState("");
   const [loader, setLoader] = useState(false);
-  const [selectedProject, setSelectedProject] = useState("");
   const [projects, setProjects] = useState([]);
   const [startDate, setStartDate] = useState(new Date());
   const [startTime, setStartTime] = useState("");
@@ -60,19 +59,10 @@ const AddReport = (props) => {
   const [report, setReport] = useState({
     title: "",
     description: "",
-    start_hour: "",
-    ending_hour: "",
     project: "",
     image: "",
   });
-  const {
-    title,
-    description,
-    start_hour,
-    ending_hour,
-    project,
-    image,
-  } = report;
+  const { title, description, project, image } = report;
   const onInputChange = (e) => {
     console.log(e.target.value);
 
@@ -112,7 +102,6 @@ const AddReport = (props) => {
     newData.append("title", report.title);
     newData.append("worker", workerID);
     newData.append("description", report.description);
-    console.log(startDate);
 
     let djangoFormatDate =
       startDate.getFullYear() +

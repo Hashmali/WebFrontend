@@ -49,7 +49,7 @@ const EditWorker = (props) => {
     fetch(url, requestOptions2)
       .then((res) => res.json())
       .then((image) => {
-        setPicUrl(image.url);
+        setIdPicUrl(image.url);
       })
       .catch((error) => alert("error while updating..."));
     setLoader(false);
