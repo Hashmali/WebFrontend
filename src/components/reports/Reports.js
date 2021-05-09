@@ -66,11 +66,11 @@ const Reports = (props) => {
       <Nav />
 
       <div className="container">
-        <div className="py-4">
+        <div className="py-5" style={{ width: "1250px", marginLeft: "-100px" }}>
           <h1>Reports:</h1>
-          <table class="table border shadow">
-            <thead class="thead-dark">
-              <tr>
+          <table className="table border shadow">
+            <thead style={{ backgroundColor: "black" }}>
+              <tr style={{ color: "white" }}>
                 <th scope="col">#</th>
                 <th scope="col">Title</th>
                 <th scope="col">Worker</th>
@@ -93,12 +93,14 @@ const Reports = (props) => {
                 <tr>
                   <th scope="row">{index + 1}</th>
                   <td>{report.title}</td>
-                  <td>{report.worker}</td>
+                  <td>
+                    {report.worker.first_name + " " + report.worker.second_name}
+                  </td>
                   <td>{report.description}</td>
                   <td>{report.date}</td>
                   <td>{report.start_hour}</td>
                   <td>{report.ending_hour}</td>
-                  <td>{report.project}</td>
+                  {report.project.project_code}
 
                   <td>
                     <Avatar avatarUrl={report.image} />

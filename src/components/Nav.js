@@ -15,8 +15,8 @@ export default function MenuExampleInvertedSegment(props) {
   console.log(activeItem);
 
   return (
-    <Segment inverted>
-      <Menu inverted secondary>
+    <Segment inverted style={{ backgroundColor: "black" }}>
+      <Menu inverted secondary style={{ backgroundColor: "black" }}>
         <Menu.Item
           name="My Company"
           active={activeItem === "My Company"}

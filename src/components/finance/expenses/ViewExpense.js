@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Link, useHistory, useParams } from "react-router-dom";
-import Loader from "../Loader";
-import Avatar from "../Avatar";
+import { Link, useParams } from "react-router-dom";
+import Loader from "../../Loader";
+import Avatar from "../../Avatar";
 
 const Report = (props) => {
   const [items, setItems] = useState([]);
   const [status, setStatus] = useState("");
   const [loader, setLoader] = useState(false);
   const { id } = useParams();
-  let history = useHistory();
+
+  //console.log(toke)
 
   var toke = "Token " + props.token + " ";
   var url =
@@ -19,26 +20,11 @@ const Report = (props) => {
     headers: { "Content-Type": "application/json", Authorization: toke },
   };
 
-  const requestOptions2 = {
-    method: "DELETE",
-    headers: { Authorization: toke },
-  };
-
   useEffect(() => {
     if (props.token) {
       fetchItems();
     }
   }, [props.token]);
-
-  const deleteReport = async (id) => {
-    const data = await fetch(url, requestOptions2).catch((error) =>
-      console.error(error)
-    );
-    if (data.status == 204) {
-      alert("Successfully deleted report!");
-      history.push("/reports");
-    }
-  };
 
   const fetchItems = async () => {
     setLoader(true);
@@ -46,10 +32,9 @@ const Report = (props) => {
       console.error(error)
     );
     setStatus(data.status);
-
-    const items = await data.json();
     setLoader(false);
 
+    const items = await data.json();
     setItems(items);
   };
   if (loader) {
@@ -57,22 +42,10 @@ const Report = (props) => {
   }
   return (
     <div className="container py-4">
-      <h1 className="display-5">
-        Are you sure you want to delete this report-{items.title}?
-      </h1>
-      <Link className="btn btn-primary" to="/reports">
-        Cancel
+      <Link className="btn btn-dark" to="/reports">
+        Back to Home
       </Link>
-      <button
-        className="btn btn-danger"
-        style={{ marginLeft: "20px" }}
-        onClick={() => deleteReport(id)}
-      >
-        Confirm Delete
-      </button>
-
       <h1 className="display-5"> {"Title:" + " " + items.title}</h1>
-
       <hr />
       <ul className="list-group w-50" style={{ justifyContent: "center" }}>
         <li className="list-group-item">

@@ -65,9 +65,9 @@ const Projects = (props) => {
       <div className="container">
         <div className="py-4">
           <h1>List Of Projects:</h1>
-          <table class="table border shadow">
-            <thead class="thead-dark">
-              <tr>
+          <table className="table border shadow">
+            <thead style={{ backgroundColor: "black" }}>
+              <tr style={{ color: "white" }}>
                 <th scope="col">#</th>
                 <th scope="col">Project Code</th>
                 <th scope="col">Building Type</th>

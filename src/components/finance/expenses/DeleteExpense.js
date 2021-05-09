@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
-import Loader from "../Loader";
-import Avatar from "../Avatar";
+import Loader from "../../Loader";
+import Avatar from "../../Avatar";
 
 const Report = (props) => {
   const [items, setItems] = useState([]);
@@ -60,7 +60,7 @@ const Report = (props) => {
       <h1 className="display-5">
         Are you sure you want to delete this report-{items.title}?
       </h1>
-      <Link className="btn btn-primary" to="/reports">
+      <Link className="btn btn-primary" to="/projects">
         Cancel
       </Link>
       <button
