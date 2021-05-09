@@ -20,20 +20,23 @@ import DeleteReport from "./components/reports/DeleteReport";
 import Login from "./components/login";
 import Logout from "./components/LogoutModal";
 import PDF from "./components/PdfCreate";
-//import Schedule from "./components/Schedule";
 import Finance from "./components/finance/FinanceManagement";
 
-import Expenses from "./components/finance/expenses/Expenses";
 import AddExpense from "./components/finance/expenses/AddExpense";
 import ViewExpense from "./components/finance/expenses/ViewExpense";
 import EditExpense from "./components/finance/expenses/EditExpense";
 import DeleteExpense from "./components/finance/expenses/DeleteExpense";
 
-import Incomes from "./components/finance/incomes/Incomes";
 import AddIncome from "./components/finance/incomes/AddIncome";
 import ViewIncome from "./components/finance/incomes/ViewIncome";
 import EditIncome from "./components/finance/incomes/EditIncome";
 import DeleteIncome from "./components/finance/incomes/DeleteIncome";
+
+import Missions from "./components/missions/Missions";
+import AddMission from "./components/missions/AddMission";
+import ViewMission from "./components/missions/ViewMission";
+import EditMission from "./components/missions/EditMission";
+import DeleteMission from "./components/missions/DeleteMission";
 
 import Projects from "./components/projects/Projects";
 import AddProject from "./components/projects/AddProject";
@@ -246,6 +249,36 @@ export default function App() {
         <Route
           path="/logout"
           render={(props) => <Logout {...props} token={token} id={id} />}
+        />
+
+        <Route
+          exact
+          path="/missions"
+          render={(props) => <Missions {...props} token={token} id={id} />}
+        />
+
+        <Route
+          exact
+          path="/missions/create"
+          render={(props) => <AddMission {...props} token={token} />}
+        />
+
+        <Route
+          exact
+          path="/missions/:id/:id2/:id3"
+          render={(props) => <ViewMission {...props} token={token} />}
+        />
+
+        <Route
+          exact
+          path="/missions/delete/:id/:id2/:id3"
+          render={(props) => <DeleteMission {...props} token={token} />}
+        />
+
+        <Route
+          exact
+          path="/missions/edit/:id/:id2/:id3"
+          render={(props) => <EditMission {...props} token={token} />}
         />
       </Switch>
     </Router>

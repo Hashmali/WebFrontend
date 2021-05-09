@@ -79,22 +79,22 @@ const Expenses = (props) => {
             </tr>
           </thead>
           <tbody>
-            {items.map((report, index) => (
+            {items.map((expense, index) => (
               <tr>
                 <th scope="row">{index + 1}</th>
-                <td>{report.title}</td>
-                <td>{report.amount}</td>
-                <td>{report.description}</td>
-                <td>{report.month}</td>
+                <td>{expense.title}</td>
+                <td>{expense.amount}</td>
+                <td>{expense.description}</td>
+                <td>{expense.month}</td>
 
                 <td>
-                  <Link to={`/finance/expenses/${report.id}`}>
+                  <Link to={`/finance/expenses/${expense.id}`}>
                     <Button icon="eye" color="teal" />
                   </Link>
-                  <Link to={`/finance/expenses/edit/${report.id}`}>
+                  <Link to={`/finance/expenses/edit/${expense.id}`}>
                     <Button icon="edit" color="blue" />
                   </Link>
-                  <Link to={`/finance/expenses/delete/${report.id}`}>
+                  <Link to={`/finance/expenses/delete/${expense.id}`}>
                     <Button icon="delete" color="red" />
                   </Link>
                 </td>

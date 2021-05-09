@@ -81,26 +81,26 @@ const Incomes = (props) => {
             </tr>
           </thead>
           <tbody>
-            {items.map((report, index) => (
+            {items.map((income, index) => (
               <tr>
                 <th scope="row">{index + 1}</th>
-                <td>{report.title}</td>
-                <td>{report.amount}</td>
-                <td>{report.description}</td>
-                {report.project.project_code}
-                <td>{report.month}</td>
+                <td>{income.title}</td>
+                <td>{income.amount}</td>
+                <td>{income.description}</td>
+                {income.project.project_code}
+                <td>{income.month}</td>
                 <td>
-                  <Avatar avatarUrl={report.image} />
+                  <Avatar avatarUrl={income.image} />
                 </td>
 
                 <td>
-                  <Link to={`/finance/incomes/${report.id}`}>
+                  <Link to={`/finance/incomes/${income.id}`}>
                     <Button icon="eye" color="teal" />
                   </Link>
-                  <Link to={`/finance/incomes/edit/${report.id}`}>
+                  <Link to={`/finance/incomes/edit/${income.id}`}>
                     <Button icon="edit" color="blue" />
                   </Link>
-                  <Link to={`/finance/incomes/delete/${report.id}`}>
+                  <Link to={`/finance/incomes/delete/${income.id}`}>
                     <Button icon="delete" color="red" />
                   </Link>
                 </td>
