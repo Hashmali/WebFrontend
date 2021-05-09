@@ -5,96 +5,26 @@ import { Grid } from "semantic-ui-react";
 import Loader from "../../Loader";
 import Avatar from "../../Avatar";
 
-const EditReport = (props) => {
+const EditExpense = (props) => {
   let history = useHistory();
   const { id } = useParams();
   const [status, setStatus] = useState("");
-  const [previewImage, setPreviewImage] = useState();
-  const [pic, setPic] = useState();
   const [loader, setLoader] = useState(false);
-  const [picUrl, setPicUrl] = useState("");
-  const [projects, setProjects] = useState([]);
 
-  const submitImage = () => {
-    const newData = new FormData();
-    newData.append("image", picUrl);
-    const requestOptions2 = {
-      method: "PATCH",
-      headers: { Authorization: toke },
-      body: newData,
-    };
-    setLoader(true);
-    fetch(url, requestOptions2)
-      .then((res) => res.json())
-      .then((image) => {
-        setPicUrl(image.url);
-      })
-      .catch((error) => alert("error while updating..."));
-    setLoader(false);
-  };
-
-  const handleImageUpload = () => {
-    console.log(pic);
-    const data = new FormData();
-    data.append("file", pic);
-    data.append("upload_preset", "hashmaliProject");
-    data.append("cloud_name", "dj42j4pqu");
-    setLoader(true);
-    fetch(url2, {
-      method: "POST",
-      body: data,
-    })
-      .then((res) => res.json())
-      .then((image) => {
-        setPicUrl(image.url);
-      })
-      .catch((error) => alert("error while uploading..."));
-    setLoader(false);
-  };
-
-  const imageHandler = (e, name) => {
-    let reader = new FileReader();
-    reader.onload = function (e) {
-      if (name == "image") {
-        setPreviewImage(e.target.result);
-      }
-    };
-    reader.readAsDataURL(e.target.files[0]);
-    if (name == "image") {
-      setPic(e.target.files[0]);
-    }
-  };
-
-  const [report, setReport] = useState({
+  const [expense, setExpense] = useState({
     title: "",
+    amount: "",
     description: "",
-    project: "",
-    image: "",
   });
-  const { title, description, project, image } = report;
+  const { title, amount, description } = expense;
   const onInputChange = (e) => {
-    if (e.target.type == "file") {
-      alert(e.target.name);
-      setReport({ ...report, [e.target.name]: e.target.files[0] });
-      imageHandler(e, e.target.name);
-    }
-    setReport({ ...report, [e.target.name]: e.target.value });
+    setExpense({ ...expense, [e.target.name]: e.target.value });
   };
-  function handleSelect(e) {
-    let { name, value } = e.target;
-    console.log(name);
-    console.log(value);
-    setReport({ ...report, [name]: parseInt(value) });
-    console.log(report);
-  }
 
   var toke = "Token " + props.token + " ";
-  var workerID = props.id;
 
   var url =
-    "https://hashmali-backend.herokuapp.com/api/report/" + id + "/update/";
-  var url2 = "https://api.cloudinary.com/v1_1/dj42j4pqu/image/upload";
-  var url3 = "https://hashmali-backend.herokuapp.com/api/project/";
+    "https://hashmali-backend.herokuapp.com/api/finance/" + id + "/expupdate/";
 
   const requestOptions = {
     method: "GET",
@@ -108,20 +38,13 @@ const EditReport = (props) => {
   function patch_request() {
     const newData = new FormData();
     /* 
-    title,
+       title,
+    amount,
     description,
-    start_hour,
-    ending_hour,
-    project,
-    image,  
         */
-    newData.append("title", report.title);
-    newData.append("worker", workerID);
-    newData.append("description", report.description);
-    newData.append("project", report.project);
-    if (pic) {
-      handleImageUpload();
-    }
+    newData.append("title", expense.title);
+    newData.append("amount", expense.amount);
+    newData.append("description", expense.description);
 
     const requestOptions2 = {
       method: "PATCH",
@@ -130,62 +53,36 @@ const EditReport = (props) => {
     };
     return requestOptions2;
   }
-  const loadProjects = async () => {
-    const data = await fetch(url3, requestOptions3).catch((error) =>
-      console.error(error)
-    );
-
-    setStatus(data.status);
-    const projects_data = await data.json();
-    setProjects(projects_data);
-  };
 
   useEffect(() => {
     if (props.token) {
-      loadReport();
-      loadProjects();
+      loadExpense();
     }
   }, [props.token]);
 
-  useEffect(() => {
-    if (picUrl) {
-      submitImage();
-    }
-  }, [picUrl]);
-
-  const loadReport = async () => {
+  const loadExpense = async () => {
     setLoader(true);
     const data = await fetch(url, requestOptions).catch((error) =>
       console.error(error)
     );
     setStatus(data.status);
     setLoader(false);
-    const report_data = await data.json();
-    setReport(report_data);
-    setPreviewImage(report_data.image);
+    const expense_data = await data.json();
+    setExpense(expense_data);
   };
   console.log(status);
 
   const onSubmit = async (e) => {
     e.preventDefault();
+
     //Checking if password and phone are empty
     if (!title) {
-      alert("please provide report title...");
+      alert("please provide Expense title...");
       return;
     }
     //Checking if password and phone are empty
     if (!description) {
-      alert("please provide report details...");
-      return;
-    }
-
-    //Checking if password and phone are empty
-    if (!image) {
-      alert("please upload image...");
-      return;
-    }
-    if (!project) {
-      alert("please choose a project...");
+      alert("please provide Expense details...");
       return;
     }
 
@@ -198,10 +95,10 @@ const EditReport = (props) => {
     }
     setLoader(false);
 
-    const update = await loadReport();
+    const update = await loadExpense();
     if (data.status == 200) {
-      alert("Successfully Edited report!");
-      history.push("/reports");
+      alert("Successfully Edited Expense!");
+      history.push("/finance");
     }
   };
   if (loader) {
@@ -220,11 +117,11 @@ const EditReport = (props) => {
   return (
     <div className="container">
       <div className="w-75 mx-auto shadow p-5">
-        <Link className="btn btn-dark" to="/reports">
+        <Link className="btn btn-dark" to="/finance">
           Back to Home
         </Link>
 
-        <h2 className="text-center mb-4">Edit Report Details:</h2>
+        <h2 className="text-center mb-4">Edit Expense Details:</h2>
         <form onSubmit={(e) => onSubmit(e)}>
           <div className="form-group">
             <Label color="black" as="a" basic>
@@ -233,12 +130,27 @@ const EditReport = (props) => {
             <input
               type="text"
               className="form-control form-control-lg"
-              placeholder="Enter report title"
+              placeholder="Enter Expense title"
               name="title"
               value={title}
               onChange={(e) => onInputChange(e)}
             />
           </div>
+
+          <div className="form-group">
+            <Label color="black" as="a" basic>
+              Amount
+            </Label>
+            <input
+              type="text"
+              className="form-control form-control-lg"
+              placeholder="Enter Expense amount"
+              name="amount"
+              value={amount}
+              onChange={(e) => onInputChange(e)}
+            />
+          </div>
+
           <div className="form-group">
             <Label color="black" as="a" basic>
               Description
@@ -246,48 +158,16 @@ const EditReport = (props) => {
             <input
               type="text"
               className="form-control form-control-lg"
-              placeholder="Enter report content"
+              placeholder="Enter Expense content"
               name="description"
               value={description}
               onChange={(e) => onInputChange(e)}
             />
           </div>
-
-          <h4 className="text-center mb-4">Project</h4>
-          <div>
-            <select
-              class="form-select"
-              className="form-control form-control-lg"
-              name={"project"}
-              onChange={handleSelect}
-            >
-              <option selected>{report.project}</option>
-              {projects
-                ? projects.map((project) => (
-                    <option value={project.id}>{project.project_code}</option>
-                  ))
-                : ""}
-            </select>
-          </div>
-          <h4 className="text-center mb-4">Photo</h4>
-          <div className="form-group">
-            <Avatar avatarUrl={previewImage} />
-            <Label color="black" as="a" basic>
-              Upload a photo
-            </Label>
-            <input
-              type="file"
-              name="image"
-              onChange={(e) => onInputChange(e)}
-              accept="image/*"
-            />
-          </div>
-
-          <button className="btn btn-dark btn-block">Update Report</button>
+          <button className="btn btn-dark btn-block">Edit Expense</button>
         </form>
       </div>
     </div>
   );
 };
-
-export default EditReport;
+export default EditExpense;

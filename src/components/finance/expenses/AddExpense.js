@@ -4,14 +4,13 @@ import Avatar from "../../Avatar";
 import { Label } from "semantic-ui-react";
 import { Grid } from "semantic-ui-react";
 import Loader from "../../Loader";
-import ImageFilterFrames from "material-ui/svg-icons/image/filter-frames";
 import DatePicker from "react-date-picker";
 import { TimePicker } from "antd";
 import "antd/dist/antd.css";
 
 import moment from "moment";
 
-const AddReport = (props) => {
+const AddExpense = (props) => {
   let history = useHistory();
   const [status, setStatus] = useState("");
   const [loader, setLoader] = useState(false);
@@ -20,88 +19,32 @@ const AddReport = (props) => {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
 
-  const [previewImage, setPreviewImage] = useState();
-  const [pic, setPic] = useState();
-  const [picUrl, setPicUrl] = useState();
-
-  const handleImageUpload1 = () => {
-    console.log(pic);
-    const data = new FormData();
-    data.append("file", pic);
-    data.append("upload_preset", "hashmaliProject");
-    data.append("cloud_name", "dj42j4pqu");
-    setLoader(true);
-    fetch(url2, {
-      method: "POST",
-      body: data,
-    })
-      .then((res) => res.json())
-      .then((image) => {
-        setPicUrl(image.url);
-      })
-      .catch((error) => alert("error while uploading..."));
-    setLoader(false);
-  };
-
-  const imageHandler = (e, name) => {
-    let reader = new FileReader();
-    reader.onload = function (e) {
-      if (name == "image") {
-        setPreviewImage(e.target.result);
-      }
-    };
-    reader.readAsDataURL(e.target.files[0]);
-    if (name == "image") {
-      setPic(e.target.files[0]);
-    }
-  };
-
-  const [report, setReport] = useState({
+  const [expense, setExpense] = useState({
     title: "",
+    amount: "",
     description: "",
-    project: "",
-    image: "",
   });
-  const { title, description, project, image } = report;
+  const { title, amount, description } = expense;
   const onInputChange = (e) => {
-    console.log(e.target.value);
-
-    if (e.target.type == "file") {
-      alert(e.target.name);
-      setReport({ ...report, [e.target.name]: e.target.files[0] });
-      imageHandler(e, e.target.name);
-    }
-    setReport({ ...report, [e.target.name]: e.target.value });
+    setExpense({ ...expense, [e.target.name]: e.target.value });
   };
-
-  function handleSelect(e) {
-    let { name, value } = e.target;
-    console.log(name);
-    console.log(value);
-    setReport({ ...report, [name]: parseInt(value) });
-    console.log(report);
-  }
 
   var toke = "Token " + props.token + " ";
-  var workerID = props.id;
-  var url = "https://hashmali-backend.herokuapp.com/api/report/create/";
-  var url2 = "https://api.cloudinary.com/v1_1/dj42j4pqu/image/upload";
-  var url3 = "https://hashmali-backend.herokuapp.com/api/project/";
+  var url =
+    "https://hashmali-backend.herokuapp.com/api/finance/expenses/create/";
 
   function post_request() {
     const newData = new FormData();
     /* 
-    title,
+       title,
+    amount,
     description,
-    start_hour,
-    ending_hour,
-    project,
-    image,  
+    image,
 
         */
-    newData.append("title", report.title);
-    newData.append("worker", workerID);
-    newData.append("description", report.description);
+    newData.append("title", expense.title);
+    newData.append("amount", expense.amount);
+    newData.append("description", expense.description);
 
     let djangoFormatDate =
       startDate.getFullYear() +
@@ -111,21 +54,7 @@ const AddReport = (props) => {
       startDate.getDate();
 
     console.log(djangoFormatDate);
-    newData.append("date", djangoFormatDate);
-
-    let djangoFormatStartTime =
-      startTime.hour() + ":" + startTime.minute() + ":" + startTime.seconds();
-    newData.append("start_hour", djangoFormatStartTime);
-    let djangoFormatEndTime =
-      endTime.hour() + ":" + endTime.minute() + ":" + endTime.seconds();
-    newData.append("ending_hour", djangoFormatEndTime);
-    newData.append("project", report.project);
-    newData.append("image", report.image);
-    if (pic) {
-      handleImageUpload1();
-      console.log(picUrl);
-      newData.append("image", picUrl);
-    }
+    newData.append("month", djangoFormatDate);
 
     const requestOptions = {
       method: "POST",
@@ -144,38 +73,16 @@ const AddReport = (props) => {
 
     //Checking if password and phone are empty
     if (!title) {
-      alert("please provide report title...");
+      alert("please provide expense title...");
       return;
     }
     //Checking if password and phone are empty
     if (!description) {
-      alert("please provide report details...");
+      alert("please provide expense details...");
       return;
     }
     if (!startDate) {
       alert("please provide date...");
-      return;
-    }
-    if (!startTime) {
-      alert("please provide start time...");
-      return;
-    }
-    if (!endTime) {
-      alert("please provide finish time...");
-      return;
-    }
-    if (startTime && endTime && endTime.isBefore(startTime)) {
-      alert("finish hour can't be greater than start time...");
-      return;
-    }
-
-    //Checking if password and phone are empty
-    if (!image) {
-      alert("please upload image...");
-      return;
-    }
-    if (!project) {
-      alert("please choose a project...");
       return;
     }
 
@@ -187,27 +94,11 @@ const AddReport = (props) => {
         alert(data.status);
       }
       if (data.status == 201) {
-        alert("Successfully created report!");
-        history.push("/reports");
+        alert("Successfully created Expense!");
+        history.push("/finance");
       }
     }
   };
-
-  const loadProjects = async () => {
-    const data = await fetch(url3, requestOptions2).catch((error) =>
-      console.error(error)
-    );
-
-    setStatus(data.status);
-    const projects_data = await data.json();
-    setProjects(projects_data);
-  };
-
-  useEffect(() => {
-    if (props.token) {
-      loadProjects();
-    }
-  }, [props.token]);
 
   if (loader) {
     return (
@@ -226,11 +117,11 @@ const AddReport = (props) => {
   return (
     <div className="container">
       <div className="w-75 mx-auto shadow p-5">
-        <Link className="btn btn-dark" to="/reports">
+        <Link className="btn btn-dark" to="/finance">
           Back to Home
         </Link>
 
-        <h2 className="text-center mb-4">Fill in Report Details:</h2>
+        <h2 className="text-center mb-4">Fill in Expense Details:</h2>
         <form onSubmit={(e) => onSubmit(e)}>
           <div className="form-group">
             <Label color="black" as="a" basic>
@@ -239,9 +130,23 @@ const AddReport = (props) => {
             <input
               type="text"
               className="form-control form-control-lg"
-              placeholder="Enter report title"
+              placeholder="Enter Expense title"
               name="title"
               value={title}
+              onChange={(e) => onInputChange(e)}
+            />
+          </div>
+
+          <div className="form-group">
+            <Label color="black" as="a" basic>
+              Amount
+            </Label>
+            <input
+              type="text"
+              className="form-control form-control-lg"
+              placeholder="Enter Expense amount"
+              name="amount"
+              value={amount}
               onChange={(e) => onInputChange(e)}
             />
           </div>
@@ -253,7 +158,7 @@ const AddReport = (props) => {
             <input
               type="text"
               className="form-control form-control-lg"
-              placeholder="Enter report content"
+              placeholder="Enter Expense content"
               name="description"
               value={description}
               onChange={(e) => onInputChange(e)}
@@ -272,68 +177,12 @@ const AddReport = (props) => {
               // onChange={(date) => setStartDate(date)}
             />
           </div>
-          <div className="form-group">
-            <Label color="black" as="a" basic>
-              Start Hour
-            </Label>
-            <div className="form-group">
-              <TimePicker
-                className="form-control form-control-lg"
-                defaultOpenValue={moment("00:00:00", "HH:mm:ss")}
-                onChange={(value) => setStartTime(value)}
-              />
-            </div>
-          </div>
-          <div className="form-group">
-            <Label color="black" as="a" basic>
-              Finish Hour
-            </Label>
-            <div className="form-group">
-              <TimePicker
-                className="form-control form-control-lg"
-                defaultOpenValue={moment("00:00:00", "HH:mm:ss")}
-                onChange={(value) => setEndTime(value)}
-              />
-            </div>
-          </div>
 
-          <h4 className="text-center mb-4">Project</h4>
-          <div>
-            <select
-              class="form-select"
-              className="form-control form-control-lg"
-              name={"project"}
-              onChange={handleSelect}
-            >
-              <option>please choose a project:</option>
-              {projects
-                ? projects.map((project) => (
-                    <option value={project.id}>{project.project_code}</option>
-                  ))
-                : ""}
-            </select>
-          </div>
-          <h4 className="text-center mb-4">Photo</h4>
-
-          <div className="form-group">
-            <Avatar avatarUrl={previewImage} />
-            <Label color="black" as="a" basic>
-              Upload a photo
-            </Label>
-
-            <input
-              type="file"
-              name="image"
-              onChange={(e) => onInputChange(e)}
-              accept="image/*"
-            />
-          </div>
-
-          <button className="btn btn-dark btn-block">Create Report</button>
+          <button className="btn btn-dark btn-block">Create Expense</button>
         </form>
       </div>
     </div>
   );
 };
 
-export default AddReport;
+export default AddExpense;

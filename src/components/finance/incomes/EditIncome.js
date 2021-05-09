@@ -298,7 +298,7 @@ const EditIncome = (props) => {
             />
           </div>
 
-          <button className="btn btn-dark btn-block">Create Income</button>
+          <button className="btn btn-dark btn-block">Edit Income</button>
         </form>
       </div>
     </div>

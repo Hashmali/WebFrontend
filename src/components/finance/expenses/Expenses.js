@@ -27,7 +27,7 @@ const Expenses = (props) => {
     console.log(toke);
 
     const data = await fetch(
-      "https://hashmali-backend.herokuapp.com/api/report/",
+      "https://hashmali-backend.herokuapp.com/api/finance/expenses/",
       requestOptions
     ).catch((error) => console.error(error));
     setStatus(data.status);
@@ -69,9 +69,7 @@ const Expenses = (props) => {
               <th scope="col">Title</th>
               <th scope="col">Amount</th>
               <th scope="col">Description</th>
-              <th scope="col">Project</th>
               <th scope="col">Date</th>
-              <th scope="col">Image</th>
               <th>Action</th>
               <th scope="col">
                 <Link to={`/finance/expenses/create`}>
@@ -87,11 +85,7 @@ const Expenses = (props) => {
                 <td>{report.title}</td>
                 <td>{report.amount}</td>
                 <td>{report.description}</td>
-                {report.project.project_code}
-                <td>{report.date}</td>
-                <td>
-                  <Avatar avatarUrl={report.image} />
-                </td>
+                <td>{report.month}</td>
 
                 <td>
                   <Link to={`/finance/expenses/${report.id}`}>
