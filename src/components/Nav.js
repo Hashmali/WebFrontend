@@ -36,8 +36,8 @@ export default function MenuExampleInvertedSegment(props) {
           to="/projects"
         />
         <Menu.Item
-          name="Create Price Quote(in development)"
-          active={activeItem === "Create Price Quote(in development)"}
+          name="Price Quote"
+          active={activeItem === "Price Quote"}
           as={Link}
           to="/annotate"
         />

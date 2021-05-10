@@ -3,7 +3,7 @@ import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import CompanyDetails from "./components/company/CompanyDetails";
 import EditCompanyDetails from "./components/company/EditCompanyDetails";
 
-import Annotate from "./components/Annotate";
+import Annotate from "./components/priceQuotation/Annotate";
 
 import Workers from "./components/workers/Workers";
 import AddWorker from "./components/workers/AddWorker";
@@ -19,7 +19,6 @@ import DeleteReport from "./components/reports/DeleteReport";
 
 import Login from "./components/login";
 import Logout from "./components/LogoutModal";
-import PDF from "./components/PdfCreate";
 import Finance from "./components/finance/FinanceManagement";
 
 import AddExpense from "./components/finance/expenses/AddExpense";
@@ -155,11 +154,6 @@ export default function App() {
           exact
           path="/reports/edit/:id"
           render={(props) => <EditReport {...props} token={token} id={id} />}
-        />
-
-        <Route
-          path="/PDF"
-          render={(props) => <PDF {...props} token={token} id={id} />}
         />
 
         <Route
