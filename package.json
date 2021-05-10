@@ -35,6 +35,7 @@
     "react-filter-and-pagination-table": "^1.0.5",
     "react-filter-tables": "^1.2.0",
     "react-filterable-table": "^0.3.434",
+    "react-html-table-to-excel": "^2.0.0",
     "react-inline-editing": "^1.0.10",
     "react-loader-spinner": "^4.0.0",
     "react-router-dom": "^5.2.0",
