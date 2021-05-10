@@ -46,13 +46,14 @@
     "react-to-pdf": "0.0.13",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.3",
+    "serve": "^11.3.2",
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start": "serve -s build",
     "dev": "react-scripts start",
+    "start": "serve -s build",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "heroku-postbuild": "npm run build",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
