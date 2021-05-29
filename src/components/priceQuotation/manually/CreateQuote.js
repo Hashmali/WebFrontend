@@ -309,11 +309,15 @@ export default function CreateProject(props) {
                 value={inputField.pricePerUnit}
                 onChange={(event) => handleChangeInput(index, event)}
               />
+
               <TextField
                 name="total"
                 label="סכום"
                 variant="filled"
-                value={inputField.total}
+                value={
+                  (inputField.total =
+                    inputField.pricePerUnit * inputField.actual)
+                }
                 onChange={(event) => handleChangeInput(index, event)}
               />
 
@@ -353,8 +357,8 @@ export default function CreateProject(props) {
           onClick={handleSubmit}
           style={{ marginLeft: "10px" }}
         />
+        {clicked && <PdfCreate data={inputFields} />}
       </div>
     </div>
   );
 }
-//        {clicked && <PdfCreate data={inputFields} />}

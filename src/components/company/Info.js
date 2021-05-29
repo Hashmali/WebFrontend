@@ -179,8 +179,8 @@ export default function Info(props) {
                 </Card>
               </Grid>
 
-              <Grid xs={12} sm={6} md={4}>
-                <Card className={classes.card} style={{ marginLeft: "30px" }}>
+              <Grid xs={12} sm={6} md={4} style={{ marginLeft: "30px" }}>
+                <Card className={classes.card}>
                   <CardMedia
                     className={classes.cardMedia}
                     image={items.deputy_director.image}
