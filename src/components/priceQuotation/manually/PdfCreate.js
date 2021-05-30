@@ -5,6 +5,8 @@ import { Button } from "semantic-ui-react";
 import file from "./jspdfHebrewSupport/VarelaRound-Regular-normal.js";
 export default function PdfCreate(props) {
   const items = props.data;
+  const fee = props.fee;
+  const sum = props.sum;
   var array = [];
   items.map((item, index) => {
     let obj = {};
@@ -92,6 +94,21 @@ export default function PdfCreate(props) {
         4: { halign: "right" },
       },
     });
+
+    let finalY = doc.lastAutoTable.finalY; // The y position on the page
+    const totalTitle = fix('סה"כ:');
+    const feeTitle = fix('מע"מ%:');
+    const finalTotalTitle = fix('סה"כ כולל:');
+    const totalValue = sum;
+    const feeValue = fee;
+    const finalTotalValue = sum + (sum * fee) / 100;
+
+    doc.text(200, finalY + 30, totalTitle);
+    doc.text(10, finalY + 30, totalValue.toString());
+    doc.text(200, finalY + 50, feeTitle);
+    doc.text(10, finalY + 50, feeValue.toString());
+    doc.text(200, finalY + 70, finalTotalTitle);
+    doc.text(10, finalY + 70, finalTotalValue.toString());
 
     doc.save("report.pdf");
   };

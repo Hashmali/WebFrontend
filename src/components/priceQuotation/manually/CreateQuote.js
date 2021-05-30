@@ -44,6 +44,8 @@ export default function CreateProject(props) {
   console.log("Token");
   var toke = "Token " + props.tok + " ";
   const [sum, setSum] = useState(0);
+  const [fee, setFee] = useState(0);
+
   const [update, setUpdate] = useState(false);
 
   const [inputFields, setInputFields] = useState([
@@ -348,9 +350,29 @@ export default function CreateProject(props) {
               </IconButton>
             </div>
           ))}
-          <h1 style={{ direction: "rtl", textAlign: "left" }}>
-            סה"כ כולל:{" " + sum}
-          </h1>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              width: "200px",
+              float: "left",
+            }}
+          >
+            <TextField name="sum" label='סה"כ' variant="outlined" value={sum} />
+            <TextField
+              name="fee"
+              type="number"
+              label='מע"מ...%'
+              variant="outlined"
+              value={fee}
+              onChange={(e) => setFee(e.target.value)}
+            />
+            <TextField
+              label='סה"כ כולל'
+              variant="outlined"
+              value={sum + (sum * fee) / 100}
+            />
+          </div>
         </form>
       </Container>
 
@@ -369,7 +391,7 @@ export default function CreateProject(props) {
           onClick={handleSubmit}
           style={{ marginLeft: "10px" }}
         />
-        <PdfCreate data={inputFields} />
+        <PdfCreate data={inputFields} sum={sum} fee={fee} />
       </div>
     </div>
   );
