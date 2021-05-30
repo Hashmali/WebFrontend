@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
   },
   formControl: {
     margin: theme.spacing(0.4),
-    minWidth: 300,
+    minWidth: 150,
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
@@ -45,14 +45,12 @@ export default function CreateProject(props) {
   var toke = "Token " + props.tok + " ";
   const [sum, setSum] = useState(0);
   const [update, setUpdate] = useState(false);
-  const [clicked, setClicked] = useState(false);
 
   const [inputFields, setInputFields] = useState([
     { jobDescription: "", plan: "", actual: "", pricePerUnit: "", total: "" },
   ]);
 
   const handleSubmit = () => {
-    setClicked(!clicked);
     console.log("InputFields", inputFields);
     let sumValues = 0;
     let total = 0;
@@ -120,7 +118,7 @@ export default function CreateProject(props) {
             <div key={index}>
               <FormControl className={classes.formControl}>
                 <InputLabel id="demo-simple-select-helper-label">
-                  תיאור העבודה
+                  בחר מרשימה
                 </InputLabel>
                 <Select
                   name="jobDescription"
@@ -289,6 +287,16 @@ export default function CreateProject(props) {
                   </MenuItem>
                 </Select>
               </FormControl>
+
+              <TextField
+                type="text"
+                name="jobDescription"
+                label="תיאור העבודה"
+                variant="filled"
+                value={inputField.jobDescription}
+                onChange={(event) => handleChangeInput(index, event)}
+              />
+
               <TextField
                 type="number"
                 name="plan"
@@ -357,11 +365,11 @@ export default function CreateProject(props) {
           size="big"
           color="black"
           type="submit"
-          icon="save"
+          icon="refresh"
           onClick={handleSubmit}
           style={{ marginLeft: "10px" }}
         />
-        {clicked && <PdfCreate data={inputFields} />}
+        <PdfCreate data={inputFields} />
       </div>
     </div>
   );
