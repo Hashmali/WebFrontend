@@ -44,32 +44,27 @@ export default function CreateProject(props) {
   console.log("Token");
   var toke = "Token " + props.tok + " ";
   const [sum, setSum] = useState(0);
+  const [update, setUpdate] = useState(false);
   const [clicked, setClicked] = useState(false);
 
   const [inputFields, setInputFields] = useState([
     { jobDescription: "", plan: "", actual: "", pricePerUnit: "", total: "" },
   ]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = () => {
     setClicked(!clicked);
     console.log("InputFields", inputFields);
     let sumValues = 0;
     let total = 0;
     let pricePerUnit = 1;
     for (let i = 0; i < inputFields.length; i++) {
-      if (!inputFields[i].pricePerUnit) {
-        pricePerUnit = 1;
-      } else {
-        pricePerUnit = Number(inputFields[i].pricePerUnit);
-      }
       if (!inputFields[i].total) {
         total = 0;
       } else {
         total = Number(inputFields[i].total);
       }
       total = Number(inputFields[i].total);
-      sumValues += total * pricePerUnit;
+      sumValues += total;
       setSum(sumValues);
     }
     console.log(sum);
@@ -88,11 +83,20 @@ export default function CreateProject(props) {
     ]);
   };
   const handleRemoveFields = (index) => {
+    setUpdate(true);
     const values = [...inputFields];
-
     values.splice(index, 1);
     setInputFields(values);
   };
+
+  useEffect(() => {
+    if (update == true) {
+      handleSubmit();
+      setUpdate(false);
+    }
+
+    handleSubmit();
+  }, [update, inputFields[inputFields.length - 1].total]);
 
   return (
     <div>
@@ -160,19 +164,19 @@ export default function CreateProject(props) {
                     שקע כפול רגיל מוגן מים{" "}
                   </MenuItem>
 
-                  <MenuItem value={"שקע כ'ח יחיד"} style={{ direction: "rtl" }}>
-                    שקע כ'ח יחיד
+                  <MenuItem value={"שקע כוח יחיד"} style={{ direction: "rtl" }}>
+                    שקע כוח יחיד
                   </MenuItem>
-                  <MenuItem value={"שקע כ'ח כפול"} style={{ direction: "rtl" }}>
-                    שקע כ'ח כפול
+                  <MenuItem value={"שקע כוח כפול"} style={{ direction: "rtl" }}>
+                    שקע כוח כפול
                   </MenuItem>
 
                   <MenuItem value={"שקע טלפון"} style={{ direction: "rtl" }}>
                     שקע טלפון
                   </MenuItem>
 
-                  <MenuItem value={"שקע TV"} style={{ direction: "rtl" }}>
-                    שקע TV
+                  <MenuItem value={"שקע טלוויזיה"} style={{ direction: "rtl" }}>
+                    שקע טלוויזיה
                   </MenuItem>
                   <MenuItem value={"מפסק תריס"} style={{ direction: "rtl" }}>
                     מפסק תריס
