@@ -165,7 +165,7 @@ const AddReport = (props) => {
       return;
     }
     if (startTime && endTime && endTime.isBefore(startTime)) {
-      alert("finish hour can't be greater than start time...");
+      alert("start hour can't be greater than finish time...");
       return;
     }
 
