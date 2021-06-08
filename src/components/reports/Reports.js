@@ -100,7 +100,7 @@ const Reports = (props) => {
                   <td>{report.date}</td>
                   <td>{report.start_hour}</td>
                   <td>{report.ending_hour}</td>
-                  {report.project.project_code}
+                  <td> {report.project.project_code}</td>
 
                   <td>
                     <Avatar avatarUrl={report.image} />

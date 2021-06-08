@@ -87,7 +87,7 @@ const Incomes = (props) => {
                 <td>{income.title}</td>
                 <td>{income.amount}</td>
                 <td>{income.description}</td>
-                {income.project.project_code}
+                <td> {income.project.project_code}</td>
                 <td>{income.month}</td>
                 <td>
                   <Avatar avatarUrl={income.image} />
