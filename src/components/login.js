@@ -33,6 +33,11 @@ export default function Login(props) {
       props.userId(data.id);
       //Turn of the loader
       setLoader(false);
+      if (data.is_admin == false) {
+        alert("You don't have permission to view website!");
+        return;
+      }
+
       history.push("/Home"); //navigate to home page
     } else {
       //If the user provided invalid credentials alert an error message.
