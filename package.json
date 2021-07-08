@@ -16,6 +16,7 @@
     "bootstrap": "^4.5.3",
     "date-fns": "^2.0.0-beta.5",
     "iframe-resizer-react": "^1.1.0",
+    "image-labeler-react": "^1.2.3",
     "jspdf": "^2.3.0",
     "jspdf-autotable": "^3.5.13",
     "material-ui": "^0.20.2",
@@ -47,6 +48,7 @@
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^2.0.3",
     "serve": "^11.3.2",
+    "typescript": "^4.3.5",
     "web-vitals": "^0.2.4"
   },
   "scripts": {

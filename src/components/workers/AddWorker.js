@@ -175,6 +175,8 @@ const AddWorker = (props) => {
     newData.append("pay_per_day", worker.pay_per_day);
     newData.append("email", worker.email);
     newData.append("is_admin", worker.is_admin);
+    newData.append("is_staff", "true");
+
     if (pic) {
       handleImageUpload1();
       console.log(picUrl);
@@ -241,7 +243,7 @@ const AddWorker = (props) => {
     );
     if (data.status) {
       if (data.status != 201) {
-        alert(data.status);
+        alert("Error...Please ensure credentials are unique to this user");
       }
       if (data.status == 201) {
         alert("Successfully created worker!");
