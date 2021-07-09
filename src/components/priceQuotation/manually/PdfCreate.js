@@ -1,9 +1,12 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import { Button } from "semantic-ui-react";
 import file from "./jspdfHebrewSupport/VarelaRound-Regular-normal.js";
 export default function PdfCreate(props) {
+  const [activate, setActivate] = useState(false);
+   
+
   const items = props.data;
   const fee = props.fee;
   const sum = props.sum;
@@ -17,6 +20,18 @@ export default function PdfCreate(props) {
     obj["total"] = item.total;
     array.push(obj);
   });
+
+
+  useEffect(() => {
+    console.log(props.status)
+    if(props.status===true)
+    {
+      props.setStatus(false);
+      exportPDF();
+    }
+
+  }, [props.status]);
+
 
   const exportPDF = () => {
     function fix(str) {
@@ -115,14 +130,15 @@ export default function PdfCreate(props) {
 
   return (
     <div>
-      <Button
+      {props.hide===true? null:(  <Button
         size="big"
         color="black"
         type="submit"
         icon="download"
         onClick={() => exportPDF()}
         style={{ marginLeft: "10px" }}
-      />
+      />) }
+    
     </div>
   );
 }

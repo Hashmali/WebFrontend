@@ -1,32 +1,64 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Annotator } from "./image-labeler-react/dist/Annotator";
-
-export default function PdfCreate(props) {
+import PdfCreate from "./manually/PdfCreate";
+export default function Labels(props) {
   const items = props.items;
-  var array = [];
-  var testItems = ["hi", "bye"];
+  const [inputFields, setInputFields] = useState([]);
+  const [status, setStatus] = useState(false);
+
+
+
+
+
+
+
+
+  useEffect(() => {
+    if(inputFields.length>0)
+    {
+      console.log(inputFields)
+      setStatus(true);
+    }
+
+  }, [inputFields]);
+
+
+
+
   return (
     <div className="App">
+     
+     <PdfCreate data={inputFields} sum={200} fee={17} setStatus={setStatus} status={status} hide={true}/>
+
       <Annotator
         height={600}
         width={600}
         imageUrl={""}
         asyncSave={async (labeledData) => {
           // upload labeled data
-          console.log(labeledData.boxes);
+          var array = [];
+          labeledData.boxes.map((item, index) => {
+            let obj = {};
+            obj["jobDescription"] = item.annotation;
+            obj["plan"] = "";
+            obj["actual"] = "";
+            obj["pricePerUnit"] = "";
+            obj["total"] = "";
+            array.push(obj);
+          });
+         setInputFields(array);
         }}
         types={
           ["בית תקע דו קטבי", "מכונת כביסה", "מנורת חירום"]
-        
-        
-        
-        
-        
-        
         }
-        defaultType={"Cylinder"}
-        defaultBoxes={array}
+        defaultType={"מכונת כביסה"}
       />
+
+
+
+
+
+
     </div>
   );
 }
