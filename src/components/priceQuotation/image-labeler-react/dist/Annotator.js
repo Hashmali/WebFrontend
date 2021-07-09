@@ -5,9 +5,11 @@ import "antd/lib/button/style/css";
 import "antd/lib/form/style/css";
 import "antd/lib/select/style/css";
 import bg from "./res/bg.png";
+import { stringify } from "querystring";
 var Option = Select.Option;
 var MARGIN = 16;
 var BOX_MIN_LENGTH = 16;
+
 var Box = /** @class */ (function () {
   function Box(x, y, w, h) {
     this.x = x;
@@ -105,6 +107,7 @@ var Box = /** @class */ (function () {
 })();
 var Annotator = /** @class */ (function (_super) {
   tslib_1.__extends(Annotator, _super);
+  
   function Annotator(props) {
     var _this = _super.call(this, props) || this;
     _this.registerEvent = function (element, event, listener) {
@@ -389,6 +392,8 @@ var Annotator = /** @class */ (function (_super) {
         _this.setState({ hoverEdge: undefined, isMovingBox: false });
         box.chosen = true;
       }
+     
+
       var _b = _this.getCurrentCoordinate(box),
         x = _b.x,
         y = _b.y,
@@ -745,6 +750,29 @@ var Annotator = /** @class */ (function (_super) {
         });
     };
 
+    _this.onUpload = function () {
+      document.getElementById('input_file').click();    
+      console.log("uploading in image??")
+    };
+    _this.onUrlGeneration = function (event) {    
+      
+      const reader=new FileReader();
+      reader.onload=()=>
+      {
+        if(reader.readyState===2)//operation is complete
+        {
+         _this.initCanvas(reader.result);         
+        }
+      }
+      reader.readAsDataURL(event.target.files[0])
+
+      };
+    
+
+
+
+
+
 
     _this.onDelete = function () {
       var chosen = _this.chosenBox;
@@ -756,6 +784,10 @@ var Annotator = /** @class */ (function (_super) {
       var index = _this.boxes.indexOf(chosen);
       _this.boxes.splice(index, 1);
     };
+
+
+
+
     _this.imageCanvas = React.createRef();
     _this.image = document.createElement("img");
     _this.position = { x: 0, y: 0 };
@@ -1009,10 +1041,17 @@ var Annotator = /** @class */ (function (_super) {
           React.createElement(
             Button,
             {
-              onClick: this.onSave,
+              onClick: this.onUpload,
               style: { marginRight: 8 },
               disabled:false,
             },
+            <input type="file"
+            name="image"
+            id='input_file'
+            hidden
+            accept="image/*"
+            onChange={this.onUrlGeneration}      
+          />,
             "Upload an Image"
           ),
                 

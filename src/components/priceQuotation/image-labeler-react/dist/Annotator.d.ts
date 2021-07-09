@@ -7,7 +7,7 @@ interface Props {
     height: number;
     width: number;
     types: Array<string>;
-    asyncUpload?: (data: any) => Promise<any>;
+    asyncSave?: (data: any) => Promise<any>;
     disableAnnotation?: boolean;
     defaultType?: string;
     defaultSceneType?: string;
@@ -119,7 +119,9 @@ export declare class Annotator extends React.Component<Props, State> {
         boxes: BoundingBox[];
     };
     onSave: () => void;
+    onUpload: () => void;
     onDelete: () => void;
+    onUrlGeneration:()=>void;
     render(): JSX.Element;
 }
 export {};
