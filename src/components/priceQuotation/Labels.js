@@ -15,7 +15,15 @@ export default function PdfCreate(props) {
           // upload labeled data
           console.log(labeledData.boxes);
         }}
-        types={["שלום", "B", "Cylinder"]}
+        types={
+          ["בית תקע דו קטבי", "מכונת כביסה", "מנורת חירום"]
+        
+        
+        
+        
+        
+        
+        }
         defaultType={"Cylinder"}
         defaultBoxes={array}
       />

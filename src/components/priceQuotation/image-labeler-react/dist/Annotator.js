@@ -4,6 +4,8 @@ import { Button, Form, Select } from "antd";
 import "antd/lib/button/style/css";
 import "antd/lib/form/style/css";
 import "antd/lib/select/style/css";
+import { LockFilled,UnlockFilled,DeleteFilled,SaveFilled,FileImageFilled,FormatPainterFilled,PushpinFilled } from '@ant-design/icons';
+
 import bg from "./res/bg.png";
 import { stringify } from "querystring";
 var Option = Select.Option;
@@ -764,8 +766,9 @@ var Annotator = /** @class */ (function (_super) {
          _this.initCanvas(reader.result);         
         }
       }
-      reader.readAsDataURL(event.target.files[0])
-
+      if(event.target.files[0]){
+        reader.readAsDataURL(event.target.files[0]);
+      }
       };
     
 
@@ -1041,6 +1044,7 @@ var Annotator = /** @class */ (function (_super) {
           React.createElement(
             Button,
             {
+              icon:<FileImageFilled style={{ fontSize: '150%'}} />,
               onClick: this.onUpload,
               style: { marginRight: 8 },
               disabled:false,
@@ -1058,6 +1062,7 @@ var Annotator = /** @class */ (function (_super) {
           React.createElement(
             Button,
             {
+              icon:this.state.isAnnotating? <PushpinFilled style={{ fontSize: '150%'}} /> : <FormatPainterFilled style={{ fontSize: '150%'}}/>,
               style: { margin: 8 },
               onClick: function () {
                 return _this.setState({
@@ -1071,6 +1076,7 @@ var Annotator = /** @class */ (function (_super) {
           React.createElement(
             Button,
             {
+              icon:<SaveFilled style={{ fontSize: '150%'}} />,
               onClick: this.onSave,
               style: { marginRight: 8 },
               //disabled: this.props.imageUrl.length === 0,
@@ -1170,7 +1176,8 @@ var Annotator = /** @class */ (function (_super) {
             })
           ),
           React.createElement(Button, {
-            icon: isLocked ? "lock" : "unlock",
+            
+            icon: isLocked ? <LockFilled style={{ fontSize: '150%'}} /> : <UnlockFilled style={{ fontSize: '150%'}} />,
             shape: "circle",
             type: "primary",
             style: {
@@ -1191,7 +1198,7 @@ var Annotator = /** @class */ (function (_super) {
             },
           }),
           React.createElement(Button, {
-            icon: "delete",
+            icon: <DeleteFilled style={{ fontSize: '150%'}} />,
             shape: "circle",
             type: "primary",
             style: {
