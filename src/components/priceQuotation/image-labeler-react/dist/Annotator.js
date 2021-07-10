@@ -754,7 +754,6 @@ var Annotator = /** @class */ (function (_super) {
 
     _this.onUpload = function () {
       document.getElementById('input_file').click();    
-      console.log("uploading in image??")
     };
     _this.onUrlGeneration = function (event) {    
       

@@ -10,9 +10,6 @@ export default function Labels(props) {
 
 
 
-
-
-
   useEffect(() => {
     if(inputFields.length>0)
     {
@@ -35,6 +32,9 @@ export default function Labels(props) {
         width={600}
         imageUrl={""}
         asyncSave={async (labeledData) => {
+          console.log(labeledData.boxes)
+     
+          /*Activate Later
           // upload labeled data
           var array = [];
           labeledData.boxes.map((item, index) => {
@@ -47,6 +47,8 @@ export default function Labels(props) {
             array.push(obj);
           });
          setInputFields(array);
+     */
+     
         }}
         types={
           ["בית תקע דו קטבי", "מכונת כביסה", "מנורת חירום"]

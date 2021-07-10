@@ -49,9 +49,9 @@ const EditCompanyDetails = (props) => {
   };
 
   var toke = "Token " + props.token + " ";
-  var url = "https://hashmali-backend.herokuapp.com/api/info/1/update/";
+  var url = "https://hashmali-backend.herokuapp.com/api/info/5/update/";
   var url2 = "https://hashmali-backend.herokuapp.com/api/worker/";
-  var url3 = "https://hashmali-backend.herokuapp.com/api/info/1/";
+  var url3 = "https://hashmali-backend.herokuapp.com/api/info/5/";
   var url4 = "https://api.cloudinary.com/v1_1/dj42j4pqu/image/upload";
 
   const handleImageUpload = () => {

@@ -263,21 +263,21 @@ const EditWorker = (props) => {
   useEffect(() => {
     if (picUrl) {
       submitImage();
-      loadWorker();
+      //loadWorker();
     }
   }, [picUrl]);
 
   useEffect(() => {
     if (idPicUrl) {
       submitIDImage();
-      loadWorker();
+      //loadWorker();
     }
   }, [idPicUrl]);
 
   useEffect(() => {
     if (drivePicUrl) {
       submitDriveImage();
-      loadWorker();
+      //loadWorker();
     }
   }, [drivePicUrl]);
 
@@ -341,7 +341,7 @@ const EditWorker = (props) => {
     const update = await loadWorker();
     if (data.status == 200) {
       alert("Successfully updated worker!");
-      history.push("/workers_management");
+      //history.push("/workers_management");
     }
   };
   if (loader) {

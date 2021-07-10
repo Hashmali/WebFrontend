@@ -49,8 +49,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Info(props) {
   var toke = "Token " + props.token + " ";
-  var url = "https://hashmali-backend.herokuapp.com/api/info/1/";
-  var url2 = "https://hashmali-backend.herokuapp.com/api/info/1/update/";
+  var url = "https://hashmali-backend.herokuapp.com/api/info/5/";
+  var url2 = "https://hashmali-backend.herokuapp.com/api/info/5/update/";
   const requestOptions = {
     method: "GET",
     headers: { "Content-Type": "application/json", Authorization: toke },

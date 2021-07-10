@@ -27,6 +27,8 @@ export default function Login(props) {
   function check(data) {
     //If the user provided a valid phone number and password
     //The server will replay with a token and ID
+ 
+    
     if (data.token) {
       //Passing the token and ID to other Components(will be used to fetch requests)
       props.userLogin(data.token);
@@ -76,7 +78,11 @@ export default function Login(props) {
       .then((data) => {
         check(data);
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {alert("Website is currently down for maintenance!")
+      setLoader(false);
+
+    }
+      );
   }
   //If loader is set to true then display it
   if (loader) {
