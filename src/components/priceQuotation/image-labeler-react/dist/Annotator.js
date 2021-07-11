@@ -22,6 +22,7 @@ var Box = /** @class */ (function () {
     this.chosen = false;
     this.lock = false;
     this.annotation = "";
+    this.price="";
   }
   Box.prototype.insideBox = function (x, y) {
     if (
@@ -68,8 +69,9 @@ var Box = /** @class */ (function () {
       y = _a.y,
       w = _a.w,
       h = _a.h,
-      annotation = _a.annotation;
-    return { x: x, y: y, w: w, h: h, annotation: annotation };
+     annotation = _a.annotation,
+     price=_a.price;
+    return { x: x, y: y, w: w, h: h, annotation: annotation,price:price};
   };
   Box.fromBoundingBox = function (data) {
     var box = new Box(data.x, data.y, data.w, data.h);
@@ -409,6 +411,7 @@ var Annotator = /** @class */ (function (_super) {
       }
       _this.setState({
         annotation: box.annotation,
+        price: box.price,
         x: x,
         y: newY,
         lock: box.lock,
@@ -433,6 +436,7 @@ var Annotator = /** @class */ (function (_super) {
       _this.setState({
         showAnnotation: false,
         annotation: "",
+        price:"",
         hoverEdge: undefined,
         isMovingBox: false,
       });
@@ -532,7 +536,8 @@ var Annotator = /** @class */ (function (_super) {
       } else if (_this.props.defaultType) {
         _this.annotatingBox.annotation = _this.props.defaultType;
       } else {
-        _this.annotatingBox.annotation = _this.props.types[0];
+        _this.annotatingBox.annotation = _this.props.types[0].item;
+        _this.annotatingBox.price = _this.props.types[0].price;
       }
     };
     _this.dragMove = function (relativeX, relativeY) {
@@ -803,6 +808,7 @@ var Annotator = /** @class */ (function (_super) {
       uploaded: false,
       lock: false,
       annotation: "",
+      price:"",
       sceneType: "",
       x: 0,
       y: 0,
@@ -1021,6 +1027,7 @@ var Annotator = /** @class */ (function (_super) {
     }
     var isLocked = disableAnnotation || this.state.lock;
     var sceneTypeSelect = undefined;
+   
     if (sceneTypes) {
       sceneTypeSelect = React.createElement(
         Select,
@@ -1157,10 +1164,12 @@ var Annotator = /** @class */ (function (_super) {
           React.createElement(
             Select,
             {
-              onChange: function (value) {
+              onChange: function (value,key) {
+              //  console.log(key.key)
                 if (_this.chosenBox !== undefined) {
                   _this.chosenBox.annotation = value;
-                  _this.setState({ annotation: value });
+                  _this.chosenBox.price = key.key;
+                  _this.setState({ annotation: value,price:key.key });
                 }
               },
               disabled: isLocked,
@@ -1169,8 +1178,8 @@ var Annotator = /** @class */ (function (_super) {
             this.props.types.map(function (type) {
               return React.createElement(
                 Option,
-                { value: type, key: type },
-                type
+                { value: type.item, key: type.price },
+                type.item
               );
             })
           ),

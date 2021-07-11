@@ -21,6 +21,7 @@ interface State {
     isAnnotating: boolean;
     showAnnotation: boolean;
     annotation: string;
+    price: string;
     hover: boolean;
     mouse_down: boolean;
     uploadIcon: 'upload' | 'check' | 'loading' | 'close';
@@ -38,6 +39,7 @@ interface BoundingBox {
     w: number;
     h: number;
     annotation: string;
+    price:string;
 }
 declare class Box {
     x: number;
@@ -48,6 +50,7 @@ declare class Box {
     chosen: boolean;
     lock: boolean;
     annotation: string;
+    price:string;
     constructor(x: number, y: number, w: number, h: number);
     insideBox(x: number, y: number): boolean;
     insideInnerBox(x: number, y: number): boolean;

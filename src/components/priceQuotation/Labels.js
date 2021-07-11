@@ -33,8 +33,9 @@ export default function Labels(props) {
         imageUrl={""}
         asyncSave={async (labeledData) => {
           console.log(labeledData.boxes)
-     
-          /*Activate Later
+          
+          /*
+          //Activate Later
           // upload labeled data
           var array = [];
           labeledData.boxes.map((item, index) => {
@@ -42,18 +43,21 @@ export default function Labels(props) {
             obj["jobDescription"] = item.annotation;
             obj["plan"] = "";
             obj["actual"] = "";
-            obj["pricePerUnit"] = "";
+            obj["pricePerUnit"] =  item.price;
             obj["total"] = "";
             array.push(obj);
           });
          setInputFields(array);
-     */
-     
+             */
+
         }}
+        
         types={
-          ["בית תקע דו קטבי", "מכונת כביסה", "מנורת חירום"]
+          [
+            {item:"בית תקע דו קטבי",price:'10'},
+           {item:"מכונת כביסה",price:'12'},
+           {item:"מנורת חירום",price:'15'}]
         }
-        defaultType={"מכונת כביסה"}
       />
 
 
