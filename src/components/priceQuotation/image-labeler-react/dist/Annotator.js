@@ -656,22 +656,6 @@ var Annotator = /** @class */ (function (_super) {
             _this.ctx.lineWidth = 2 / _this.scale.x;
             _this.ctx.strokeRect(box.x, box.y, box.w, box.h);
           } else {
-            _this.ctx.lineWidth = 5;
-            _this.ctx.strokeStyle = "#555";
-            _this.ctx.strokeRect(box.x, box.y, box.w, box.h);
-            _this.ctx.fillStyle = "rgba(255, 100, 145, 0.45)";
-            _this.ctx.fillRect(box.x, box.y, box.w, box.h);
-            _this.ctx.strokeStyle = "rgba(255, 100, 100, 1)";
-            _this.ctx.lineWidth = 10 / _this.scale.x;
-            _this.ctx.strokeRect(box.x, box.y, box.w, box.h);
-            _this.ctx.strokeStyle = "rgba(255, 255, 255, 0.7)";
-            _this.ctx.lineWidth = 4 / _this.scale.x;
-            _this.ctx.strokeRect(
-              box.x + margin,
-              box.y + margin,
-              box.w - margin * 2,
-              box.h - margin * 2
-            );
             // text
             _this.ctx.fillStyle = "rgba(40, 40, 40, 0.8)";
             _this.ctx.textAlign = "center";
@@ -683,11 +667,6 @@ var Annotator = /** @class */ (function (_super) {
             );
           }
         } else if (box.hover) {
-          _this.ctx.lineWidth = 5;
-          _this.ctx.strokeStyle = "#555";
-          _this.ctx.strokeRect(box.x, box.y, box.w, box.h);
-          _this.ctx.fillStyle = "rgba(255, 100, 145, 0.3)";
-          _this.ctx.fillRect(box.x, box.y, box.w, box.h);
           // text
           _this.ctx.fillStyle = "rgba(40, 40, 40, 0.8)";
           _this.ctx.textAlign = "center";
@@ -698,17 +677,6 @@ var Annotator = /** @class */ (function (_super) {
             box.y + box.h / 2 + fontSize / 2
           );
         } else {
-          _this.ctx.lineWidth = 5;
-          _this.ctx.strokeStyle = "#555";
-          _this.ctx.strokeRect(box.x, box.y, box.w, box.h);
-          _this.ctx.fillStyle = "rgba(200, 200, 200, 0.5)";
-          _this.ctx.lineWidth = 3 / _this.scale.x;
-          _this.ctx.strokeRect(
-            box.x + margin,
-            box.y + margin,
-            box.w - margin * 2,
-            box.h - margin * 2
-          );
           // text
           _this.ctx.fillStyle = "rgba(40, 40, 40, 0.3)";
           _this.ctx.textAlign = "center";
