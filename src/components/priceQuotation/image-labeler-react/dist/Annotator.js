@@ -4,7 +4,15 @@ import { Button, Form, Select } from "antd";
 import "antd/lib/button/style/css";
 import "antd/lib/form/style/css";
 import "antd/lib/select/style/css";
-import { LockFilled,UnlockFilled,DeleteFilled,SaveFilled,FileImageFilled,FormatPainterFilled,PushpinFilled } from '@ant-design/icons';
+import {
+  LockFilled,
+  UnlockFilled,
+  DeleteFilled,
+  SaveFilled,
+  FileImageFilled,
+  FormatPainterFilled,
+  PushpinFilled,
+} from "@ant-design/icons";
 
 import bg from "./res/bg.png";
 import { stringify } from "querystring";
@@ -22,7 +30,7 @@ var Box = /** @class */ (function () {
     this.chosen = false;
     this.lock = false;
     this.annotation = "";
-    this.price="";
+    this.price = "";
   }
   Box.prototype.insideBox = function (x, y) {
     if (
@@ -69,9 +77,9 @@ var Box = /** @class */ (function () {
       y = _a.y,
       w = _a.w,
       h = _a.h,
-     annotation = _a.annotation,
-     price=_a.price;
-    return { x: x, y: y, w: w, h: h, annotation: annotation,price:price};
+      annotation = _a.annotation,
+      price = _a.price;
+    return { x: x, y: y, w: w, h: h, annotation: annotation, price: price };
   };
   Box.fromBoundingBox = function (data) {
     var box = new Box(data.x, data.y, data.w, data.h);
@@ -111,7 +119,7 @@ var Box = /** @class */ (function () {
 })();
 var Annotator = /** @class */ (function (_super) {
   tslib_1.__extends(Annotator, _super);
-  
+
   function Annotator(props) {
     var _this = _super.call(this, props) || this;
     _this.registerEvent = function (element, event, listener) {
@@ -138,15 +146,15 @@ var Annotator = /** @class */ (function (_super) {
       }
       _this.registerEvent(_this.canvas, "touchstart", function (e) {
         var _a;
-        if (e.targetTouches.length == 1) 
-        {
-        
-          _a = _this.getOriginalXY(e.targetTouches[0].clientX,e.targetTouches[0].clientY)
-          _this.startX = _a[0]
-          _this.startY = _a[1]
-          _this.dragX = _this.startX
+        if (e.targetTouches.length == 1) {
+          _a = _this.getOriginalXY(
+            e.targetTouches[0].clientX,
+            e.targetTouches[0].clientY
+          );
+          _this.startX = _a[0];
+          _this.startY = _a[1];
+          _this.dragX = _this.startX;
           _this.dragY = _this.startY;
-        
         }
         _this.lastX = null;
         _this.lastY = null;
@@ -265,9 +273,9 @@ var Annotator = /** @class */ (function (_super) {
       });
       _this.registerEvent(_this.canvas, "mousedown", function (e) {
         var _a;
-        _a = _this.getOriginalXY(e.clientX, e.clientY)
-          _this.startX = _a[0]
-          _this.startY = _a[1];
+        _a = _this.getOriginalXY(e.clientX, e.clientY);
+        _this.startX = _a[0];
+        _this.startY = _a[1];
         _this.dragX = _this.startX;
         _this.dragY = _this.startY;
         _this.setState({ mouse_down: true });
@@ -396,7 +404,6 @@ var Annotator = /** @class */ (function (_super) {
         _this.setState({ hoverEdge: undefined, isMovingBox: false });
         box.chosen = true;
       }
-     
 
       var _b = _this.getCurrentCoordinate(box),
         x = _b.x,
@@ -436,7 +443,7 @@ var Annotator = /** @class */ (function (_super) {
       _this.setState({
         showAnnotation: false,
         annotation: "",
-        price:"",
+        price: "",
         hoverEdge: undefined,
         isMovingBox: false,
       });
@@ -693,11 +700,25 @@ var Annotator = /** @class */ (function (_super) {
           _this.ctx.fillStyle = "rgba(40, 40, 40, 0.3)";
           _this.ctx.textAlign = "center";
           _this.ctx.font = fontSize + "px Ubuntu";
+
+          var imageObj1 = new Image();
+          imageObj1.src =
+            "https://s-media-cache-ak0.pinimg.com/236x/d7/b3/cf/d7b3cfe04c2dc44400547ea6ef94ba35.jpg";
+          _this.ctx.drawImage(
+            imageObj1,
+            box.x + margin,
+            box.y + margin,
+            box.w - margin * 2,
+            box.h - margin * 2
+          );
+
+          /*
           _this.ctx.fillText(
             box.annotation,
             box.x + box.w / 2,
             box.y + box.h / 2 + fontSize / 2
           );
+          */
         }
       }
       _this.ctx.restore();
@@ -735,7 +756,7 @@ var Annotator = /** @class */ (function (_super) {
       }
       return data;
     };
-    
+
     _this.onSave = function () {
       if (_this.props.asyncSave == null) {
         return;
@@ -758,28 +779,20 @@ var Annotator = /** @class */ (function (_super) {
     };
 
     _this.onUpload = function () {
-      document.getElementById('input_file').click();    
+      document.getElementById("input_file").click();
     };
-    _this.onUrlGeneration = function (event) {    
-      
-      const reader=new FileReader();
-      reader.onload=()=>
-      {
-        if(reader.readyState===2)//operation is complete
-        {
-         _this.initCanvas(reader.result);         
+    _this.onUrlGeneration = function (event) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (reader.readyState === 2) {
+          //operation is complete
+          _this.initCanvas(reader.result);
         }
-      }
-      if(event.target.files[0]){
+      };
+      if (event.target.files[0]) {
         reader.readAsDataURL(event.target.files[0]);
       }
-      };
-    
-
-
-
-
-
+    };
 
     _this.onDelete = function () {
       var chosen = _this.chosenBox;
@@ -791,9 +804,6 @@ var Annotator = /** @class */ (function (_super) {
       var index = _this.boxes.indexOf(chosen);
       _this.boxes.splice(index, 1);
     };
-
-
-
 
     _this.imageCanvas = React.createRef();
     _this.image = document.createElement("img");
@@ -808,7 +818,7 @@ var Annotator = /** @class */ (function (_super) {
       uploaded: false,
       lock: false,
       annotation: "",
-      price:"",
+      price: "",
       sceneType: "",
       x: 0,
       y: 0,
@@ -1027,7 +1037,7 @@ var Annotator = /** @class */ (function (_super) {
     }
     var isLocked = disableAnnotation || this.state.lock;
     var sceneTypeSelect = undefined;
-   
+
     if (sceneTypes) {
       sceneTypeSelect = React.createElement(
         Select,
@@ -1050,25 +1060,30 @@ var Annotator = /** @class */ (function (_super) {
           React.createElement(
             Button,
             {
-              icon:<FileImageFilled style={{ fontSize: '150%'}} />,
+              icon: <FileImageFilled style={{ fontSize: "150%" }} />,
               onClick: this.onUpload,
               style: { marginRight: 8 },
-              disabled:false,
+              disabled: false,
             },
-            <input type="file"
-            name="image"
-            id='input_file'
-            hidden
-            accept="image/*"
-            onChange={this.onUrlGeneration}      
-          />,
+            <input
+              type="file"
+              name="image"
+              id="input_file"
+              hidden
+              accept="image/*"
+              onChange={this.onUrlGeneration}
+            />,
             "Upload an Image"
           ),
-                
+
           React.createElement(
             Button,
             {
-              icon:this.state.isAnnotating? <PushpinFilled style={{ fontSize: '150%'}} /> : <FormatPainterFilled style={{ fontSize: '150%'}}/>,
+              icon: this.state.isAnnotating ? (
+                <PushpinFilled style={{ fontSize: "150%" }} />
+              ) : (
+                <FormatPainterFilled style={{ fontSize: "150%" }} />
+              ),
               style: { margin: 8 },
               onClick: function () {
                 return _this.setState({
@@ -1082,7 +1097,7 @@ var Annotator = /** @class */ (function (_super) {
           React.createElement(
             Button,
             {
-              icon:<SaveFilled style={{ fontSize: '150%'}} />,
+              icon: <SaveFilled style={{ fontSize: "150%" }} />,
               onClick: this.onSave,
               style: { marginRight: 8 },
               //disabled: this.props.imageUrl.length === 0,
@@ -1164,12 +1179,12 @@ var Annotator = /** @class */ (function (_super) {
           React.createElement(
             Select,
             {
-              onChange: function (value,key) {
-              //  console.log(key.key)
+              onChange: function (value, key) {
+                //  console.log(key.key)
                 if (_this.chosenBox !== undefined) {
                   _this.chosenBox.annotation = value;
                   _this.chosenBox.price = key.key;
-                  _this.setState({ annotation: value,price:key.key });
+                  _this.setState({ annotation: value, price: key.key });
                 }
               },
               disabled: isLocked,
@@ -1184,8 +1199,11 @@ var Annotator = /** @class */ (function (_super) {
             })
           ),
           React.createElement(Button, {
-            
-            icon: isLocked ? <LockFilled style={{ fontSize: '150%'}} /> : <UnlockFilled style={{ fontSize: '150%'}} />,
+            icon: isLocked ? (
+              <LockFilled style={{ fontSize: "150%" }} />
+            ) : (
+              <UnlockFilled style={{ fontSize: "150%" }} />
+            ),
             shape: "circle",
             type: "primary",
             style: {
@@ -1206,7 +1224,7 @@ var Annotator = /** @class */ (function (_super) {
             },
           }),
           React.createElement(Button, {
-            icon: <DeleteFilled style={{ fontSize: '150%'}} />,
+            icon: <DeleteFilled style={{ fontSize: "150%" }} />,
             shape: "circle",
             type: "primary",
             style: {
