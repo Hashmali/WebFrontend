@@ -6,34 +6,31 @@ export default function Labels(props) {
   const [inputFields, setInputFields] = useState([]);
   const [status, setStatus] = useState(false);
 
-
-
-
-
   useEffect(() => {
-    if(inputFields.length>0)
-    {
-      console.log(inputFields)
+    if (inputFields.length > 0) {
+      console.log(inputFields);
       setStatus(true);
     }
-
   }, [inputFields]);
-
-
-
 
   return (
     <div className="App">
-     
-     <PdfCreate data={inputFields} sum={200} fee={17} setStatus={setStatus} status={status} hide={true}/>
+      <PdfCreate
+        data={inputFields}
+        sum={200}
+        fee={17}
+        setStatus={setStatus}
+        status={status}
+        hide={true}
+      />
 
       <Annotator
         height={600}
         width={600}
         imageUrl={""}
         asyncSave={async (labeledData) => {
-          console.log(labeledData.boxes)
-          
+          console.log(labeledData.boxes);
+
           /*
           //Activate Later
           // upload labeled data
@@ -49,22 +46,28 @@ export default function Labels(props) {
           });
          setInputFields(array);
              */
-
         }}
-        
-        types={
-          [
-            {item:"בית תקע דו קטבי",price:'10'},
-           {item:"מכונת כביסה",price:'12'},
-           {item:"מנורת חירום",price:'15'}]
-        }
+        types={[
+          {
+            item: "בית תקע דו קטבי",
+            price: "10",
+            photo:
+              "https://i.pinimg.com/originals/7a/1b/47/7a1b4776e95e6ad87504976907b664d1.jpg",
+          },
+          {
+            item: "מכונת כביסה",
+            price: "12",
+            photo:
+              "https://www.pngitem.com/pimgs/m/510-5102492_sasuke-uchiha-png-transparent-sasuke-uchiha-png-png.png",
+          },
+          {
+            item: "מנורת חירום",
+            price: "15",
+            photo:
+              "https://www.kindpng.com/picc/m/705-7050505_i-mage-madara-uchiha-png-transparent-png.png",
+          },
+        ]}
       />
-
-
-
-
-
-
     </div>
   );
 }

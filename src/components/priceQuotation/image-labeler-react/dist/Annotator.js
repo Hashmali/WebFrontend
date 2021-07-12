@@ -31,6 +31,7 @@ var Box = /** @class */ (function () {
     this.lock = false;
     this.annotation = "";
     this.price = "";
+    this.photo = "";
   }
   Box.prototype.insideBox = function (x, y) {
     if (
@@ -78,8 +79,17 @@ var Box = /** @class */ (function () {
       w = _a.w,
       h = _a.h,
       annotation = _a.annotation,
-      price = _a.price;
-    return { x: x, y: y, w: w, h: h, annotation: annotation, price: price };
+      price = _a.price,
+      photo = _a.photo;
+    return {
+      x: x,
+      y: y,
+      w: w,
+      h: h,
+      annotation: annotation,
+      price: price,
+      photo: photo,
+    };
   };
   Box.fromBoundingBox = function (data) {
     var box = new Box(data.x, data.y, data.w, data.h);
@@ -419,6 +429,7 @@ var Annotator = /** @class */ (function (_super) {
       _this.setState({
         annotation: box.annotation,
         price: box.price,
+        photo: box.photo,
         x: x,
         y: newY,
         lock: box.lock,
@@ -444,6 +455,7 @@ var Annotator = /** @class */ (function (_super) {
         showAnnotation: false,
         annotation: "",
         price: "",
+        photo: "",
         hoverEdge: undefined,
         isMovingBox: false,
       });
@@ -545,6 +557,7 @@ var Annotator = /** @class */ (function (_super) {
       } else {
         _this.annotatingBox.annotation = _this.props.types[0].item;
         _this.annotatingBox.price = _this.props.types[0].price;
+        _this.annotatingBox.photo = _this.props.types[0].photo;
       }
     };
     _this.dragMove = function (relativeX, relativeY) {
@@ -702,8 +715,7 @@ var Annotator = /** @class */ (function (_super) {
           _this.ctx.font = fontSize + "px Ubuntu";
 
           var imageObj1 = new Image();
-          imageObj1.src =
-            "https://s-media-cache-ak0.pinimg.com/236x/d7/b3/cf/d7b3cfe04c2dc44400547ea6ef94ba35.jpg";
+          imageObj1.src = box.photo;
           _this.ctx.drawImage(
             imageObj1,
             box.x + margin,
@@ -819,6 +831,7 @@ var Annotator = /** @class */ (function (_super) {
       lock: false,
       annotation: "",
       price: "",
+      photo: "",
       sceneType: "",
       x: 0,
       y: 0,
@@ -1180,11 +1193,17 @@ var Annotator = /** @class */ (function (_super) {
             Select,
             {
               onChange: function (value, key) {
-                //  console.log(key.key)
+                //console.log(key.value2);
                 if (_this.chosenBox !== undefined) {
                   _this.chosenBox.annotation = value;
                   _this.chosenBox.price = key.key;
-                  _this.setState({ annotation: value, price: key.key });
+                  _this.chosenBox.photo = key.value2;
+
+                  _this.setState({
+                    annotation: value,
+                    price: key.key,
+                    photo: key.value2,
+                  });
                 }
               },
               disabled: isLocked,
@@ -1193,7 +1212,7 @@ var Annotator = /** @class */ (function (_super) {
             this.props.types.map(function (type) {
               return React.createElement(
                 Option,
-                { value: type.item, key: type.price },
+                { value: type.item, value2: type.photo, key: type.price },
                 type.item
               );
             })
