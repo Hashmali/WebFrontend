@@ -32,22 +32,21 @@ export default function Labels(props) {
         imageUrl={""}
         asyncSave={async (labeledData) => {
           console.log(labeledData.boxes);
-
           /*
           //Activate Later
           // upload labeled data
-          var array = [];
+                   var array = [];
           labeledData.boxes.map((item, index) => {
             let obj = {};
             obj["jobDescription"] = item.annotation;
             obj["plan"] = "";
             obj["actual"] = "";
-            obj["pricePerUnit"] =  item.price;
+            obj["pricePerUnit"] = item.price;
             obj["total"] = "";
             array.push(obj);
           });
-         setInputFields(array);
-             */
+          setInputFields(array);
+                   */
         }}
         types={symbols}
       />
