@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Annotator } from "./image-labeler-react/dist/Annotator";
 import PdfCreate from "./manually/PdfCreate";
+import symbols from "../priceQuotation/symbols.js";
 export default function Labels(props) {
+  console.log(symbols);
   const items = props.items;
   const [inputFields, setInputFields] = useState([]);
   const [status, setStatus] = useState(false);
@@ -47,26 +49,7 @@ export default function Labels(props) {
          setInputFields(array);
              */
         }}
-        types={[
-          {
-            item: "בית תקע דו קטבי",
-            price: "10",
-            photo:
-              "https://i.pinimg.com/originals/7a/1b/47/7a1b4776e95e6ad87504976907b664d1.jpg",
-          },
-          {
-            item: "מכונת כביסה",
-            price: "12",
-            photo:
-              "https://www.pngitem.com/pimgs/m/510-5102492_sasuke-uchiha-png-transparent-sasuke-uchiha-png-png.png",
-          },
-          {
-            item: "מנורת חירום",
-            price: "15",
-            photo:
-              "https://www.kindpng.com/picc/m/705-7050505_i-mage-madara-uchiha-png-transparent-png.png",
-          },
-        ]}
+        types={symbols}
       />
     </div>
   );

@@ -1193,10 +1193,10 @@ var Annotator = /** @class */ (function (_super) {
             Select,
             {
               onChange: function (value, key) {
-                //console.log(key.value2);
+                console.log(key);
                 if (_this.chosenBox !== undefined) {
                   _this.chosenBox.annotation = value;
-                  _this.chosenBox.price = key.key;
+                  _this.chosenBox.price = key.value3;
                   _this.chosenBox.photo = key.value2;
 
                   _this.setState({
@@ -1212,7 +1212,12 @@ var Annotator = /** @class */ (function (_super) {
             this.props.types.map(function (type) {
               return React.createElement(
                 Option,
-                { value: type.item, value2: type.photo, key: type.price },
+                {
+                  value: type.item,
+                  value2: type.photo,
+                  value3: type.price,
+                  key: type.item,
+                },
                 type.item
               );
             })
