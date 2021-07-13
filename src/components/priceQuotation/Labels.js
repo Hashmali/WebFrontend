@@ -3,14 +3,23 @@ import { Annotator } from "./image-labeler-react/dist/Annotator";
 import PdfCreate from "./manually/PdfCreate";
 import symbols from "../priceQuotation/symbols.js";
 export default function Labels(props) {
-  console.log(symbols);
+  // console.log(symbols);
   const items = props.items;
   const [inputFields, setInputFields] = useState([]);
   const [status, setStatus] = useState(false);
+  const [sum, setSum] = useState(0);
+
+  //const countOccurrences = (arr, val) => arr.reduce((a, v) => (v === val ? a + 1 : a), 0);
 
   useEffect(() => {
     if (inputFields.length > 0) {
-      console.log(inputFields);
+      let count = 0;
+      //console.log(inputFields);
+      //console.log(inputFields);
+      inputFields.map((item) => {
+        count = count + item.total;
+      });
+      setSum(count);
       setStatus(true);
     }
   }, [inputFields]);
@@ -19,7 +28,7 @@ export default function Labels(props) {
     <div className="App">
       <PdfCreate
         data={inputFields}
-        sum={200}
+        sum={sum}
         fee={17}
         setStatus={setStatus}
         status={status}
@@ -31,22 +40,21 @@ export default function Labels(props) {
         width={600}
         imageUrl={""}
         asyncSave={async (labeledData) => {
-          console.log(labeledData.boxes);
-          /*
+          // console.log(labeledData.boxes);
+
           //Activate Later
           // upload labeled data
-                   var array = [];
+          var array = [];
           labeledData.boxes.map((item, index) => {
             let obj = {};
             obj["jobDescription"] = item.annotation;
-            obj["plan"] = "";
-            obj["actual"] = "";
+            obj["plan"] = "1";
+            obj["actual"] = "1";
             obj["pricePerUnit"] = item.price;
-            obj["total"] = "";
+            obj["total"] = item.price;
             array.push(obj);
           });
           setInputFields(array);
-                   */
         }}
         types={symbols}
       />
