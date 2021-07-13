@@ -12,7 +12,9 @@ import {
   FileImageFilled,
   FormatPainterFilled,
   PushpinFilled,
+  PrinterFilled,
 } from "@ant-design/icons";
+import { saveAs } from "file-saver";
 
 import bg from "./res/bg.png";
 import { stringify } from "querystring";
@@ -773,6 +775,12 @@ var Annotator = /** @class */ (function (_super) {
         reader.readAsDataURL(event.target.files[0]);
       }
     };
+    _this.onPrint = function (URL) {
+      console.log("You are trying to print something?");
+      _this.ctx.canvas.toBlob(function (blob) {
+        saveAs(blob, "pretty image.png");
+      });
+    };
 
     _this.onDelete = function () {
       var chosen = _this.chosenBox;
@@ -787,6 +795,7 @@ var Annotator = /** @class */ (function (_super) {
 
     _this.imageCanvas = React.createRef();
     _this.image = document.createElement("img");
+    _this.image.crossOrigin = "Anonymous";
     _this.position = { x: 0, y: 0 };
     _this.scale = { x: 0.5, y: 0.5 };
     _this.state = {
@@ -812,6 +821,7 @@ var Annotator = /** @class */ (function (_super) {
     _this.boxes = [];
     _this.bg = new Image();
     _this.bg.src = bg;
+    _this.bg.crossOrigin = "Anonymous";
     _this.events = [];
     _this.nextDefaultType = undefined;
     return _this;
@@ -1074,6 +1084,16 @@ var Annotator = /** @class */ (function (_super) {
             },
             "To ",
             this.state.isAnnotating ? "Move" : "Annotate"
+          ),
+          React.createElement(
+            Button,
+            {
+              icon: <PrinterFilled style={{ fontSize: "150%" }} />,
+              onClick: this.onPrint,
+              style: { marginRight: 8 },
+              disabled: false,
+            },
+            "Print Canvas"
           ),
           React.createElement(
             Button,

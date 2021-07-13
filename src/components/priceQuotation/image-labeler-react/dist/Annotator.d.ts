@@ -136,6 +136,7 @@ export declare class Annotator extends React.Component<Props, State> {
     boxes: BoundingBox[];
   };
   onSave: () => void;
+  onPrint: () => void;
   onUpload: () => void;
   onDelete: () => void;
   onUrlGeneration: () => void;
